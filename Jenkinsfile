@@ -2,7 +2,7 @@ pipeline {
     agent any
     triggers {
         #https://stackoverflow.com/questions/47565446/no-build-triggers-option-for-blue-ocean-pipeline
-        pollSCM('H */4 * * 1-5')
+        pollSCM('H */10 * * *')
     }
     stages {
         stage('Init') {
