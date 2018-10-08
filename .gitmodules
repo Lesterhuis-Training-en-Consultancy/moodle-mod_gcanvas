@@ -1,0 +1,4 @@
+[submodule "dockermd_moodle35_moodle-mod_gcanvas"]
+	path = dockermd_moodle35_moodle-mod_gcanvas
+	url = git@github.com:MoodleFreak/docker-md.git
+	branch = moodle35
