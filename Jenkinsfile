@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Plugin Tests') {
+    stage('Init') {
       steps {
         echo 'Testing the plugin '
       }
