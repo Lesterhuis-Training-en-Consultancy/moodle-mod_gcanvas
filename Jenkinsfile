@@ -1,8 +1,6 @@
 pipeline {
-    # This file should be removed on a production, has no value there.
     agent any
     triggers {
-        #https://stackoverflow.com/questions/47565446/no-build-triggers-option-for-blue-ocean-pipeline
         pollSCM('H */10 * * *')
     }
     stages {
