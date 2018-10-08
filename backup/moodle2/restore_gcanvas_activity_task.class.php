@@ -46,7 +46,9 @@ class restore_gcanvas_activity_task extends restore_activity_task {
     /**
      * Defines particular steps that this activity can have.
      *
-     * @return base_step.
+     * @return void .
+     * @throws base_task_exception
+     * @throws restore_step_exception
      */
     protected function define_my_steps() {
         $this->add_step(new restore_gcanvas_activity_structure_step('gcanvas_structure', 'gcanvas.xml'));

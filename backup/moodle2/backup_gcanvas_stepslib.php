@@ -38,6 +38,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
      * Defines the structure of the resulting xml file.
      *
      * @return backup_nested_element The structure wrapped by the common 'activity' element.
+     * @throws base_step_exception
      */
     protected function define_structure() {
         $userinfo = $this->get_setting_value('userinfo');

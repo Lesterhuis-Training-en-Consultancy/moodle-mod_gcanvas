@@ -38,6 +38,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
      * Defines the structure to be restored.
      *
      * @return restore_path_element[].
+     * @throws base_step_exception
      */
     protected function define_structure() {
         $paths = array();

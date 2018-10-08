@@ -8,7 +8,6 @@ Author
 
 * Author: Luuk Verhoeven, [MoodleFreak.com](http://www.moodlefreak.com/)
 * Min. required: Moodle 3.5
-* License: [Avetica](http://avetica.nl)
 * PHP 7.0
 
 Installation
