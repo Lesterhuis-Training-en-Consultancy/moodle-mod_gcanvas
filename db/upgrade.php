@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * Execute mod_gcanvas upgrade from the given old version.
  *
  * @param int $oldversion
+ *
  * @return bool
  */
 function xmldb_mod_gcanvas_upgrade($oldversion) {

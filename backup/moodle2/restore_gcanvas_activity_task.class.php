@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 // https://docs.moodle.org/dev/Backup_2.0_for_developers
 // https://docs.moodle.org/dev/Restore_2.0_for_developers
 
-require_once($CFG->dirroot.'//mod/gcanvas/backup/moodle2/restore_gcanvas_stepslib.php');
+require_once($CFG->dirroot . '//mod/gcanvas/backup/moodle2/restore_gcanvas_stepslib.php');
 
 /**
  * Restore task for mod_gcanvas.
@@ -60,7 +60,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      * @return array.
      */
     static public function define_decode_contents() {
-        $contents = array();
+        $contents = [];
 
         // Define the contents.
 
@@ -73,7 +73,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      * @return array.
      */
     static public function define_decode_rules() {
-        $rules = array();
+        $rules = [];
 
         // Define the rules.
 
@@ -88,7 +88,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      * @return array.
      */
     static public function define_restore_log_rules() {
-        $rules = array();
+        $rules = [];
 
         // Define the rules.
 

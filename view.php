@@ -22,23 +22,23 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require(__DIR__.'/../../config.php');
-require_once(__DIR__.'/lib.php');
+require(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/lib.php');
 
 // Course_module ID, or
 $id = optional_param('id', 0, PARAM_INT);
 
 // ... module instance id.
-$g  = optional_param('g', 0, PARAM_INT);
+$g = optional_param('g', 0, PARAM_INT);
 
 if ($id) {
-    $cm             = get_coursemodule_from_id('gcanvas', $id, 0, false, MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('mod_gcanvas', array('id' => $cm->instance), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_id('gcanvas', $id, 0, false, MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('mod_gcanvas', ['id' => $cm->instance], '*', MUST_EXIST);
 } else if ($g) {
-    $moduleinstance = $DB->get_record('mod_gcanvas', array('id' => $n), '*', MUST_EXIST);
-    $course         = $DB->get_record('course', array('id' => $moduleinstance->course), '*', MUST_EXIST);
-    $cm             = get_coursemodule_from_instance('gcanvas', $moduleinstance->id, $course->id, false, MUST_EXIST);
+    $moduleinstance = $DB->get_record('mod_gcanvas', ['id' => $n], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $moduleinstance->course], '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('gcanvas', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {
     print_error(get_string('missingidandcmid', mod_gcanvas));
 }
@@ -47,15 +47,15 @@ require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
 
-$event = \mod_gcanvas\event\course_module_viewed::create(array(
+$event = \mod_gcanvas\event\course_module_viewed::create([
     'objectid' => $moduleinstance->id,
-    'context' => $modulecontext
-));
+    'context' => $modulecontext,
+]);
 $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('mod_gcanvas', $moduleinstance);
 $event->trigger();
 
-$PAGE->set_url('/mod/gcanvas/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/gcanvas/view.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);

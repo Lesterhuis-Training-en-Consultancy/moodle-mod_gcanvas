@@ -41,7 +41,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
      * @throws base_step_exception
      */
     protected function define_structure() {
-        $paths = array();
+        $paths = [];
         $userinfo = $this->get_setting_value('userinfo');
 
         return $this->prepare_activity_structure($paths);

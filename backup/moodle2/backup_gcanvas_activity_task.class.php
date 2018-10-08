@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 // https://docs.moodle.org/dev/Backup_2.0_for_developers
 // https://docs.moodle.org/dev/Restore_2.0_for_developers
 
-require_once($CFG->dirroot.'//mod/gcanvas/backup/moodle2/backup_gcanvas_stepslib.php');
+require_once($CFG->dirroot . '//mod/gcanvas/backup/moodle2/backup_gcanvas_stepslib.php');
 
 /**
  * The class provides all the settings and steps to perform one complete backup of mod_gcanvas.
@@ -53,21 +53,22 @@ class backup_gcanvas_activity_task extends backup_activity_task {
     /**
      * Codes the transformations to perform in the activity in order to get transportable (encoded) links.
      *
-     * @param string $content.
+     * @param string $content .
+     *
      * @return string.
      */
     static public function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot,"/");
+        $base = preg_quote($CFG->wwwroot, "/");
 
         // Link to the list of choices
-        $search="/(".$base."\//mod\/gcanvas\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@GCANVASINDEX*$2@$', $content);
+        $search = "/(" . $base . "\//mod\/gcanvas\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@GCANVASINDEX*$2@$', $content);
 
         // Link to choice view by moduleid
-        $search="/(".$base."\//mod\/gcanvas\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@GCANVASVIEWBYID*$2@$', $content);
+        $search = "/(" . $base . "\//mod\/gcanvas\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@GCANVASVIEWBYID*$2@$', $content);
 
         return $content;
     }
