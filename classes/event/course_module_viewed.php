@@ -15,20 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Code that is executed before the tables and data are dropped during the plugin uninstallation.
+ * Event
  *
  * @package     mod_gcanvas
- * @category    upgrade
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MoodleFreak.com <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_gcanvas\event;
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Custom uninstallation procedure.
- */
-function xmldb_gcanvas_uninstall() {
+class course_module_viewed extends \core\event\course_module_viewed {
 
-    return true;
+    /**
+     * Init method.
+     *
+     * @return void
+     */
+    protected function init() {
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['objecttable'] = 'gcanvas';
+    }
+
+    public static function get_objectid_mapping() {
+        return [
+            'db' => 'gcanvas',
+            'restore' => 'gcanvas',
+        ];
+    }
 }

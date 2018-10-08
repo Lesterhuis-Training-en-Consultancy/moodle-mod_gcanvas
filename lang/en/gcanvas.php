@@ -24,5 +24,11 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+// Init.
 $string['pluginname'] = 'Canvas Game';
+$string['modulename'] = 'Canvas Game';
+$string['modulenameplural'] = 'Canvas Game';
+
+$string['gcanvas:addinstance'] = 'Add new Canvas Game instance';
+$string['gcanvas:view'] = 'View Canvas Game';
+

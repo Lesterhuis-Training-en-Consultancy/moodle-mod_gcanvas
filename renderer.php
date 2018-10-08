@@ -15,20 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Code that is executed before the tables and data are dropped during the plugin uninstallation.
+ *rendering methods
  *
- * @package     mod_gcanvas
- * @category    upgrade
- * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MoodleFreak.com <luuk@ldesignmedia.nl>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @package   moodle-mod_gcanvas
+ * @copyright 8-10-2018 MoodleFreak.com
+ * @author    Luuk Verhoeven
+ **/
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Custom uninstallation procedure.
- */
-function xmldb_gcanvas_uninstall() {
+class gcanvas_renderer extends plugin_renderer_base {
 
-    return true;
 }

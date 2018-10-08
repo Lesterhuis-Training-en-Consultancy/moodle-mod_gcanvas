@@ -34,9 +34,9 @@ $g = optional_param('g', 0, PARAM_INT);
 if ($id) {
     $cm = get_coursemodule_from_id('gcanvas', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('mod_gcanvas', ['id' => $cm->instance], '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('gcanvas', ['id' => $cm->instance], '*', MUST_EXIST);
 } else if ($g) {
-    $moduleinstance = $DB->get_record('mod_gcanvas', ['id' => $n], '*', MUST_EXIST);
+    $moduleinstance = $DB->get_record('gcanvas', ['id' => $n], '*', MUST_EXIST);
     $course = $DB->get_record('course', ['id' => $moduleinstance->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('gcanvas', $moduleinstance->id, $course->id, false, MUST_EXIST);
 } else {

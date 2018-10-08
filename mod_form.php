@@ -47,7 +47,7 @@ class mod_gcanvas_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('gcanvasname', 'mod_gcanvas'), ['size' => '64']);
+        $mform->addElement('text', 'name', get_string('form:gcanvasname', 'mod_gcanvas'), ['size' => '64']);
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -57,7 +57,6 @@ class mod_gcanvas_mod_form extends moodleform_mod {
 
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'gcanvasname', 'mod_gcanvas');
 
         // Adding the standard "intro" and "introformat" fields.
         if ($CFG->branch >= 29) {
@@ -68,8 +67,8 @@ class mod_gcanvas_mod_form extends moodleform_mod {
 
         // Adding the rest of mod_gcanvas settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'gcanvassettings', get_string('gcanvassettings', 'mod_gcanvas'));
-        $mform->addElement('header', 'gcanvasfieldset', get_string('gcanvasfieldset', 'mod_gcanvas'));
+        $mform->addElement('static', 'label1', 'gcanvassettings', get_string('form:gcanvassettings', 'mod_gcanvas'));
+        $mform->addElement('header', 'gcanvasfieldset', get_string('form:gcanvasfieldset', 'mod_gcanvas'));
 
         // Add standard elements.
         $this->standard_coursemodule_elements();

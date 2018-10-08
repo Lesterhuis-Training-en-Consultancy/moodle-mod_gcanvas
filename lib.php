@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @return true | null True if the feature is supported, null otherwise.
  */
-function mod_gcanvas_supports($feature) {
+function gcanvas_supports($feature) {
     switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
@@ -50,16 +50,17 @@ function mod_gcanvas_supports($feature) {
  * number of the instance.
  *
  * @param object               $moduleinstance An object from the form.
- * @param mod_gcanvas_mod_form $mform          The form.
+ * @param gcanvas_mod_form $mform          The form.
  *
  * @return int The id of the newly inserted record.
+ * @throws dml_exception
  */
-function mod_gcanvas_add_instance($moduleinstance, $mform = null) {
+function gcanvas_add_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timecreated = time();
 
-    $id = $DB->insert_record('mod_gcanvas', $moduleinstance);
+    $id = $DB->insert_record('gcanvas', $moduleinstance);
 
     return $id;
 }
@@ -71,18 +72,20 @@ function mod_gcanvas_add_instance($moduleinstance, $mform = null) {
  * this function will update an existing instance with new data.
  *
  * @param object               $moduleinstance An object from the form in mod_form.php.
- * @param mod_gcanvas_mod_form $mform          The form.
+ * @param gcanvas_mod_form $mform          The form.
  *
  * @return bool True if successful, false otherwise.
+ * @throws dml_exception
  */
-function mod_gcanvas_update_instance($moduleinstance, $mform = null) {
+function gcanvas_update_instance($moduleinstance, $mform = null) {
     global $DB;
 
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
-    return $DB->update_record('mod_gcanvas', $moduleinstance);
+    return $DB->update_record('gcanvas', $moduleinstance);
 }
+
 
 /**
  * Removes an instance of the mod_gcanvas from the database.
@@ -90,11 +93,12 @@ function mod_gcanvas_update_instance($moduleinstance, $mform = null) {
  * @param int $id Id of the module instance.
  *
  * @return bool True if successful, false on failure.
+ * @throws dml_exception
  */
-function mod_gcanvas_delete_instance($id) {
+function gcanvas_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('mod_gcanvas', ['id' => $id]);
+    $exists = $DB->get_record('gcanvas', ['id' => $id]);
     if (!$exists) {
         return false;
     }
@@ -119,7 +123,7 @@ function mod_gcanvas_delete_instance($id) {
  *
  * @return string[].
  */
-function mod_gcanvas_get_file_areas($course, $cm, $context) {
+function gcanvas_get_file_areas($course, $cm, $context) {
     return [];
 }
 
@@ -141,7 +145,7 @@ function mod_gcanvas_get_file_areas($course, $cm, $context) {
  *
  * @return file_info Instance or null if not found.
  */
-function mod_gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
+function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
     return null;
 }
 
@@ -158,8 +162,12 @@ function mod_gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $fi
  * @param array    $args          Extra arguments (itemid, path).
  * @param bool     $forcedownload Whether or not force download.
  * @param array    $options       Additional options affecting the file serving.
+ *
+ * @throws coding_exception
+ * @throws moodle_exception
+ * @throws require_login_exception
  */
-function mod_gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = []) {
+function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = []) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -180,7 +188,7 @@ function mod_gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $force
  * @param stdClass        $module      .
  * @param cm_info         $cm          .
  */
-function mod_gcanvas_extend_navigation($gcanvasnode, $course, $module, $cm) {
+function gcanvas_extend_navigation($gcanvasnode, $course, $module, $cm) {
 }
 
 /**
@@ -192,5 +200,5 @@ function mod_gcanvas_extend_navigation($gcanvasnode, $course, $module, $cm) {
  * @param settings_navigation $settingsnav {@link settings_navigation}
  * @param navigation_node     $gcanvasnode {@link navigation_node}
  */
-function mod_gcanvas_extend_settings_navigation($settingsnav, $gcanvasnode = null) {
+function gcanvas_extend_settings_navigation($settingsnav, $gcanvasnode = null) {
 }

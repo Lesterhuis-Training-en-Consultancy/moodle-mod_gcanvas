@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  *
  * @return bool
  */
-function xmldb_mod_gcanvas_upgrade($oldversion) {
+function xmldb_gcanvas_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();
