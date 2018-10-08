@@ -25,10 +25,8 @@
 require(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 
-// Course_module ID, or
+// Course_module ID.
 $id = optional_param('id', 0, PARAM_INT);
-
-// ... module instance id.
 $g = optional_param('g', 0, PARAM_INT);
 
 if ($id) {
@@ -60,6 +58,8 @@ $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-echo $OUTPUT->header();
+$renderer = $PAGE->get_renderer('mod_gcanvas');
+$renderer->add_javascript_helper();
 
+echo $OUTPUT->header();
 echo $OUTPUT->footer();

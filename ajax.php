@@ -15,25 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *rendering methods
+ *
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @package   moodle-mod_gcanvas
- * @copyright 8-10-2018 MoodleFreak.com
+ * @copyright 9-10-2018 MoodleFreak.com
  * @author    Luuk Verhoeven
  **/
-
-defined('MOODLE_INTERNAL') || die();
-
-class mod_gcanvas_renderer extends plugin_renderer_base {
-
-    /**
-     * add_javascript_helper
-     */
-    public function add_javascript_helper() {
-        global $PAGE;
-        $PAGE->requires->js(new moodle_url('mod/gcanvas/javascript/fabric.min.js'));
-    }
-
-}
+ 

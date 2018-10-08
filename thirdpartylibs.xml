@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>javascript/fabric.min.js</location>
+        <name>fabric.js</name>
+        <version>2.4.1</version>
+        <license></license>
+        <licenseversion></licenseversion>
+    </library>
+</libraries>

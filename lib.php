@@ -168,7 +168,7 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
  * @throws require_login_exception
  */
 function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = []) {
-    global $DB, $CFG;
+    global $DB, $CFG; 
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         send_file_not_found();
