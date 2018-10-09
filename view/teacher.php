@@ -15,17 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
  *
- * @package     mod_gcanvas
- * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MoodleFreak.com <luuk@ldesignmedia.nl>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_gcanvas';
-$plugin->release = '0.1.0';
-$plugin->version = 2018100804;
-$plugin->requires = 2018051700;
-$plugin->maturity = MATURITY_ALPHA;
+ *
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @package   moodle-mod_gcanvas
+ * @copyright 9-10-2018 MoodleFreak.com
+ * @author    Luuk Verhoeven
+ **/
+ 

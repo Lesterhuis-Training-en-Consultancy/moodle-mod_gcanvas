@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Ajax calls.
+ * Output class for the canvas.
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
@@ -24,22 +24,34 @@
  * @author    Luuk Verhoeven
  **/
 
-namespace mod_gcanvas;
+namespace mod_gcanvas\output;
 defined('MOODLE_INTERNAL') || die;
 
-class ajax {
-    /**
-     * @var mixed
-     */
-    private $data;
+use renderable;
+use renderer_base;
+use stdClass;
+use templatable;
+
+class output_canvas implements renderable, templatable {
 
     /**
-     * ajax constructor.
+     * Function to export the renderer data in a format that is suitable for a
+     * mustache template. This means:
+     * 1. No complex types - only stdClass, array, int, string, float, bool
+     * 2. Any additional info that is required for the template is pre-calculated (e.g. capability checks).
      *
-     * @param mixed $data
+     * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
+     *
+     * @return stdClass|array
      */
-    public function __construct($data) {
-        // default stuff.
-        $this->data = (object)$data;
+    public function export_for_template(renderer_base $output) {
+
+        $data = [];
+
+        $object = new stdClass();
+        $object->data = array_values($data);
+
+        return $object;
     }
+
 }

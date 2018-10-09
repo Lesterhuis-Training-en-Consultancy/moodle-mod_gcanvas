@@ -65,11 +65,6 @@ class mod_gcanvas_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        // Adding the rest of mod_gcanvas settings, spreading all them into this fieldset
-        // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'gcanvassettings', get_string('form:gcanvassettings', 'mod_gcanvas'));
-        $mform->addElement('header', 'gcanvasfieldset', get_string('form:gcanvasfieldset', 'mod_gcanvas'));
-
         // Add standard elements.
         $this->standard_coursemodule_elements();
 

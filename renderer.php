@@ -33,7 +33,19 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      */
     public function add_javascript_helper() {
         global $PAGE;
-        $PAGE->requires->js(new moodle_url('mod/gcanvas/javascript/fabric.min.js'));
+        $PAGE->requires->js(new moodle_url('/mod/gcanvas/javascript/fabric.min.js') , true);
     }
 
+    /**
+     * Render templates used in display class
+     *
+     * @param string   $template
+     * @param stdClass $data
+     *
+     * @return bool|string
+     * @throws moodle_exception
+     */
+    public function render_template(string $template, \stdClass $data) {
+        return parent::render_from_template($template, $data);
+    }
 }

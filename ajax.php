@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *
+ * Ajax calls router.
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
@@ -23,4 +23,28 @@
  * @copyright 9-10-2018 MoodleFreak.com
  * @author    Luuk Verhoeven
  **/
- 
+define('AJAX_SCRIPT', true);
+define('NO_DEBUG_DISPLAY', true);
+
+require_once(__DIR__ . '/../../config.php');
+defined('MOODLE_INTERNAL') || die;
+
+$action = optional_param('action', '', PARAM_TEXT);
+$data = optional_param('data', '', PARAM_RAW);
+
+$PAGE->set_context(context_system::instance());
+
+// Confirm session.
+require_sesskey();
+
+$return = [
+    'success' => false,
+];
+
+// Ajax class.
+$ajax = new \block_webshop\ajax($data);
+if (is_callable([$ajax, 'callable_' . $action])) {
+    $return = $ajax->{'callable_' . $action}();
+}
+
+echo json_encode($return);

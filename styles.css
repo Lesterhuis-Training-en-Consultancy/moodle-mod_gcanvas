@@ -1,0 +1,10 @@
+#page-mod-gcanvas-view #toolbar{
+    background: #d8d8d8;
+    min-height: 500px;
+    width: 70px;
+    border: 1px solid rgb(170, 170, 170);
+    border-right: none;
+}
+#page-mod-gcanvas-view canvas{
+
+}

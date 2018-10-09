@@ -53,13 +53,20 @@ $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('mod_gcanvas', $moduleinstance);
 $event->trigger();
 
+$PAGE->requires->css('/mod/gcanvas/styles.css');
 $PAGE->set_url('/mod/gcanvas/view.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
+/** @var mod_gcanvas_renderer $renderer **/
 $renderer = $PAGE->get_renderer('mod_gcanvas');
 $renderer->add_javascript_helper();
 
-echo $OUTPUT->header();
-echo $OUTPUT->footer();
+switch ($action) {
+    default:
+        echo $OUTPUT->header();
+        echo $renderer->render_from_template('mod_gcanvas/canvas', new \mod_gcanvas\output\output_canvas());
+        echo $OUTPUT->footer();
+}
+
