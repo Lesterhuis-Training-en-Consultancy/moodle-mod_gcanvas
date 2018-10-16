@@ -33,3 +33,5 @@ $string['pluginadministration'] = 'Canvas Game administration';
 $string['gcanvas:addinstance'] = 'Add new Canvas Game instance';
 $string['gcanvas:view'] = 'View Canvas Game';
 
+// Form.
+$string['form:gcanvasname'] = 'Canvas name';
