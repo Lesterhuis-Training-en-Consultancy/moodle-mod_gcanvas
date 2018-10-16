@@ -24,8 +24,8 @@
  * @copyright 2018 MoodleFreak.com
  * @author    Luuk Verhoeven
  **/
-/* eslint no-console: ["error", { allow: ["warn", "error" , "log"] }] */
-define(['jquery', 'core/notification'], function ($, notification) {
+/* eslint no-unused-expressions: "off"  no-console: ["error", { allow: ["warn", "error" , "log"] }] */
+define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabric"], function ($, notification, mod1, fabric) {
     'use strict';
 
     /**
@@ -87,7 +87,7 @@ define(['jquery', 'core/notification'], function ($, notification) {
          */
         load_toolbar: function () {
 
-            $('#toolbar .icon').click(function () {
+            $('#toolbar .icon[data-element-type]').on('click' , function () {
 
                 let elementtype = $(this).data('element-type');
 
@@ -100,27 +100,7 @@ define(['jquery', 'core/notification'], function ($, notification) {
                 let shape = "default_shape_" + elementtype.toLowerCase();
                 console.log("Search for shape: " + shape);
 
-                if (elementtype === 'Arrow') {
-                    fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
-
-                        let shape = fabric.util.groupSVGElements(objects, options);
-                        canvas.add(shape.scale(0.1));
-                        shape.set({
-                            left: 200,
-                            top : 100
-                        }).setCoords();
-                        canvas.renderAll();
-
-                        canvas.forEachObject(function (obj) {
-                            var setCoords = obj.setCoords.bind(obj);
-                            obj.on({
-                                moving  : setCoords,
-                                scaling : setCoords,
-                                rotating: setCoords
-                            });
-                        })
-                    });
-                } else if (canvas_module.hasOwnProperty(shape)) {
+                if (canvas_module.hasOwnProperty(shape)) {
                     console.log("Shape found");
 
                     let el = new fabric[elementtype](canvas_module[shape]);
@@ -131,8 +111,75 @@ define(['jquery', 'core/notification'], function ($, notification) {
                     console.error('Shape not found!');
                 }
 
-                canvas.requestRenderAll();
+                canvas.renderAll();
             });
+
+            // Arrow
+            $('#arrow').on('click' , function(){
+                fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
+
+                    let arrow = fabric.util.groupSVGElements(objects, options);
+                    canvas.add(arrow.scale(0.1));
+                    arrow.set({
+                        left: 200,
+                        top : 100
+                    }).setCoords();
+                    canvas.renderAll();
+                    canvas.setActiveObject(el);
+
+                    canvas.forEachObject(function (obj) {
+                        var setCoords = obj.setCoords.bind(obj);
+                        obj.on({
+                            moving  : setCoords,
+                            scaling : setCoords,
+                            rotating: setCoords
+                        });
+                    })
+                });
+            });
+
+
+            // Remove selected items.
+            $('#trash').on('click', function (e) {
+                e.preventDefault();
+                try {
+                    let activeobjects = canvas.getActiveObjects();
+                    canvas.discardActiveObject();
+                    if (activeobjects.length) {
+                        canvas.remove.apply(canvas, activeobjects);
+                    }
+                } catch (e) {
+                    console.error('Nothing selected', e);
+                }
+            });
+
+            // Color picker.
+            $("#colorpicker").spectrum({
+                flat     : false,
+                showInput: true,
+                change   : function (color) {
+                    console.log('change color');
+                    canvas_module.set_color(color);
+                }
+            }).on("dragstart.spectrum , dragstop.spectrum", function (e, color) {
+                    console.log('change color - dragstop - dragstart');
+                    canvas_module.set_color(color);
+                }
+            );
+        },
+
+        /**
+         * Set active element colors.
+         * @param color
+         */
+        set_color: function (color) {
+
+            let colorhex = color.toHexString(); // #ff0000
+            let activeobjs =  canvas.getActiveObject();
+            if(activeobjs) {
+                activeobjs.set("fill", colorhex);
+                canvas.renderAll();
+            }
         },
 
         /**
@@ -142,21 +189,21 @@ define(['jquery', 'core/notification'], function ($, notification) {
             canvas.on('object:moving', function (e) {
                 let obj = e.target;
                 // if object is too big ignore
-                if(obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width){
+                if (obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width) {
                     return;
                 }
                 obj.setCoords();
 
-                if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
-                    obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
-                    obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
+                if (obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0) {
+                    obj.top = Math.max(obj.top, obj.top - obj.getBoundingRect().top);
+                    obj.left = Math.max(obj.left, obj.left - obj.getBoundingRect().left);
                 }
 
-                if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height ||
-                    obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
-                    obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-
+                if (obj.getBoundingRect().top + obj.getBoundingRect().height > obj.canvas.height ||
+                    obj.getBoundingRect().left + obj.getBoundingRect().width > obj.canvas.width) {
+                    obj.top = Math.min(obj.top, obj.canvas.height - obj.getBoundingRect().height + obj.top -
                         obj.getBoundingRect().top);
-                    obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-
+                    obj.left = Math.min(obj.left, obj.canvas.width - obj.getBoundingRect().width + obj.left -
                         obj.getBoundingRect().left);
                 }
             });
@@ -177,9 +224,8 @@ define(['jquery', 'core/notification'], function ($, notification) {
 
             // Catch some actions.
             canvas.on({
-                'object:moving'  : this.onchange,
-                'object:scaling' : this.onchange,
-                'object:rotating': this.onchange,
+                'selection:created': this.onchange,
+                'selection:updated': this.onchange,
             });
 
             this.prevent_moving_out_of_canvas();
@@ -210,24 +256,25 @@ define(['jquery', 'core/notification'], function ($, notification) {
             ruler.lockRotation = true;
 
             canvas.add(ruler);
-            canvas.requestRenderAll();
+            canvas.renderAll();
 
             // Keyboard arrows move ruler.
-            $(document).keydown(function(e) {
-                switch(e.which) {
+            $(document).keydown(function (e) {
+                switch (e.which) {
 
                     case 38: // Up arrow.
-                        ruler.top =  ruler.top - 10;
-                        canvas.requestRenderAll();
+                        ruler.top = ruler.top - 10;
+                        canvas.renderAll();
                         break;
 
                     case 40: // Down arrow.
-                        ruler.top =  ruler.top + 10;
-                        canvas.requestRenderAll();
+                        ruler.top = ruler.top + 10;
+                        canvas.renderAll();
 
                         break;
 
-                    default: return; // exit this handler for other keys
+                    default:
+                        return; // exit this handler for other keys
                 }
                 e.preventDefault(); // prevent the default action (scroll / move caret)
             });
@@ -238,14 +285,7 @@ define(['jquery', 'core/notification'], function ($, notification) {
          * @param options
          */
         onchange: function (options) {
-            // options.target.setCoords();
-            //
-            // canvas.forEachObject(function (obj) {
-            //     if (obj === options.target) {
-            //         return;
-            //     }
-            //     obj.set('opacity', options.target.intersectsWithObject(obj) ? 0.5 : 1);
-            // });
+            $("#colorpicker").spectrum("set", options.target.fill);
         }
     };
 

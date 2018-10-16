@@ -33,7 +33,6 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      */
     public function add_javascript_helper() {
         global $PAGE;
-        $PAGE->requires->js(new moodle_url('/mod/gcanvas/javascript/fabric.min.js'), true);
         $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
 

@@ -21,21 +21,23 @@
 }}
 <div class="d-flex flex-row">
     <div class="p-2" id="toolbar">
-        <div class="btn icon" data-element-type="Circle" title="{{# str}} btn:circle, mod_gcanvas {{/ str}}">
+        <div class="item icon" data-element-type="Circle" title="{{# str}} btn:circle, mod_gcanvas {{/ str}}">
             <i class="fa fa-circle"></i>
         </div>
-        <div class="btn icon" data-element-type="Rect" title="{{# str}} btn:rect, mod_gcanvas {{/ str}}">
+        <div class="item icon" data-element-type="Rect" title="{{# str}} btn:rect, mod_gcanvas {{/ str}}">
             <i class="fa fa-square"></i>
         </div>
-        <div class="btn icon" data-element-type="Triangle" title="{{# str}} btn:triangle, mod_gcanvas {{/ str}}">
+        <div class="item icon" data-element-type="Triangle" title="{{# str}} btn:triangle, mod_gcanvas {{/ str}}">
             <i class="fa fa-caret-up"></i>
         </div>
-        <div class="btn icon" data-element-type="Arrow" title="{{# str}} btn:arrow, mod_gcanvas {{/ str}}">
+        <div class="item icon" id="arrow" title="{{# str}} btn:arrow, mod_gcanvas {{/ str}}">
             <i class="fa fa-caret-left"></i>
         </div>
-
-        <div class="btn icon" data-element-type="Trash" title="{{# str}} btn:trash, mod_gcanvas {{/ str}}">
-            <i class="fa fa-trash"></i>
+        <div class="item icon" id="trash" title="{{# str}} btn:trash, mod_gcanvas {{/ str}}">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </div>
+        <div class="item icon" title="{{# str}} btn:trash, mod_gcanvas {{/ str}}">
+            <input id="colorpicker" />
         </div>
     </div>
     <div class="p-0">

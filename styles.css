@@ -1,10 +1,11 @@
-#page-mod-gcanvas-view #toolbar .btn {
+#page-mod-gcanvas-view #toolbar .item {
     width:100%;
     height:40px;
     line-height: 40px;
     vertical-align: middle;
     margin-bottom: 5px;
     border-bottom: 1px solid #364973;
+    text-align: center;
 }
 
 #page-mod-gcanvas-view #toolbar i {

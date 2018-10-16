@@ -54,6 +54,7 @@ $event->add_record_snapshot('mod_gcanvas', $moduleinstance);
 $event->trigger();
 
 $PAGE->requires->css('/mod/gcanvas/styles.css');
+$PAGE->requires->css('/mod/gcanvas/css/spectrum.css');
 $PAGE->set_url('/mod/gcanvas/view.php', ['id' => $cm->id]);
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));

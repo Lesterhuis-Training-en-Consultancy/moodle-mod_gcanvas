@@ -26,6 +26,6 @@
 namespace mod_gcanvas;
 defined('MOODLE_INTERNAL') || die;
 
- final class helper{
+ class helper{
 
  }
