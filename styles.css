@@ -1,10 +1,26 @@
-#page-mod-gcanvas-view #toolbar{
-    background: #d8d8d8;
+#page-mod-gcanvas-view #toolbar .btn {
+    width:100%;
+    height:40px;
+    line-height: 40px;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #364973;
+}
+
+#page-mod-gcanvas-view #toolbar i {
+    color: #61A6E9;
+    font-size: 2em;
+}
+
+#page-mod-gcanvas-view #toolbar {
+    background: #283147;
     min-height: 500px;
     width: 70px;
-    border: 1px solid rgb(170, 170, 170);
+    border: 1px solid #354059;
     border-right: none;
+
 }
-#page-mod-gcanvas-view canvas{
+
+#page-mod-gcanvas-view canvas {
 
 }
