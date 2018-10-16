@@ -155,8 +155,11 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
             // Color picker.
             $("#colorpicker").spectrum({
+                showPalette: true,
+                palette: [ ],
+                showSelectionPalette: true, // true by default
+                selectionPalette: ["red", "green", "blue" ,"orange"],
                 flat     : false,
-                showInput: true,
                 change   : function (color) {
                     console.log('change color');
                     canvas_module.set_color(color);
@@ -179,6 +182,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             if(activeobjs) {
                 activeobjs.set("fill", colorhex);
                 canvas.renderAll();
+            }else{
+                console.log('No active items');
             }
         },
 
