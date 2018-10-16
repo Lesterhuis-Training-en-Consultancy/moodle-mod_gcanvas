@@ -103,7 +103,7 @@ define(['jquery', 'core/notification'], function ($, notification) {
                 if (elementtype === 'Arrow') {
                     fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
 
-                        var shape = fabric.util.groupSVGElements(objects, options);
+                        let shape = fabric.util.groupSVGElements(objects, options);
                         canvas.add(shape.scale(0.1));
                         shape.set({
                             left: 200,
@@ -140,7 +140,7 @@ define(['jquery', 'core/notification'], function ($, notification) {
          */
         prevent_moving_out_of_canvas: function () {
             canvas.on('object:moving', function (e) {
-                var obj = e.target;
+                let obj = e.target;
                 // if object is too big ignore
                 if(obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width){
                     return;
