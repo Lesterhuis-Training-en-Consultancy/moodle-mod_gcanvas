@@ -19,7 +19,21 @@
     @copyright 9-10-2018 MoodleFreak.nl
     @author    Luuk Verhoeven
 }}
-<div class="d-flex flex-row">
+<div style="clear:both"></div>
+{{#is_teacher}}
+    <!-- Only visible if you have this capability -->
+    <div class="d-flex flex-row" id="teacher-toolbar">
+        <div class="p-2">
+            Teacher tools
+        </div>
+        <div class="p-2">
+            <span>Change background</span>
+            <span>Add toolbar symbols</span>
+        </div>
+    </div>
+{{/is_teacher}}
+<div class="d-flex flex-row" id="canvas-wrapper">
+    <!-- Left toolbar -->
     <div class="p-2" id="toolbar">
         <div class="item icon" data-element-type="Circle" title="{{# str}} btn:circle, mod_gcanvas {{/ str}}">
             <i class="fa fa-circle"></i>
@@ -33,17 +47,38 @@
         <div class="item icon" id="arrow" title="{{# str}} btn:arrow, mod_gcanvas {{/ str}}">
             <i class="fa fa-caret-left"></i>
         </div>
+        <div class="item icon" id="add-image" title="{{# str}} btn:image, mod_gcanvas {{/ str}}">
+            <i class="fa fa-image" aria-hidden="true"></i>
+        </div>
         <div class="item icon" id="trash" title="{{# str}} btn:trash, mod_gcanvas {{/ str}}">
             <i class="fa fa-trash-o" aria-hidden="true"></i>
         </div>
         <div class="item icon" title="{{# str}} btn:trash, mod_gcanvas {{/ str}}">
-            <input id="colorpicker" />
+            <input id="colorpicker"/>
         </div>
     </div>
     <div class="p-0">
-        <div class="teacher-toolbar">
-
-        </div>
+        <!-- The canvas needed for drawing -->
         <canvas id="sketch" height="500" style="border:1px solid #aaa"></canvas>
     </div>
+</div>
+<!-- Bottom toolbar -->
+<div class="d-flex flex-row" id="bottom-toolbar">
+    <div class="p-2">
+        <span id="save-canvas">
+            {{# str}} btn:save, mod_gcanvas {{/ str}}
+        </span>
+        <span id="show-samples">
+            {{# str}} btn:samples, mod_gcanvas {{/ str}}
+        </span>
+        <span id="clear">
+            {{# str}} btn:clear, mod_gcanvas {{/ str}}
+        </span>
+    </div>
+    <div class="p-2">
+        Legenda @todo
+    </div>
+</div>
+<div class="d-flex flex-row" id="history">
+    <!-- Will be loaded with a AJAX call -->
 </div>

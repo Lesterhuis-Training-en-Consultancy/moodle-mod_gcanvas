@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 $capabilities = [
     'mod/gcanvas:addinstance' => [
         'riskbitmask' => RISK_XSS,
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
@@ -38,13 +37,19 @@ $capabilities = [
         ],
         'clonepermissionsfrom' => 'moodle/course:manageactivities',
     ],
-
     'mod/gcanvas:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
+        ],
+    ],
+    'mod/gcanvas:teacher' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
         ],
     ],
 ];

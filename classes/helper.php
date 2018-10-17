@@ -28,4 +28,16 @@ defined('MOODLE_INTERNAL') || die;
 
  class helper{
 
+     /**
+      * We are in DEBUG mode display more info than general.
+      *
+      * @return bool
+      */
+     public static function has_debugging_enabled() {
+         global $CFG;
+
+         // Check if the environment has debugging enabled.
+         return ($CFG->debug >= 32767 && $CFG->debugdisplay == 1);
+     }
+
  }

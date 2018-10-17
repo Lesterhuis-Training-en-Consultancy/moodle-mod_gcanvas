@@ -35,7 +35,8 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
         global $PAGE;
         $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
-
+                'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
+                'id' => $PAGE->url->get_param('id'),
             ],
         ]);
     }

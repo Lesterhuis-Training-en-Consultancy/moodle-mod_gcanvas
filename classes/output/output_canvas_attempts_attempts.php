@@ -32,7 +32,43 @@ use renderer_base;
 use stdClass;
 use templatable;
 
-class output_canvas implements renderable, templatable {
+class output_canvas_attempts implements renderable, templatable {
+
+    /**
+     * @var int
+     */
+    protected $canvasid;
+
+    public function __construct(int $canvasid) {
+        $this->canvasid = $canvasid;
+    }
+
+    /**
+     * @return array
+     * @throws \dml_exception
+     */
+    protected function get_items() : array {
+        global $DB, $USER;
+
+        $list = [];
+
+        $rs = $DB->get_recordset('gcanvas_attempt', [
+            'user_id' => $USER->id,
+            'status' => 'final',
+            'gcanvas_id' => $this->canvasid,
+        ]);
+
+        foreach($rs as $row){
+            $list[] = [
+                'added_on' => date('d-m-Y H:i' , $row->added_on),
+                'id' => $row->id,
+            ];
+        }
+
+        $rs->close();
+
+        return $list;
+    }
 
     /**
      * Function to export the renderer data in a format that is suitable for a
@@ -43,17 +79,14 @@ class output_canvas implements renderable, templatable {
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
      *
      * @return stdClass|array
-     * @throws \coding_exception
+     * @throws \dml_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $PAGE;
-        $data = [];
+
+        $data = $this->get_items();
 
         $object = new stdClass();
         $object->data = array_values($data);
-
-        // Check if the user is teacher.
-        $object->is_teacher = has_capability('mod/gcanvas:teacher', $PAGE->context);
 
         return $object;
     }

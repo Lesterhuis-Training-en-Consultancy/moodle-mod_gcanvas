@@ -42,7 +42,7 @@ $return = [
 ];
 
 // Ajax class.
-$ajax = new \block_webshop\ajax($data);
+$ajax = new \mod_gcanvas\ajax($data);
 if (is_callable([$ajax, 'callable_' . $action])) {
     $return = $ajax->{'callable_' . $action}();
 }

@@ -6,6 +6,32 @@
     margin-bottom: 5px;
     border-bottom: 1px solid #364973;
     text-align: center;
+    cursor: pointer;
+}
+
+#page-mod-gcanvas-view #teacher-toolbar{
+    background: #283147;
+    min-height: 40px;
+    color: #fff;
+    padding: 5px 60px;
+}
+
+#page-mod-gcanvas-view #bottom-toolbar{
+    background: #283147;
+    min-height: 40px;
+    color: #fff;
+    padding: 5px 60px;
+}
+
+#page-mod-gcanvas-view #bottom-toolbar span , #page-mod-gcanvas-view #teacher-toolbar span{
+    cursor: pointer;
+    margin: 5px;
+    background: #61A6E9;
+    padding: 5px;
+}
+
+#canvas-wrapper{
+    background: #fafafa;
 }
 
 #page-mod-gcanvas-view #toolbar i {

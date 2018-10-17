@@ -29,7 +29,70 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
     'use strict';
 
     /**
+     * Opts that are possible to set.
      *
+     * @type {{id: number, debugjs: boolean}}
+     */
+    let opts = {
+        id     : 0,
+        debugjs: false,
+    };
+
+    /**
+     * Set options base on listed options
+     * @param {object} options
+     */
+    let set_options = function (options) {
+        "use strict";
+        let key, vartype;
+        for (key in opts) {
+            if (opts.hasOwnProperty(key) && options.hasOwnProperty(key)) {
+
+                // Casting to prevent errors.
+                vartype = typeof opts[key];
+                if (vartype === "boolean") {
+                    opts[key] = Boolean(options[key]);
+                } else if (vartype === 'number') {
+                    opts[key] = Number(options[key]);
+                } else if (vartype === 'string') {
+                    opts[key] = String(options[key]);
+                }
+                // Skip all other types.
+            }
+        }
+    };
+
+    /**
+     * Console log debug wrapper.
+     */
+    let debug = {};
+
+    /**
+     * Set debug mode
+     * Should only be enabled if site is in debug mode.
+     * @param {boolean} isenabled
+     */
+    let set_debug = function (isenabled) {
+
+        if (isenabled) {
+            for (let m in console) {
+                if (typeof console[m] == 'function') {
+                    debug[m] = console[m].bind(window.console);
+                }
+            }
+        } else {
+            // Fake wrapper.
+            for (let m in console) {
+                if (typeof console[m] == 'function') {
+                    debug[m] = function () {
+                    };
+                }
+            }
+        }
+    };
+
+    /**
+     * Canvas holder.
      * @type fabric.Canvas
      */
     let canvas = null;
@@ -83,11 +146,41 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         * Load user there history.
+         */
+        load_history: function () {
+            $.ajax({
+                type    : 'POST',
+                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data    : {
+                    sesskey: M.cfg.sesskey,
+                    action : 'load_history',
+                    data   : {
+                        'id': opts.id,
+                    }
+                },
+                dataType: "json",
+                success : function (response) {
+                    debug.log(response);
+
+                },
+                error   : function (response) {
+                    debug.error(response.responseText);
+                    // Show a error messages.
+                    notification.addNotification({
+                        message: response.responseText,
+                        type   : "error"
+                    });
+                }
+            });
+        },
+
+        /**
          * Toolbar actions.
          */
         load_toolbar: function () {
 
-            $('#toolbar .icon[data-element-type]').on('click' , function () {
+            $('#toolbar .icon[data-element-type]').on('click', function () {
 
                 let elementtype = $(this).data('element-type');
 
@@ -98,24 +191,24 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 }
 
                 let shape = "default_shape_" + elementtype.toLowerCase();
-                console.log("Search for shape: " + shape);
+                debug.log("Search for shape: " + shape);
 
                 if (canvas_module.hasOwnProperty(shape)) {
-                    console.log("Shape found");
+                    debug.log("Shape found");
 
                     let el = new fabric[elementtype](canvas_module[shape]);
 
                     canvas.add(el);
                     canvas.setActiveObject(el);
                 } else {
-                    console.error('Shape not found!');
+                    debug.error('Shape not found!');
                 }
 
                 canvas.renderAll();
             });
 
             // Arrow
-            $('#arrow').on('click' , function(){
+            $('#arrow').on('click', function () {
                 fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
 
                     let arrow = fabric.util.groupSVGElements(objects, options);
@@ -138,7 +231,6 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 });
             });
 
-
             // Remove selected items.
             $('#trash').on('click', function (e) {
                 e.preventDefault();
@@ -149,26 +241,83 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                         canvas.remove.apply(canvas, activeobjects);
                     }
                 } catch (e) {
-                    console.error('Nothing selected', e);
+                    debug.error('Nothing selected', e);
                 }
             });
 
             // Color picker.
             $("#colorpicker").spectrum({
-                showPalette: true,
-                palette: [ ],
+                showPalette         : true,
+                palette             : [],
                 showSelectionPalette: true, // true by default
-                selectionPalette: ["red", "green", "blue" ,"orange"],
-                flat     : false,
-                change   : function (color) {
-                    console.log('change color');
+                selectionPalette    : ["red", "green", "blue", "orange"],
+                flat                : false,
+                change              : function (color) {
+                    debug.log('change color');
                     canvas_module.set_color(color);
                 }
             }).on("dragstart.spectrum , dragstop.spectrum", function (e, color) {
-                    console.log('change color - dragstop - dragstart');
+                    debug.log('change color - dragstop - dragstart');
                     canvas_module.set_color(color);
                 }
             );
+
+            // Canvas to image.
+            $('#save-canvas').on('click', function () {
+                // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+                if (!fabric.Canvas.supports('toDataURL')) {
+
+                    notification.addNotification({
+                        message: 'This browser doesn\'t provide means to serialize canvas to an image',
+                        type   : "error"
+                    });
+
+                } else {
+
+                    // Send data to AJAX.
+                    $.ajax({
+                        type    : 'POST',
+                        url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                        data    : {
+                            sesskey: M.cfg.sesskey,
+                            action : 'save_canvas',
+                            data   : {
+                                'id'         : opts.id,
+                                'status'     : 'final',
+                                'canvas_data': canvas.toDataURL({
+                                    multiplier: 1,
+                                    format    : 'png'
+                                }),
+                                'json_data'  : JSON.stringify(canvas)
+                            }
+                        },
+                        dataType: "json",
+                        success : function (response) {
+                            debug.log(response);
+
+                            if (response.success) {
+                                notification.addNotification({
+                                    message: 'Updated!',
+                                    type   : "success",
+                                });
+                            } else {
+                                notification.addNotification({
+                                    message: response.error,
+                                    type   : "error"
+                                });
+                            }
+                        },
+                        error   : function (response) {
+                            debug.error(response.responseText);
+                            // Show a error messages.
+                            notification.addNotification({
+                                message: response.responseText,
+                                type   : "error"
+                            });
+                        }
+                    });
+                }
+            });
         },
 
         /**
@@ -178,12 +327,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         set_color: function (color) {
 
             let colorhex = color.toHexString(); // #ff0000
-            let activeobjs =  canvas.getActiveObject();
-            if(activeobjs) {
+            let activeobjs = canvas.getActiveObject();
+            if (activeobjs) {
                 activeobjs.set("fill", colorhex);
                 canvas.renderAll();
-            }else{
-                console.log('No active items');
+            } else {
+                debug.log('No active items');
             }
         },
 
@@ -238,6 +387,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             this.load_toolbar();
 
             this.add_horizontal_ruler();
+
+            this.load_history();
         },
 
         /**
@@ -246,7 +397,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         add_horizontal_ruler: function () {
             let ruler = new fabric.Rect({
                 width : this.canvas_width,
-                height: 1,
+                height: 2,
                 left  : 0,
                 top   : this.canvas_height / 2,
                 angle : 0,
@@ -300,10 +451,16 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * Init.
          */
         initialise: function (args) {
-            console.log('Canvas Module v1.0');
+
+            // Load the args passed from PHP.
+            set_options(args);
+
+            // Set internal debug console.
+            set_debug(opts.debugjs);
+
             $.noConflict();
             $(document).ready(function () {
-                console.log('Canvas Module v1.0');
+                debug.log('Canvas Module v1.0');
                 canvas_module.init();
             });
         }

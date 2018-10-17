@@ -67,7 +67,8 @@ $renderer->add_javascript_helper();
 switch ($action) {
     default:
         echo $OUTPUT->header();
-        echo $renderer->render_from_template('mod_gcanvas/canvas', new \mod_gcanvas\output\output_canvas());
+        echo $renderer->render_from_template('mod_gcanvas/canvas', (new \mod_gcanvas\output\output_canvas())
+            ->export_for_template($OUTPUT));
         echo $OUTPUT->footer();
 }
 
