@@ -27,6 +27,7 @@
 namespace mod_gcanvas\output;
 defined('MOODLE_INTERNAL') || die;
 
+use context_module;
 use renderable;
 use renderer_base;
 use stdClass;
@@ -37,37 +38,96 @@ class output_canvas_attempts implements renderable, templatable {
     /**
      * @var int
      */
-    protected $canvasid;
+    protected $id;
 
-    public function __construct(int $canvasid) {
-        $this->canvasid = $canvasid;
+    /**
+     * @var stdClass
+     */
+    protected $cm;
+
+    /**
+     * @var context_module
+     */
+    protected $context;
+
+    /**
+     * output_canvas_attempts constructor.
+     *
+     * @param int $canvasid
+     *
+     * @throws \coding_exception
+     */
+    public function __construct(int $id) {
+        $this->id = $id;
+        $this->cm = get_coursemodule_from_id('gcanvas', $this->id, 0, false,
+            MUST_EXIST);
+        $this->context = context_module::instance($this->cm->id);
+
     }
 
     /**
      * @return array
      * @throws \dml_exception
+     * @throws \coding_exception
      */
     protected function get_items() : array {
         global $DB, $USER;
 
         $list = [];
-
         $rs = $DB->get_recordset('gcanvas_attempt', [
             'user_id' => $USER->id,
             'status' => 'final',
-            'gcanvas_id' => $this->canvasid,
-        ]);
+            'gcanvas_id' => $this->cm->instance,
+        ] , 'id DESC');
 
-        foreach($rs as $row){
+        foreach ($rs as $row) {
+            $src = $this->get_image($row);
+
+            if (empty($src)) {
+                continue;
+            }
+
             $list[] = [
-                'added_on' => date('d-m-Y H:i' , $row->added_on),
+                'added_on' => date('d-m-Y H:i', $row->added_on),
                 'id' => $row->id,
+                'src' => $src,
             ];
         }
 
         $rs->close();
 
         return $list;
+    }
+
+    /**
+     * @param stdClass $row
+     *
+     * @return string
+     * @throws \coding_exception
+     */
+    public function get_image(\stdClass $row) {
+        global $CFG;
+        $fs = get_file_storage();
+        $files = $fs->get_area_files(
+            $this->context->id,
+            'mod_gcanvas',
+            'attempt',
+            $row->id,
+            'id',
+            false
+        );
+
+        foreach ($files as $file) {
+            $isimage = $file->is_valid_image();
+            if ($isimage) {
+                // file_rewrite_pluginfile_urls($post->message, 'pluginfile.php', $modcontext->id, 'mod_forum', 'post', $post->id);
+                return file_encode_url("$CFG->wwwroot/pluginfile.php",
+                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                    $file->get_filearea() . $file->get_filepath() . $file->get_itemid() . '/' . $file->get_filename());
+            }
+        }
+
+        return '';
     }
 
     /**
@@ -80,13 +140,14 @@ class output_canvas_attempts implements renderable, templatable {
      *
      * @return stdClass|array
      * @throws \dml_exception
+     * @throws \coding_exception
      */
     public function export_for_template(renderer_base $output) {
 
         $data = $this->get_items();
 
         $object = new stdClass();
-        $object->data = array_values($data);
+        $object->attempts = array_values($data);
 
         return $object;
     }

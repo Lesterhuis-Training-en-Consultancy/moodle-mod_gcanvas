@@ -19,3 +19,22 @@
     @copyright 17-10-2018 MoodleFreak.nl
     @author    Luuk Verhoeven
 }}
+<div class="card-columns mt-4">
+    {{#attempts}}
+        <div class="card">
+            <div class="image-holder">
+                <img class="card-img-top" src="{{src}}" alt="">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{added_on}}
+                    <a href="{{src}}" target="_blank" class="btn btn-success pull-right">
+                        Download
+                    </a>
+                </h5>
+                <!--<a href="#" class="btn btn-default">-->
+                    <!--Restore-->
+                <!--</a>-->
+            </div>
+        </div>
+    {{/attempts}}
+</div>

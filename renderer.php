@@ -24,7 +24,7 @@
  * @author    Luuk Verhoeven
  **/
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
 class mod_gcanvas_renderer extends plugin_renderer_base {
 

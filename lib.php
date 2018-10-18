@@ -163,19 +163,34 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
  * @param bool     $forcedownload Whether or not force download.
  * @param array    $options       Additional options affecting the file serving.
  *
+ * @return bool
  * @throws coding_exception
  * @throws moodle_exception
  * @throws require_login_exception
  */
-function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = []) {
-    global $DB, $CFG; 
+function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
 
     if ($context->contextlevel != CONTEXT_MODULE) {
-        send_file_not_found();
+        return false;
     }
 
-    require_login($course, true, $cm);
-    send_file_not_found();
+    require_course_login($course, true, $cm);
+    if (!has_capability('mod/gcanvas:view', $context)) {
+        return false;
+    }
+
+    $itemid = (int)array_shift($args);
+
+    $fs = get_file_storage();
+    $relativepath = implode('/', $args);
+    $fullpath = "/$context->id/mod_gcanvas/$filearea/$itemid/$relativepath";
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+        return false;
+    }
+
+    // finally send the file
+    // for folder module, we force download file all the time
+    send_stored_file($file, 0, 0, true, $options);
 }
 
 /**

@@ -162,7 +162,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 dataType: "json",
                 success : function (response) {
                     debug.log(response);
-
+                    if(response.success){
+                        $('#history').html(response.html);
+                    }
                 },
                 error   : function (response) {
                     debug.error(response.responseText);
@@ -300,6 +302,10 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                                     message: 'Updated!',
                                     type   : "success",
                                 });
+
+                                // Load attempts.
+                                canvas_module.load_history();
+
                             } else {
                                 notification.addNotification({
                                     message: response.error,

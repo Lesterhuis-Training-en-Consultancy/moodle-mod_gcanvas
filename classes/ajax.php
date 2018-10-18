@@ -28,6 +28,7 @@ namespace mod_gcanvas;
 
 use context_module;
 use file_storage;
+use mod_gcanvas\output\output_canvas_attempts;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -48,7 +49,43 @@ class ajax {
     }
 
     /**
+     * Get user there history attempts.
+     *
+     * @return array
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     */
+    public function callable_load_history() {
+        global $DB, $PAGE, $OUTPUT;
+        $cm = get_coursemodule_from_id('gcanvas', $this->data->id, 0, false,
+            MUST_EXIST);
+        $course = $DB->get_record('course', ['id' => $cm->course], '*',
+            MUST_EXIST);
+
+        require_login($course, true, $cm);
+
+        $renderer = $PAGE->get_renderer('mod_gcanvas');
+
+        return [
+            'html' => $renderer->render_from_template('mod_gcanvas/canvas_attempts',
+                (new output_canvas_attempts($this->data->id))
+                ->export_for_template($OUTPUT)),
+            'success' => true,
+        ];
+    }
+
+    /**
      * Save student there canvas to a attempt
+     *
+     * @return array
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \file_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     * @throws \stored_file_creation_exception
      */
     public function callable_save_canvas() {
         global $DB, $USER;

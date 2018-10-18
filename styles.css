@@ -4,20 +4,20 @@
     line-height: 40px;
     vertical-align: middle;
     margin-bottom: 5px;
-    border-bottom: 1px solid #364973;
+    border-bottom: 1px solid #5f5f5f;
     text-align: center;
     cursor: pointer;
 }
 
 #page-mod-gcanvas-view #teacher-toolbar{
-    background: #283147;
+    background: #464646;
     min-height: 40px;
     color: #fff;
     padding: 5px 60px;
 }
 
 #page-mod-gcanvas-view #bottom-toolbar{
-    background: #283147;
+    background: #464646;
     min-height: 40px;
     color: #fff;
     padding: 5px 60px;
@@ -26,7 +26,7 @@
 #page-mod-gcanvas-view #bottom-toolbar span , #page-mod-gcanvas-view #teacher-toolbar span{
     cursor: pointer;
     margin: 5px;
-    background: #61A6E9;
+    background: #1177d1;
     padding: 5px;
 }
 
@@ -35,17 +35,23 @@
 }
 
 #page-mod-gcanvas-view #toolbar i {
-    color: #61A6E9;
+    color: #fff;
     font-size: 2em;
 }
 
 #page-mod-gcanvas-view #toolbar {
-    background: #283147;
+    background: #464646;
     min-height: 500px;
     width: 70px;
-    border: 1px solid #354059;
+    border: 1px solid #828282;
     border-right: none;
 
+}
+
+.card-img-top{
+    max-height: 50em;
+    border-bottom: 1px solid #DFDFDF;
+    padding: 10px;
 }
 
 #page-mod-gcanvas-view canvas {
