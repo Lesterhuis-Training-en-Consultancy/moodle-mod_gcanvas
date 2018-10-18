@@ -9,18 +9,24 @@
     cursor: pointer;
 }
 
+#page-mod-gcanvas-view canvas{
+    border: none;
+}
+
 #page-mod-gcanvas-view #teacher-toolbar{
     background: #464646;
     min-height: 40px;
     color: #fff;
     padding: 5px 60px;
+    width: 870px;
 }
 
 #page-mod-gcanvas-view #bottom-toolbar{
-    background: #464646;
+    background: #343434;
     min-height: 40px;
     color: #fff;
     padding: 5px 60px;
+    width: 870px;
 }
 
 #page-mod-gcanvas-view #bottom-toolbar span , #page-mod-gcanvas-view #teacher-toolbar span{
@@ -31,7 +37,18 @@
 }
 
 #canvas-wrapper{
-    background: #fafafa;
+    background: #fff;
+}
+
+#sketch-tool{
+    margin: 0 auto;
+    width: 870px;
+}
+
+#sketch-tool-bg{
+    background: #464646;
+    padding: 20px 0;
+    border: 1px solid #000;
 }
 
 #page-mod-gcanvas-view #toolbar i {
@@ -40,20 +57,14 @@
 }
 
 #page-mod-gcanvas-view #toolbar {
-    background: #464646;
+    background: #343434;
     min-height: 500px;
     width: 70px;
-    border: 1px solid #828282;
     border-right: none;
-
 }
 
 .card-img-top{
     max-height: 50em;
     border-bottom: 1px solid #DFDFDF;
     padding: 10px;
-}
-
-#page-mod-gcanvas-view canvas {
-
 }

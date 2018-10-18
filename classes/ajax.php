@@ -129,4 +129,32 @@ class ajax {
         ];
     }
 
+    /**
+     * Load emoji html
+     *
+     * @return array
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     */
+    public function callable_emoji() {
+        global $DB , $PAGE;
+        $cm = get_coursemodule_from_id('gcanvas', $this->data->id, 0, false,
+            MUST_EXIST);
+        $course = $DB->get_record('course', ['id' => $cm->course], '*',
+            MUST_EXIST);
+
+        require_login($course, true, $cm);
+
+        $renderer = $PAGE->get_renderer('mod_gcanvas');
+
+        return [
+            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji',(object)[]),
+            'success' => true,
+        ];
+
+    }
+
+
 }

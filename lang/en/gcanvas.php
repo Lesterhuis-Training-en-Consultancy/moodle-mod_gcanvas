@@ -38,11 +38,12 @@ $string['form:gcanvasname'] = 'Canvas name';
 
 // Buttons.
 $string['btn:save'] = 'Save canvas';
-$string['btn:clear'] = 'Clear';
+$string['btn:clear'] = 'Clear all';
 $string['btn:samples'] = 'Show samples';
 $string['btn:image'] = 'Add your own image to the canvas';
 $string['btn:trash'] = 'Selected items will be removed from canvas';
 $string['btn:arrow'] = 'Press this icon to place a arrow';
 $string['btn:circle'] = 'Press this icon to place a circle';
 $string['btn:rect'] = 'Press this icon to place a rectangle';
-$string['btn:triangle'] = 'Press this icon to placa a triangle';
+$string['btn:triangle'] = 'Press this icon to place a triangle';
+$string['btn:smiley'] = 'Press this icon to place a smiley';

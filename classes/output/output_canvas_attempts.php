@@ -78,7 +78,7 @@ class output_canvas_attempts implements renderable, templatable {
             'user_id' => $USER->id,
             'status' => 'final',
             'gcanvas_id' => $this->cm->instance,
-        ] , 'id DESC');
+        ] , 'added_on DESC');
 
         foreach ($rs as $row) {
             $src = $this->get_image($row);

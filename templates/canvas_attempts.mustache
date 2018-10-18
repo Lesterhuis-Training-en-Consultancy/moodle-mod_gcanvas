@@ -19,21 +19,23 @@
     @copyright 17-10-2018 MoodleFreak.nl
     @author    Luuk Verhoeven
 }}
-<div class="card-columns mt-4">
+<div class="card-deck mt-4">
     {{#attempts}}
-        <div class="card">
-            <div class="image-holder">
-                <img class="card-img-top" src="{{src}}" alt="">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{added_on}}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="image-holder">
+                    <img class="card-img-top img-fluid" src="{{src}}" alt="">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{added_on}}
+                    </h5>
                     <a href="{{src}}" target="_blank" class="btn btn-success pull-right">
-                        Download
+                        <i class="fa fa-download" aria-hidden="true"></i>
                     </a>
-                </h5>
-                <!--<a href="#" class="btn btn-default">-->
-                    <!--Restore-->
-                <!--</a>-->
+                    <a href="#" data-id="{{id}}" target="_blank" class="restore btn btn-default pull-right">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
         </div>
     {{/attempts}}

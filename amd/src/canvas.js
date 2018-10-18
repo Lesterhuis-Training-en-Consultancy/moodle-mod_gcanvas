@@ -162,7 +162,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 dataType: "json",
                 success : function (response) {
                     debug.log(response);
-                    if(response.success){
+                    if (response.success) {
                         $('#history').html(response.html);
                     }
                 },
@@ -178,9 +178,88 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
-         * Toolbar actions.
+         *  Save the current canvas.
          */
-        load_toolbar: function () {
+        save_canvas_ajax: function () {
+            // Canvas to image.
+            // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+            if (!fabric.Canvas.supports('toDataURL')) {
+
+                notification.addNotification({
+                    message: 'This browser doesn\'t provide means to serialize canvas to an image',
+                    type   : "error"
+                });
+
+            } else {
+
+                // Send data to AJAX.
+                $.ajax({
+                    type    : 'POST',
+                    url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                    data    : {
+                        sesskey: M.cfg.sesskey,
+                        action : 'save_canvas',
+                        data   : {
+                            'id'         : opts.id,
+                            'status'     : 'final',
+                            'canvas_data': canvas.toDataURL({
+                                multiplier: 1,
+                                format    : 'png'
+                            }),
+                            'json_data'  : JSON.stringify(canvas)
+                        }
+                    },
+                    dataType: "json",
+                    success : function (response) {
+                        debug.log(response);
+
+                        if (response.success) {
+                            notification.addNotification({
+                                message: 'Updated!',
+                                type   : "success",
+                            });
+
+                            // Load attempts.
+                            canvas_module.load_history();
+
+                        } else {
+                            notification.addNotification({
+                                message: response.error,
+                                type   : "error"
+                            });
+                        }
+                    },
+                    error   : function (response) {
+                        debug.error(response.responseText);
+                        // Show a error messages.
+                        notification.addNotification({
+                            message: response.responseText,
+                            type   : "error"
+                        });
+                    }
+                });
+            }
+        },
+
+        /**
+         * Trash selected canvas items.
+         */
+        delete_selected_canvas_items: function () {
+            try {
+                let activeobjects = canvas.getActiveObjects();
+                canvas.discardActiveObject();
+                if (activeobjects.length) {
+                    canvas.remove.apply(canvas, activeobjects);
+                }
+            } catch (e) {
+                debug.error('Nothing selected', e);
+            }
+        },
+
+        /**
+         *
+         */
+        load_dynamic_toolbar_mapping_shapes: function () {
 
             $('#toolbar .icon[data-element-type]').on('click', function () {
 
@@ -208,46 +287,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
                 canvas.renderAll();
             });
+        },
 
-            // Arrow
-            $('#arrow').on('click', function () {
-                fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
-
-                    let arrow = fabric.util.groupSVGElements(objects, options);
-                    canvas.add(arrow.scale(0.1));
-                    arrow.set({
-                        left: 200,
-                        top : 100
-                    }).setCoords();
-                    canvas.renderAll();
-                    canvas.setActiveObject(el);
-
-                    canvas.forEachObject(function (obj) {
-                        var setCoords = obj.setCoords.bind(obj);
-                        obj.on({
-                            moving  : setCoords,
-                            scaling : setCoords,
-                            rotating: setCoords
-                        });
-                    })
-                });
-            });
-
-            // Remove selected items.
-            $('#trash').on('click', function (e) {
-                e.preventDefault();
-                try {
-                    let activeobjects = canvas.getActiveObjects();
-                    canvas.discardActiveObject();
-                    if (activeobjects.length) {
-                        canvas.remove.apply(canvas, activeobjects);
-                    }
-                } catch (e) {
-                    debug.error('Nothing selected', e);
-                }
-            });
-
-            // Color picker.
+        /**
+         *
+         */
+        load_color_picker: function () {
             $("#colorpicker").spectrum({
                 showPalette         : true,
                 palette             : [],
@@ -263,66 +308,93 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     canvas_module.set_color(color);
                 }
             );
+        },
 
-            // Canvas to image.
+        /**
+         * Toolbar actions.
+         */
+        load_toolbar: function () {
+
+            // Most shapes will be placed on canvas by this function.
+            this.load_dynamic_toolbar_mapping_shapes();
+
+            // Color picker.
+            this.load_color_picker();
+
+            // Clear canvas items.
+            $('#clear').on('click', function () {
+                canvas.clear();
+                canvas_module.add_horizontal_ruler();
+            });
+
+            // Arrow.
+            $('#arrow').on('click', function () {
+                canvas_module.load_arrow_to_canvas();
+            });
+
+            // Remove selected items.
+            $('#trash').on('click', function (e) {
+                canvas_module.delete_selected_canvas_items();
+            });
+
+            // Load emoji picker.
+            $('#smiley').on('click', function () {
+                canvas_module.load_emoji_picker();
+            });
+
+            $('#add-image').on('click', function () {
+                canvas_module.load_image_uploader();
+            });
+
             $('#save-canvas').on('click', function () {
-                // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
-                if (!fabric.Canvas.supports('toDataURL')) {
+                canvas_module.save_canvas_ajax();
+            });
+        },
 
-                    notification.addNotification({
-                        message: 'This browser doesn\'t provide means to serialize canvas to an image',
-                        type   : "error"
+        /**
+         *
+         */
+        load_emoji_picker: function () {
+            // @TODO add emoji picker.
+
+        },
+
+        /**
+         *
+         */
+        load_image_uploader: function () {
+            // @TODO upload own images.
+
+            fabric.Image.fromURL('pix/ladybug.png', function (img) {
+                img.set('left', fabric.util.getRandomInt(200, 600)).set('top', -50);
+                img.movingLeft = !!Math.round(Math.random());
+                canvas.add(img);
+            });
+        },
+
+        /**
+         * Load the arrow icon to the canvas.
+         */
+        load_arrow_to_canvas: function () {
+            fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
+
+                let arrow = fabric.util.groupSVGElements(objects, options);
+                canvas.add(arrow.scale(0.1));
+                arrow.set({
+                    left: 200,
+                    top : 100
+                }).setCoords();
+                canvas.renderAll();
+                canvas.setActiveObject(el);
+
+                canvas.forEachObject(function (obj) {
+                    let setCoords = obj.setCoords.bind(obj);
+                    obj.on({
+                        moving  : setCoords,
+                        scaling : setCoords,
+                        rotating: setCoords
                     });
-
-                } else {
-
-                    // Send data to AJAX.
-                    $.ajax({
-                        type    : 'POST',
-                        url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                        data    : {
-                            sesskey: M.cfg.sesskey,
-                            action : 'save_canvas',
-                            data   : {
-                                'id'         : opts.id,
-                                'status'     : 'final',
-                                'canvas_data': canvas.toDataURL({
-                                    multiplier: 1,
-                                    format    : 'png'
-                                }),
-                                'json_data'  : JSON.stringify(canvas)
-                            }
-                        },
-                        dataType: "json",
-                        success : function (response) {
-                            debug.log(response);
-
-                            if (response.success) {
-                                notification.addNotification({
-                                    message: 'Updated!',
-                                    type   : "success",
-                                });
-
-                                // Load attempts.
-                                canvas_module.load_history();
-
-                            } else {
-                                notification.addNotification({
-                                    message: response.error,
-                                    type   : "error"
-                                });
-                            }
-                        },
-                        error   : function (response) {
-                            debug.error(response.responseText);
-                            // Show a error messages.
-                            notification.addNotification({
-                                message: response.responseText,
-                                type   : "error"
-                            });
-                        }
-                    });
-                }
+                })
             });
         },
 
@@ -370,6 +442,20 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         * Trigger for extra keyboard commands.
+         */
+        keyboard_actions: function () {
+            $(document).keydown(function (e) {
+                debug.log('keypress', e.which);
+                switch (e.which) {
+                    case 46:
+                        canvas_module.delete_selected_canvas_items();
+                        break;
+                }
+            })
+        },
+
+        /**
          * Start this module.
          */
         init: function () {
@@ -395,6 +481,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             this.add_horizontal_ruler();
 
             this.load_history();
+
+            this.keyboard_actions();
         },
 
         /**
@@ -407,7 +495,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 left  : 0,
                 top   : this.canvas_height / 2,
                 angle : 0,
-                fill  : '#5c5c5c'
+                fill  : '#000'
             });
 
             ruler.flipY = false;
