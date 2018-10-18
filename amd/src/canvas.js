@@ -311,6 +311,29 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         * Using svg making sure it looks nice.
+         *
+         * @param src
+         */
+        load_emoji_csv    : function (src) {
+            debug.log('load_emoji_csv : ', src);
+            // Issue when using loadsvgfromurl.
+            fabric.Image.fromURL(src.replace('.png', '.svg'), function (object) {
+                object.set({
+                    height         : 500,
+                    width          : 500,
+                    left           : 150,
+                    top            : 100,
+                    angle          : 0,
+                    centerTransform: true
+                }).scale(0.4)
+                    .setCoords();
+                canvas.add(object);
+                canvas.setActiveObject(object);
+            });
+        },
+
+        /**
          * Toolbar actions.
          */
         load_toolbar: function () {
@@ -328,26 +351,31 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             });
 
             // Arrow.
-            $('#arrow').on('click', function () {
+            $('#arrow i').on('click', function () {
                 canvas_module.load_arrow_to_canvas();
             });
 
             // Remove selected items.
-            $('#trash').on('click', function (e) {
+            $('#trash i').on('click', function (e) {
                 canvas_module.delete_selected_canvas_items();
             });
 
             // Load emoji picker.
-            $('#smiley').on('click', function () {
+            $('#smiley i').on('click', function () {
                 canvas_module.load_emoji_picker();
             });
 
-            $('#add-image').on('click', function () {
+            $('#add-image i').on('click', function () {
                 canvas_module.load_image_uploader();
             });
 
             $('#save-canvas').on('click', function () {
                 canvas_module.save_canvas_ajax();
+            });
+
+            $('#emoji-picker').on('click', 'img', function () {
+                canvas_module.load_emoji_csv($(this).attr('src'));
+                $('#emoji-picker').hide();
             });
         },
 
@@ -356,7 +384,30 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         load_emoji_picker: function () {
             // @TODO add emoji picker.
+            let $picker = $('#emoji-picker');
+            if ($picker.html() !== '') {
+                $picker.show();
+            }
 
+            $.ajax({
+                type    : 'POST',
+                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data    : {
+                    sesskey: M.cfg.sesskey,
+                    action : 'emoji',
+                    data   : {
+                        'id': opts.id,
+                    }
+                },
+                dataType: "json",
+                success : function (response) {
+                    debug.log(response);
+
+                    if (response.success) {
+                        $picker.html(response.html).show();
+                    }
+                }
+            });
         },
 
         /**
@@ -365,10 +416,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         load_image_uploader: function () {
             // @TODO upload own images.
 
-            fabric.Image.fromURL('pix/ladybug.png', function (img) {
-                img.set('left', fabric.util.getRandomInt(200, 600)).set('top', -50);
-                img.movingLeft = !!Math.round(Math.random());
-                canvas.add(img);
+            fabric.Image.fromURL('pix/ladybug.png', function (obj) {
+                obj.set('left', fabric.util.getRandomInt(200, 600)).set('top', -50);
+                canvas.add(obj);
             });
         },
 
@@ -377,24 +427,10 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         load_arrow_to_canvas: function () {
             fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
-
-                let arrow = fabric.util.groupSVGElements(objects, options);
-                canvas.add(arrow.scale(0.1));
-                arrow.set({
-                    left: 200,
-                    top : 100
-                }).setCoords();
-                canvas.renderAll();
-                canvas.setActiveObject(el);
-
-                canvas.forEachObject(function (obj) {
-                    let setCoords = obj.setCoords.bind(obj);
-                    obj.on({
-                        moving  : setCoords,
-                        scaling : setCoords,
-                        rotating: setCoords
-                    });
-                })
+                let obj = fabric.util.groupSVGElements(objects, options);
+                canvas.add(obj.scale(0.1)).centerObject(obj).renderAll();
+                obj.setCoords();
+                canvas.setActiveObject(obj);
             });
         },
 
@@ -452,7 +488,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                         canvas_module.delete_selected_canvas_items();
                         break;
                 }
-            })
+            });
         },
 
         /**
@@ -462,7 +498,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
             // Load canvas.
             this.__canvas = canvas = new fabric.Canvas('sketch');
-            fabric.Object.prototype.transparentCorners = false;
+            // fabric.Object.prototype.transparentCorners = false;
+            // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
             // Dimensions.
             canvas.setHeight(this.canvas_height);

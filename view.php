@@ -51,7 +51,7 @@ $event = \mod_gcanvas\event\course_module_viewed::create([
     'context' => $modulecontext,
 ]);
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('mod_gcanvas', $moduleinstance);
+$event->add_record_snapshot('gcanvas', $moduleinstance);
 $event->trigger();
 
 //$PAGE->requires->css('/mod/gcanvas/styles.css');
