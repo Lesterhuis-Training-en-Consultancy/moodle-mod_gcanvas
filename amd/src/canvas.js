@@ -385,8 +385,10 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         load_emoji_picker: function () {
             // @TODO add emoji picker.
             let $picker = $('#emoji-picker');
-            if ($picker.html() !== '') {
-                $picker.show();
+            if ($picker.html() != '') {
+                debug.log('Toggle emoji');
+                $picker.toggle();
+                return;
             }
 
             $.ajax({

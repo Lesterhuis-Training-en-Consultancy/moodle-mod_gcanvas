@@ -46,9 +46,9 @@
 }
 
 #sketch-tool-bg {
-    background: #464646;
+    /*background: #464646;*/
     padding: 20px 0;
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
 }
 
 #emoji-picker {
