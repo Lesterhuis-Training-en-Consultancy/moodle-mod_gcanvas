@@ -23,21 +23,43 @@
  * @copyright 9-10-2018 MoodleFreak.com
  * @author    Luuk Verhoeven
  **/
+
 namespace mod_gcanvas;
 defined('MOODLE_INTERNAL') || die;
 
- class helper{
+class helper {
 
-     /**
-      * We are in DEBUG mode display more info than general.
-      *
-      * @return bool
-      */
-     public static function has_debugging_enabled() {
-         global $CFG;
+    /**
+     * We are in DEBUG mode display more info than general.
+     *
+     * @return bool
+     */
+    public static function has_debugging_enabled() {
+        global $CFG;
 
-         // Check if the environment has debugging enabled.
-         return ($CFG->debug >= 32767 && $CFG->debugdisplay == 1);
-     }
+        // Check if the environment has debugging enabled.
+        return ($CFG->debug >= 32767 && $CFG->debugdisplay == 1);
+    }
 
- }
+    /**
+     * Get file options
+     *
+     * @param $context
+     *
+     * @return array
+     */
+    public static function get_file_options($context) {
+
+        global $CFG;
+
+        return [
+            'subdirs' => 0,
+            'maxfiles' => 50,
+            'maxbytes' => $CFG->maxbytes,
+            'accepted_types' => '*',
+            'context' => $context,
+            'return_types' => 2 | 1,
+        ];
+    }
+
+}

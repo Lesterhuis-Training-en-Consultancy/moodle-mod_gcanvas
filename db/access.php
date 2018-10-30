@@ -45,6 +45,14 @@ $capabilities = [
             'user' => CAP_ALLOW,
         ],
     ],
+    'mod/gcanvas:student_image' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'guest' => CAP_ALLOW,
+            'user' => CAP_ALLOW,
+        ],
+    ],
     'mod/gcanvas:teacher' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,

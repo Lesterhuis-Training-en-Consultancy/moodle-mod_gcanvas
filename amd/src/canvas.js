@@ -29,22 +29,22 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
     'use strict';
 
     /**
-     * Opts that are possible to set.
-     *
-     * @type {{id: number, debugjs: boolean}}
+     * Possible options
+     * @type {{id: number, debugjs: boolean, has_horizontal_ruler: boolean}}
      */
-    let opts = {
-        id     : 0,
-        debugjs: false,
+    var opts = {
+        id                  : 0,
+        debugjs             : false,
+        has_horizontal_ruler: true
     };
 
     /**
      * Set options base on listed options
      * @param {object} options
      */
-    let set_options = function (options) {
+    var set_options = function (options) {
         "use strict";
-        let key, vartype;
+        var key, vartype;
         for (key in opts) {
             if (opts.hasOwnProperty(key) && options.hasOwnProperty(key)) {
 
@@ -65,24 +65,24 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
     /**
      * Console log debug wrapper.
      */
-    let debug = {};
+    var debug = {};
 
     /**
      * Set debug mode
      * Should only be enabled if site is in debug mode.
      * @param {boolean} isenabled
      */
-    let set_debug = function (isenabled) {
+    var set_debug = function (isenabled) {
 
         if (isenabled) {
-            for (let m in console) {
+            for (var m in console) {
                 if (typeof console[m] == 'function') {
                     debug[m] = console[m].bind(window.console);
                 }
             }
         } else {
             // Fake wrapper.
-            for (let m in console) {
+            for (var m in console) {
                 if (typeof console[m] == 'function') {
                     debug[m] = function () {
                     };
@@ -95,12 +95,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
      * Canvas holder.
      * @type fabric.Canvas
      */
-    let canvas = null;
+    var canvas = null;
 
     /**
      * Module canvas wrapper.
      */
-    let canvas_module = {
+    var canvas_module = {
 
         /**
          * @type int
@@ -246,7 +246,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         delete_selected_canvas_items: function () {
             try {
-                let activeobjects = canvas.getActiveObjects();
+                var activeobjects = canvas.getActiveObjects();
                 canvas.discardActiveObject();
                 if (activeobjects.length) {
                     canvas.remove.apply(canvas, activeobjects);
@@ -257,13 +257,13 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
-         *
+         * Dynamic method for selecting a shape.
          */
         load_dynamic_toolbar_mapping_shapes: function () {
 
             $('#toolbar .icon[data-element-type]').on('click', function () {
 
-                let elementtype = $(this).data('element-type');
+                var elementtype = $(this).data('element-type');
 
                 try {
                     canvas.discardActiveObject();
@@ -271,13 +271,13 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     // if nothing is added this gives a error.
                 }
 
-                let shape = "default_shape_" + elementtype.toLowerCase();
+                var shape = "default_shape_" + elementtype.toLowerCase();
                 debug.log("Search for shape: " + shape);
 
                 if (canvas_module.hasOwnProperty(shape)) {
                     debug.log("Shape found");
 
-                    let el = new fabric[elementtype](canvas_module[shape]);
+                    var el = new fabric[elementtype](canvas_module[shape]);
 
                     canvas.add(el);
                     canvas.setActiveObject(el);
@@ -290,7 +290,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
-         *
+         * Colorpicker used for changing the color of a shape.
          */
         load_color_picker: function () {
             $("#colorpicker").spectrum({
@@ -315,7 +315,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          * @param src
          */
-        load_emoji_csv    : function (src) {
+        load_emoji_csv: function (src) {
             debug.log('load_emoji_csv : ', src);
             // Issue when using loadsvgfromurl.
             fabric.Image.fromURL(src.replace('.png', '.svg'), function (object) {
@@ -334,6 +334,75 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         * Delete a attempt
+         * @param {jQuery} $el
+         */
+        delete_attempt: function ($el) {
+            //TODO we could better use Ajax helper Moodle and external webservice, for now this is okay.
+
+            debug.log('Delete', $el);
+            notification.confirm(
+                M.util.get_string('javascript:confirm_title', 'mod_gcanvas'),
+                M.util.get_string('javascript:confirm_desc', 'mod_gcanvas'),
+                M.util.get_string('javascript:yes', 'mod_gcanvas'),
+                M.util.get_string('javascript:no', 'mod_gcanvas'), function () {
+
+                    $.ajax({
+                        type    : 'POST',
+                        url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                        data    : {
+                            sesskey: M.cfg.sesskey,
+                            action : 'delete_attempt',
+                            data   : {
+                                'id'        : opts.id,
+                                'attempt_id': $el.data('id'),
+                            }
+                        },
+                        dataType: "json",
+                        success : function (response) {
+                            debug.log(response);
+
+                            if (response.success) {
+                                // Load attempts.
+                                canvas_module.load_history();
+
+                            } else {
+                                notification.addNotification({
+                                    message: response.error,
+                                    type   : "error"
+                                });
+                            }
+                        },
+                        error   : function (response) {
+                            debug.error(response.responseText);
+                            // Show a error messages.
+                            notification.addNotification({
+                                message: response.responseText,
+                                type   : "error"
+                            });
+                        }
+                    });
+                });
+        },
+
+        /**
+         * Restore a attempt
+         * @param {jQuery} $el
+         */
+        restore_attempt: function ($el) {
+            debug.log('Restore', $el);
+
+        },
+
+        /**
+         *
+         * @param filearea
+         */
+        show_fileuploader: function (filearea) {
+           $('#canvas-filepicker-form-' + filearea).toggle();
+        },
+
+        /**
          * Toolbar actions.
          */
         load_toolbar: function () {
@@ -347,7 +416,10 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             // Clear canvas items.
             $('#clear').on('click', function () {
                 canvas.clear();
-                canvas_module.add_horizontal_ruler();
+
+                if(opts.has_horizontal_ruler) {
+                    canvas_module.add_horizontal_ruler();
+                }
             });
 
             // Arrow.
@@ -373,9 +445,24 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 canvas_module.save_canvas_ajax();
             });
 
+            $('#history').on('click', '.delete', function (e) {
+                e.preventDefault();
+                canvas_module.delete_attempt($(this));
+
+            }).on('click', '.restore', function (e) {
+
+                e.preventDefault();
+                canvas_module.restore_attempt($(this));
+
+            });
+
             $('#emoji-picker').on('click', 'img', function () {
                 canvas_module.load_emoji_csv($(this).attr('src'));
                 $('#emoji-picker').hide();
+            });
+
+            $('#change_background').on('click' , function () {
+                canvas_module.show_fileuploader('background');
             });
         },
 
@@ -384,8 +471,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         load_emoji_picker: function () {
             // @TODO add emoji picker.
-            let $picker = $('#emoji-picker');
-            if ($picker.html() != '') {
+            var $picker = $('#emoji-picker');
+            if ($picker.html() !== '') {
                 debug.log('Toggle emoji');
                 $picker.toggle();
                 return;
@@ -429,7 +516,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         load_arrow_to_canvas: function () {
             fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
-                let obj = fabric.util.groupSVGElements(objects, options);
+                var obj = fabric.util.groupSVGElements(objects, options);
                 canvas.add(obj.scale(0.1)).centerObject(obj).renderAll();
                 obj.setCoords();
                 canvas.setActiveObject(obj);
@@ -442,8 +529,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         set_color: function (color) {
 
-            let colorhex = color.toHexString(); // #ff0000
-            let activeobjs = canvas.getActiveObject();
+            var colorhex = color.toHexString(); // #ff0000
+            var activeobjs = canvas.getActiveObject();
             if (activeobjs) {
                 activeobjs.set("fill", colorhex);
                 canvas.renderAll();
@@ -457,7 +544,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         prevent_moving_out_of_canvas: function () {
             canvas.on('object:moving', function (e) {
-                let obj = e.target;
+                var obj = e.target;
                 // if object is too big ignore
                 if (obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width) {
                     return;
@@ -516,8 +603,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             this.prevent_moving_out_of_canvas();
 
             this.load_toolbar();
-
-            this.add_horizontal_ruler();
+            if (opts.has_horizontal_ruler) {
+                this.add_horizontal_ruler();
+            }
 
             this.load_history();
 
@@ -528,7 +616,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * Horizontal ruler.
          */
         add_horizontal_ruler: function () {
-            let ruler = new fabric.Rect({
+            var ruler = new fabric.Rect({
                 width : this.canvas_width,
                 height: 2,
                 left  : 0,

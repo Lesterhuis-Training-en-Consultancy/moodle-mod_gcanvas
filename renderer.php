@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *rendering methods
+ * Rendering methods
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
@@ -24,19 +24,32 @@
  * @author    Luuk Verhoeven
  **/
 
+use mod_gcanvas\output\output_canvas_attempts;
+
 defined('MOODLE_INTERNAL') || die;
 
 class mod_gcanvas_renderer extends plugin_renderer_base {
 
     /**
      * Javascript helper
+     *
+     * @param stdClass $canvas
      */
-    public function add_javascript_helper() {
+    public function add_javascript_helper(\stdClass $canvas) {
         global $PAGE;
+
+        $PAGE->requires->strings_for_js([
+            'javascript:confirm_title',
+            'javascript:confirm_desc',
+            'javascript:yes',
+            'javascript:no',
+        ], 'mod_gcanvas');
+
         $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
                 'id' => $PAGE->url->get_param('id'),
+                'has_horizontal_ruler' => $canvas->has_horizontal_ruler ? true : false, //TODO get this from module settings.
             ],
         ]);
     }
@@ -53,4 +66,49 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
     public function render_template(string $template, \stdClass $data) {
         return parent::render_from_template($template, $data);
     }
+
+    /**
+     * Render the main canvas
+     *
+     * @return bool|string
+     * @throws coding_exception
+     * @throws moodle_exception
+     */
+    public function render_canvas() {
+        return $this->render_from_template('mod_gcanvas/canvas', (new \mod_gcanvas\output\output_canvas())
+            ->export_for_template($this));
+    }
+
+    /**
+     * Render attempts
+     *
+     * @param int $id
+     *
+     * @return bool|string
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws moodle_exception
+     */
+    public function render_attempts(int $id) {
+        return $this->render_from_template('mod_gcanvas/canvas_attempts',
+            (new output_canvas_attempts($id))
+                ->export_for_template($this));
+    }
+
+    /**
+     * Uploader form
+     *
+     * @param string   $filearea
+     *
+     * @param stdClass $moduleinstance
+     *
+     * @return bool|string
+     * @throws coding_exception
+     * @throws moodle_exception
+     */
+    public function render_uploader(string $filearea ,\stdClass $moduleinstance) {
+        return $this->render_from_template('mod_gcanvas/canvas_uploader', (new \mod_gcanvas\output\output_uploader($filearea , $moduleinstance))
+            ->export_for_template($this));
+    }
+
 }

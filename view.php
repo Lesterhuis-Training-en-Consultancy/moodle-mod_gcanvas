@@ -24,6 +24,9 @@
 
 require(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
+require_once(__DIR__ . "/../../repository/lib.php");
+require_once("$CFG->libdir/filelib.php");
+
 defined('MOODLE_INTERNAL') || die;
 
 // Course_module ID.
@@ -63,13 +66,30 @@ $PAGE->set_context($modulecontext);
 
 /** @var mod_gcanvas_renderer $renderer **/
 $renderer = $PAGE->get_renderer('mod_gcanvas');
-$renderer->add_javascript_helper();
+$renderer->add_javascript_helper($moduleinstance);
+
+// Handle file uploads directly.
+if(($data = data_submitted()) && confirm_sesskey()){
+    $filearea = $data->filearea;
+    file_save_draft_area_files($data->$filearea,
+        $modulecontext->id,
+        'mod_gcanvas',
+        $filearea,
+        $moduleinstance->id,
+        \mod_gcanvas\helper::get_file_options($modulecontext));
+
+    // Prevent resubmission.
+    redirect($PAGE->url);
+}
+
 
 switch ($action) {
     default:
         echo $OUTPUT->header();
-        echo $renderer->render_from_template('mod_gcanvas/canvas', (new \mod_gcanvas\output\output_canvas())
-            ->export_for_template($OUTPUT));
+        echo $renderer->render_canvas();
+        echo $renderer->render_uploader('background' , $moduleinstance);
+        echo $renderer->render_uploader('user_image' , $moduleinstance);
+        echo $renderer->render_uploader('toolbar_shape' , $moduleinstance);
         echo $OUTPUT->footer();
 }
 

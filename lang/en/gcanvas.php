@@ -35,11 +35,14 @@ $string['gcanvas:view'] = 'View Canvas Game';
 
 // Form.
 $string['form:gcanvasname'] = 'Canvas name';
+$string['form:has_horizontal_ruler'] = 'Show horizontal ruler';
+$string['form:has_horizontal_ruler_desc'] = 'Add a horizontal ruler to the canvas, can be moved with your keyboard arrow keys';
+$string['attachment'] = 'Attachment';
 
 // Buttons.
 $string['btn:save'] = 'Save canvas';
 $string['btn:clear'] = 'Clear all';
-$string['btn:samples'] = 'Show samples';
+$string['btn:samples'] = 'Show intro';
 $string['btn:image'] = 'Add your own image to the canvas';
 $string['btn:trash'] = 'Selected items will be removed from canvas';
 $string['btn:arrow'] = 'Press this icon to place a arrow';
@@ -47,3 +50,15 @@ $string['btn:circle'] = 'Press this icon to place a circle';
 $string['btn:rect'] = 'Press this icon to place a rectangle';
 $string['btn:triangle'] = 'Press this icon to place a triangle';
 $string['btn:smiley'] = 'Press this icon to place a smiley';
+$string['btn:select_a_image'] = 'Press this icon to select a image';
+$string['btn:remove'] = 'Remove your sketch';
+$string['btn:restore'] = 'Restore your sketch';
+$string['btn:download'] = 'Download your sketch';
+$string['btn:save_file'] = 'Upload';
+
+// Javascript.
+$string['javascript:confirm_title'] = 'Confirm deletion sketch';
+$string['javascript:confirm_desc'] = 'Are you sure to delete this sketch?';
+$string['javascript:yes'] = 'Yes';
+$string['javascript:no'] = 'No';
+

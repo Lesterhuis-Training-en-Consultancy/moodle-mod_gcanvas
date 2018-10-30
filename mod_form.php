@@ -65,6 +65,9 @@ class mod_gcanvas_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
+        $mform->addElement('checkbox', 'has_horizontal_ruler', get_string('form:has_horizontal_ruler',
+            'mod_gcanvas'), get_string('form:has_horizontal_ruler_desc', 'mod_gcanvas'));
+
         // Add standard elements.
         $this->standard_coursemodule_elements();
 

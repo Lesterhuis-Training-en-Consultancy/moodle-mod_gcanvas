@@ -58,20 +58,13 @@ class ajax {
      * @throws \require_login_exception
      */
     public function callable_load_history() {
-        global $DB, $PAGE, $OUTPUT;
-        $cm = get_coursemodule_from_id('gcanvas', $this->data->id, 0, false,
-            MUST_EXIST);
-        $course = $DB->get_record('course', ['id' => $cm->course], '*',
-            MUST_EXIST);
-
-        require_login($course, true, $cm);
+        global $PAGE;
+        $this->load_cm_and_course();
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
 
         return [
-            'html' => $renderer->render_from_template('mod_gcanvas/canvas_attempts',
-                (new output_canvas_attempts($this->data->id))
-                ->export_for_template($OUTPUT)),
+            'html' => $renderer->render_attempts($this->data->id),
             'success' => true,
         ];
     }
@@ -90,12 +83,7 @@ class ajax {
     public function callable_save_canvas() {
         global $DB, $USER;
         $fileid = 0;
-        $cm = get_coursemodule_from_id('gcanvas', $this->data->id, 0, false,
-            MUST_EXIST);
-        $course = $DB->get_record('course', ['id' => $cm->course], '*',
-            MUST_EXIST);
-
-        require_login($course, true, $cm);
+        $cobject = $this->load_cm_and_course();
 
         $imagecontent = base64_decode(preg_replace('#^data:image/\w+;base64,#i',
             '', $this->data->canvas_data));
@@ -104,13 +92,13 @@ class ajax {
             $attemptid = $DB->insert_record('gcanvas_attempt', (object)[
                 'status' => $this->data->status,
                 'user_id' => $USER->id,
-                'gcanvas_id' => $cm->instance,
+                'gcanvas_id' => $cobject->cm->instance,
                 'json_data' => $this->data->json_data,
                 'added_on' => time(),
             ]);
 
             // Create the image.
-            $modulecontext = context_module::instance($cm->id);
+            $modulecontext = context_module::instance($cobject->cm->id);
             $fs = new file_storage();
             $fileid = $fs->create_file_from_string((object)[
                 'contextid' => $modulecontext->id,
@@ -139,7 +127,78 @@ class ajax {
      * @throws \require_login_exception
      */
     public function callable_emoji() {
-        global $DB , $PAGE;
+        global $PAGE;
+        $this->load_cm_and_course();
+
+        $renderer = $PAGE->get_renderer('mod_gcanvas');
+
+        return [
+            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[]),
+            'success' => true,
+        ];
+    }
+
+    /**
+     * Delete a attempt
+     *
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     */
+    public function callable_delete_attempt() {
+        global $USER, $DB;
+        $this->load_cm_and_course();
+
+        $DB->delete_records('gcanvas_attempt', [
+            'user_id' => $USER->id,
+            'id' => $this->data->attempt_id,
+        ]);
+
+        return ['success' => true];
+    }
+
+    /**
+     * Upload files
+     *
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     */
+    public function callable_upload_files() {
+        global $PAGE;
+        $cobject = $this->load_cm_and_course();
+        $modulecontext = context_module::instance($cobject->cm->id);
+
+        switch($this->data->filearea){
+            case 'background':
+            case 'toolbar_shape':
+                require_capability(   'mod/gcanvas:teacher', $modulecontext);
+                break;
+            case 'student_image':
+                require_capability(   'mod/gcanvas:student_image', $modulecontext);
+                break;
+            default:
+                throw new \moodle_exception('Unknown filearea');
+        }
+
+        $renderer = $PAGE->get_renderer('mod_gcanvas');
+        return ['success' => true , 'html' => $renderer->render_uploader($this->data->filearea)];
+    }
+
+    /**
+     * load_cm_and_course
+     *
+     * @return object
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     */
+    protected function load_cm_and_course() {
+        global $DB;
+
         $cm = get_coursemodule_from_id('gcanvas', $this->data->id, 0, false,
             MUST_EXIST);
         $course = $DB->get_record('course', ['id' => $cm->course], '*',
@@ -147,14 +206,10 @@ class ajax {
 
         require_login($course, true, $cm);
 
-        $renderer = $PAGE->get_renderer('mod_gcanvas');
-
-        return [
-            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji',(object)[]),
-            'success' => true,
+        return (object)[
+            'course' => $course,
+            'cm' => $cm,
         ];
-
     }
-
 
 }

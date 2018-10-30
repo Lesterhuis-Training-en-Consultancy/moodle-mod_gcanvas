@@ -29,9 +29,9 @@
                     Teacher tools
                 </div>
                 <div class="p-2">
-                    <span>Change background</span>
-                    <span>Add toolbar symbols</span>
-                    <span>Add legenda description</span>
+                    <span id="change_background">Change background</span>
+                    <span id="add_toolbar_images">Add toolbar images</span>
+                    <a href="{{linkintro}}">Add intro description</a>
                 </div>
             </div>
         {{/is_teacher}}
@@ -51,6 +51,9 @@
                     <i class="fa fa-caret-left"></i>
                 </div>
                 <div class="item icon" id="add-image" title="{{# str}} btn:image, mod_gcanvas {{/ str}}">
+                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                </div>
+                <div class="item icon" id="select-a-image" title="{{# str}} btn:select_a_image, mod_gcanvas {{/ str}}">
                     <i class="fa fa-image" aria-hidden="true"></i>
                 </div>
                 <div class="item icon" id="smiley" title="{{# str}} btn:smiley, mod_gcanvas {{/ str}}">
@@ -72,9 +75,9 @@
             <!-- Bottom toolbar -->
         <div class="d-flex flex-row" id="bottom-toolbar">
             <div class="p-2">
-        <span id="save-canvas">
-            {{# str}} btn:save, mod_gcanvas {{/ str}}
-        </span>
+                <span id="save-canvas">
+                    {{# str}} btn:save, mod_gcanvas {{/ str}}
+                </span>
                 <span id="show-samples">
                     {{# str}} btn:samples, mod_gcanvas {{/ str}}
                 </span>
@@ -82,12 +85,11 @@
                     {{# str}} btn:clear, mod_gcanvas {{/ str}}
                 </span>
             </div>
-            <div class="p-2">
-
-            </div>
+            <div class="p-2"></div>
         </div>
     </div>
 </div>
 <div class="d-flex flex-row" id="history">
     <!-- Will be loaded with a AJAX call -->
 </div>
+<div id="dialog-holder"></div>

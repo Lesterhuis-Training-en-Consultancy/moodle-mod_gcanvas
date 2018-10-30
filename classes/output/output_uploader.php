@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Output class for the canvas.
+ * Uploader output class
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @package   moodle-mod_gcanvas
- * @copyright 9-10-2018 MoodleFreak.com
+ * @copyright 29-10-2018 MoodleFreak.com
  * @author    Luuk Verhoeven
  **/
 
@@ -32,7 +32,22 @@ use renderer_base;
 use stdClass;
 use templatable;
 
-class output_canvas implements renderable, templatable {
+class output_uploader implements renderable, templatable {
+
+    protected $filearea;
+
+    protected $canvas;
+
+    /**
+     * output_uploader constructor.
+     *
+     * @param string   $filearea
+     * @param stdClass $canvas
+     */
+    public function __construct(string $filearea , \stdClass $canvas) {
+        $this->filearea = $filearea;
+        $this->canvas = $canvas;
+    }
 
     /**
      * Function to export the renderer data in a format that is suitable for a
@@ -46,19 +61,32 @@ class output_canvas implements renderable, templatable {
      * @throws \coding_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $PAGE;
-        $data = [];
-
         $object = new stdClass();
-        $object->data = array_values($data);
-        $object->background_form = false;
-
-        // Check if the user is teacher.
-        $object->is_teacher = has_capability('mod/gcanvas:teacher', $PAGE->context);
-        $object->linkintro = clone $PAGE->url;
-        $object->linkintro->params(['action' => 'update_intro']);
-
+        $object->form = $this->get_uploader_form();
+        $object->filearea = $this->filearea;
         return $object;
+    }
+
+    /**
+     * Get uploader form
+     *
+     * @return string
+     */
+    protected function get_uploader_form() {
+        global $PAGE;
+        $form = new \mod_gcanvas\form\filepicker($PAGE->url, [
+            'context' => $PAGE->context,
+            'filearea' => $this->filearea,
+            'canvas' => $this->canvas,
+        ]);
+
+//        $data = new stdClass();
+//        file_prepare_standard_filemanager($data, $this->filearea, \mod_gcanvas\helper::get_file_options($PAGE->context),
+//            $PAGE->context, 'mod_gcanvas', $this->filearea);
+//
+//        $form->set_data($data);
+
+        return $form->render();
     }
 
 }
