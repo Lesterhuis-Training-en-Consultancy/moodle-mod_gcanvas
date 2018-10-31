@@ -27,6 +27,7 @@
 namespace mod_gcanvas\output;
 defined('MOODLE_INTERNAL') || die;
 
+use mod_gcanvas\helper;
 use renderable;
 use renderer_base;
 use stdClass;
@@ -57,7 +58,6 @@ class output_canvas implements renderable, templatable {
         $object->is_teacher = has_capability('mod/gcanvas:teacher', $PAGE->context);
         $object->linkintro = clone $PAGE->url;
         $object->linkintro->params(['action' => 'update_intro']);
-
         return $object;
     }
 

@@ -35,7 +35,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
     var opts = {
         id                  : 0,
         debugjs             : false,
-        has_horizontal_ruler: true
+        has_horizontal_ruler: true,
+        background          : '',
     };
 
     /**
@@ -399,13 +400,28 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * @param filearea
          */
         show_fileuploader: function (filearea) {
-           $('#canvas-filepicker-form-' + filearea).toggle();
+            $('#canvas-filepicker-form-' + filearea).toggle();
+        },
+
+        set_background_image: function () {
+
+            if (opts.background !== '') {
+                fabric.Image.fromURL(opts.background, function (img) {
+                    // add background image
+                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                        scaleX: canvas.width / img.width,
+                        scaleY: canvas.height / img.height
+                    });
+                });
+            }
         },
 
         /**
          * Toolbar actions.
          */
         load_toolbar: function () {
+
+            this.set_background_image();
 
             // Most shapes will be placed on canvas by this function.
             this.load_dynamic_toolbar_mapping_shapes();
@@ -417,9 +433,11 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             $('#clear').on('click', function () {
                 canvas.clear();
 
-                if(opts.has_horizontal_ruler) {
+                if (opts.has_horizontal_ruler) {
                     canvas_module.add_horizontal_ruler();
                 }
+
+                canvas_module.set_background_image();
             });
 
             // Arrow.
@@ -461,8 +479,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 $('#emoji-picker').hide();
             });
 
-            $('#change_background').on('click' , function () {
+            $('#change_background').on('click', function () {
                 canvas_module.show_fileuploader('background');
+            });
+
+            $('#add_toolbar_images').on('click', function () {
+                canvas_module.show_fileuploader('toolbar_shape');
             });
         },
 

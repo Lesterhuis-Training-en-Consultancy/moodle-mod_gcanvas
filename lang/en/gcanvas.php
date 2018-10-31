@@ -29,6 +29,7 @@ $string['pluginname'] = 'Canvas Game';
 $string['modulename'] = 'Canvas Game';
 $string['modulenameplural'] = 'Canvas Game';
 $string['pluginadministration'] = 'Canvas Game administration';
+$string['teacher_tools'] = 'Teacher tools';
 
 $string['gcanvas:addinstance'] = 'Add new Canvas Game instance';
 $string['gcanvas:view'] = 'View Canvas Game';
@@ -55,6 +56,9 @@ $string['btn:remove'] = 'Remove your sketch';
 $string['btn:restore'] = 'Restore your sketch';
 $string['btn:download'] = 'Download your sketch';
 $string['btn:save_file'] = 'Upload';
+$string['btn:background'] = 'Background';
+$string['btn:toolbar_images'] = 'Toolbar images';
+$string['btn:intro'] = 'Intro text';
 
 // Javascript.
 $string['javascript:confirm_title'] = 'Confirm deletion sketch';

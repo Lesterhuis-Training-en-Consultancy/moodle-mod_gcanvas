@@ -26,12 +26,12 @@
             <!-- Only visible if you have this capability -->
             <div class="d-flex flex-row" id="teacher-toolbar">
                 <div class="p-2">
-                    Teacher tools
+                    {{# str}} teacher_tools, mod_gcanvas {{/ str}}
                 </div>
                 <div class="p-2">
-                    <span id="change_background">Change background</span>
-                    <span id="add_toolbar_images">Add toolbar images</span>
-                    <a href="{{linkintro}}">Add intro description</a>
+                    <span id="change_background">{{# str}} btn:background, mod_gcanvas {{/ str}}</span>
+                    <span id="add_toolbar_images">{{# str}} btn:toolbar_images, mod_gcanvas {{/ str}}</span>
+                    <a href="{{linkintro}}">{{# str}} btn:intro, mod_gcanvas {{/ str}}</a>
                 </div>
             </div>
         {{/is_teacher}}

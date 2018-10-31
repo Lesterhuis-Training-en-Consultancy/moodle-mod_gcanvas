@@ -45,8 +45,10 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
             'javascript:no',
         ], 'mod_gcanvas');
 
+        $backgrounds = \mod_gcanvas\helper::get_images('background' , $PAGE->context , $PAGE->cm->instance , 1);
         $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
+                'background' => reset($backgrounds),
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
                 'id' => $PAGE->url->get_param('id'),
                 'has_horizontal_ruler' => $canvas->has_horizontal_ruler ? true : false, //TODO get this from module settings.

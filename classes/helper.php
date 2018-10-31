@@ -42,6 +42,37 @@ class helper {
     }
 
     /**
+     * Get images
+     *
+     * @param string    $filearea
+     * @param           $context
+     * @param int       $canvasid
+     *
+     * @param int       $limit
+     *
+     * @return array
+     * @throws \coding_exception
+     */
+    public static function get_images(string $filearea, $context, int $canvasid, int $limit = 1) : array {
+        global $CFG;
+        $list = [];
+
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id', false, 0 ,
+            0 , $limit);
+
+        foreach ($files as $file) {
+            if ($file->is_valid_image()) {
+                $list[] = file_encode_url("$CFG->wwwroot/pluginfile.php",
+                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                    $file->get_filearea() . $file->get_filepath() . $file->get_itemid() . '/' . $file->get_filename());
+            }
+        }
+
+        return $list;
+    }
+
+    /**
      * Get file options
      *
      * @param $context
