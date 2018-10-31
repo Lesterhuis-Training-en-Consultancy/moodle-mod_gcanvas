@@ -76,15 +76,8 @@ $renderer->add_javascript_helper($moduleinstance);
 // Handle file uploads directly.
 if (($data = data_submitted()) && confirm_sesskey()) {
 
-    // TODO Protect uploading filearea.
-
     $filearea = $data->filearea;
-    file_save_draft_area_files($data->$filearea,
-        $modulecontext->id,
-        'mod_gcanvas',
-        $filearea,
-        $moduleinstance->id,
-        \mod_gcanvas\helper::get_file_options($modulecontext));
+    \mod_gcanvas\helper::upload_file($data->filearea , $data->$filearea);
 
     // Prevent resubmission.
     redirect($PAGE->url);

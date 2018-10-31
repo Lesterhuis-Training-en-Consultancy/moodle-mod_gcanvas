@@ -34,6 +34,8 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * Javascript helper
      *
      * @param stdClass $canvas
+     *
+     * @throws coding_exception
      */
     public function add_javascript_helper(\stdClass $canvas) {
         global $PAGE;

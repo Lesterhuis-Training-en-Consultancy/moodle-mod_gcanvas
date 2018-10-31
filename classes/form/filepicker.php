@@ -53,10 +53,15 @@ class filepicker extends \moodleform {
 
     /**
      * definition_after_data
-     *
      */
     public function definition_after_data() {
         global $PAGE;
+
+        if(in_array($this->_customdata['filearea'], ['student_image'])){
+            // Skip not needed to return in filepicker.
+            return;
+        }
+
         $draftitemid = file_get_submitted_draft_itemid($this->_customdata['filearea']);
         file_prepare_draft_area(
             $draftitemid,
@@ -72,6 +77,4 @@ class filepicker extends \moodleform {
             $this->_customdata['filearea'] => $draftitemid,
         ]);
     }
-
-
 }

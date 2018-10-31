@@ -1,10 +1,17 @@
 <?xml version="1.0"?>
 <libraries>
     <library>
-        <location>javascript/fabric.js</location>
+        <location>amd/src/fabric.js</location>
         <name>fabric.js</name>
         <version>2.4.1</version>
-        <license></license>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>amd/src/spectrum.js</location>
+        <name>spectrum.js</name>
+        <version>1.8.0</version>
+        <license>MIT</license>
         <licenseversion></licenseversion>
     </library>
 </libraries>

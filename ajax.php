@@ -30,9 +30,20 @@ require_once(__DIR__ . '/../../config.php');
 defined('MOODLE_INTERNAL') || die;
 
 $action = optional_param('action', '', PARAM_TEXT);
-$data = optional_param('data', '', PARAM_RAW);
+$data = (object) optional_param('data', [], PARAM_RAW);
 
-$PAGE->set_context(context_system::instance());
+// Set course and context.
+$cm = get_coursemodule_from_id('gcanvas', $data->id, 0, false,
+    MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*',
+    MUST_EXIST);
+
+$PAGE->set_context(context_module::instance($cm->id));
+$PAGE->set_cm($cm);
+
+// First validation access.
+require_login($course, true, $cm);
+$PAGE->set_course($course);
 
 // Confirm session.
 require_sesskey();

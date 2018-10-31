@@ -264,7 +264,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     }
 
                     canvas.discardActiveObject().renderAll();
-                }else{
+                } else {
                     debug.log('Selection empty');
                 }
 
@@ -458,6 +458,47 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         *
+         */
+        add_user_image: function () {
+            var formdata = {'id'  : opts.id,};
+            var inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
+
+            $.each(inputs, function (i, input) {
+                formdata[input.name] = input.value;
+            });
+
+            $.ajax({
+                type    : 'POST',
+                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data    : {
+                    sesskey: M.cfg.sesskey,
+                    action : 'upload_images',
+                    data   : formdata
+                },
+                dataType: "json",
+                success : function (response) {
+                    debug.log(response);
+
+                    if (response.success) {
+                        fabric.Image.fromURL(response.image, function (object) {
+                            object.set({
+                                left           : 150,
+                                top            : 100,
+                                angle          : 0,
+                                centerTransform: true
+                            }).scale(0.4).setCoords();
+                            canvas.add(object);
+                            canvas.setActiveObject(object);
+                        });
+                    }
+
+                    $('#canvas-filepicker-form-student_image').hide();
+                }
+            });
+        },
+
+        /**
          * Toolbar actions.
          */
         load_toolbar: function () {
@@ -515,17 +556,26 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
             });
 
+            // Dialog to selected a emoji.
             $('#emoji-picker').on('click', 'img', function () {
                 canvas_module.load_emoji_csv($(this).attr('src'));
                 $('#emoji-picker').hide();
             });
 
+            // Teacher background.
             $('#change_background').on('click', function () {
                 canvas_module.show_fileuploader('background');
             });
 
+            // Teacher image.
             $('#add_toolbar_images').on('click', function () {
                 canvas_module.show_fileuploader('toolbar_shape');
+            });
+
+            $('#canvas-filepicker-form-student_image').on('click', '#id_submitbutton', function (e) {
+                e.preventDefault();
+                // Form should be posted to AJAX call so we can get the image.
+                canvas_module.add_user_image();
             });
 
             // Hide pressing on cancel.

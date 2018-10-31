@@ -58,8 +58,8 @@ class helper {
         $list = [];
 
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id', false, 0 ,
-            0 , $limit);
+        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id', false, 0,
+            0, $limit);
 
         foreach ($files as $file) {
             if ($file->is_valid_image()) {
@@ -73,23 +73,64 @@ class helper {
     }
 
     /**
+     * Upload file
+     *
+     * @param string $filearea
+     * @param int    $fileareaid
+     *
+     * @return mixed|string
+     * @throws \coding_exception
+     * @throws \moodle_exception
+     * @throws \required_capability_exception
+     */
+    public static function upload_file(string $filearea, int $fileareaid) {
+        global $PAGE;
+
+        switch ($filearea) {
+            case 'background':
+            case 'toolbar_shape':
+                require_capability('mod/gcanvas:teacher', $PAGE->context);
+                break;
+            case 'student_image':
+                require_capability('mod/gcanvas:student_image', $PAGE->context);
+                break;
+            default:
+                throw new \moodle_exception('Unknown filearea');
+        }
+
+        $return = file_save_draft_area_files($fileareaid,
+            $PAGE->context->id,
+            'mod_gcanvas',
+            $filearea,
+            $PAGE->cm->instance,
+            self::get_file_options($PAGE->context), 'FILE');
+
+        // Return file.
+        if ($return) {
+            $images = self::get_images($filearea, $PAGE->context, $PAGE->cm->instance, 1);
+            return reset($images);
+        }
+
+        return '';
+    }
+
+    /**
      * Get file options
      *
      * @param $context
      *
      * @return array
      */
-    public static function get_file_options($context) {
+    public static function get_file_options($context, int $max = 50) {
 
         global $CFG;
 
         return [
             'subdirs' => 0,
-            'maxfiles' => 50,
+            'maxfiles' => $max,
             'maxbytes' => $CFG->maxbytes,
-            'accepted_types' => '*',
+            'accepted_types' => 'web_image',
             'context' => $context,
-            'return_types' => 2 | 1,
         ];
     }
 
