@@ -58,7 +58,7 @@ class helper {
         $list = [];
 
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id', false, 0,
+        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id DESC', false, 0,
             0, $limit);
 
         foreach ($files as $file) {
@@ -117,7 +117,9 @@ class helper {
     /**
      * Get file options
      *
-     * @param $context
+     * @param     $context
+     *
+     * @param int $max
      *
      * @return array
      */

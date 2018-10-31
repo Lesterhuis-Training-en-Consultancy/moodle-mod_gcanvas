@@ -73,19 +73,25 @@
             </div>
         </div>
             <!-- Bottom toolbar -->
-        <div class="d-flex flex-row" id="bottom-toolbar">
+        <div class="d-flex justify-content-between" id="bottom-toolbar">
             <div class="p-2">
                 <span id="save-canvas">
+                    <i class="fa fa-save" aria-hidden="true"></i>
                     {{# str}} btn:save, mod_gcanvas {{/ str}}
                 </span>
-                <span id="show-samples">
-                    {{# str}} btn:samples, mod_gcanvas {{/ str}}
-                </span>
-                <span id="clear">
-                    {{# str}} btn:clear, mod_gcanvas {{/ str}}
+            </div>
+            <div class="p-2">
+                 <span id="show-samples">
+                    <i class="fa fa-question" aria-hidden="true"></i>
+                     {{# str}} btn:samples, mod_gcanvas {{/ str}}
                 </span>
             </div>
-            <div class="p-2"></div>
+            <div class="p-2">
+                  <span id="clear">
+                    <i class="fa fa-remove" aria-hidden="true"></i>
+                      {{# str}} btn:clear, mod_gcanvas {{/ str}}
+                </span>
+            </div>
         </div>
     </div>
 </div>

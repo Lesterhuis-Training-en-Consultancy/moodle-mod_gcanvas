@@ -487,12 +487,19 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                                 top            : 100,
                                 angle          : 0,
                                 centerTransform: true
-                            }).scale(0.4).setCoords();
+                            }).setCoords();
+
+                            // Prevent to large objects.
+                            var maxwidth = canvas.getWidth() / 3;
+
+                            if(object.width > maxwidth){
+                                object.scaleToWidth(maxwidth);
+                            }
+
                             canvas.add(object);
                             canvas.setActiveObject(object);
                         });
                     }
-
                     $('#canvas-filepicker-form-student_image').hide();
                 }
             });
@@ -574,6 +581,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
             $('#canvas-filepicker-form-student_image').on('click', '#id_submitbutton', function (e) {
                 e.preventDefault();
+
                 // Form should be posted to AJAX call so we can get the image.
                 canvas_module.add_user_image();
             });
@@ -637,9 +645,21 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         set_color: function (color) {
 
             var colorhex = color.toHexString(); // #ff0000
-            var activeobjs = canvas.getActiveObject();
-            if (activeobjs) {
-                activeobjs.set("fill", colorhex);
+            var activeobjects = canvas.getActiveObjects();
+            if (activeobjects) {
+
+                for (var i in activeobjects) {
+                    if (activeobjects.hasOwnProperty(i)) {
+                        var element = activeobjects[i];
+
+                        if (element.hasOwnProperty('id') && element.id === 'ruler') {
+                            continue;
+                        }
+
+                        element.set("fill", colorhex);
+                    }
+                }
+
                 canvas.renderAll();
             } else {
                 debug.log('No active items');
@@ -729,7 +749,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 height: 2,
                 id    : 'ruler',
                 left  : 0,
-                top   : this.canvas_height / 2,
+                top   : 370,
                 angle : 0,
                 fill  : '#8B58A1'
             });
@@ -771,6 +791,10 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * @param options
          */
         onchange: function (options) {
+            if(options.target.hasOwnProperty('id') && options.target.id === 'ruler'){
+                return;
+            }
+
             $("#colorpicker").spectrum("set", options.target.fill);
         }
     };
