@@ -37,11 +37,11 @@ $action = optional_param('action', '', PARAM_ALPHA);
 if ($id) {
     $cm = get_coursemodule_from_id('gcanvas', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
-    $moduleinstance = $DB->get_record('gcanvas', ['id' => $cm->instance], '*', MUST_EXIST);
+    $canvas = $DB->get_record('gcanvas', ['id' => $cm->instance], '*', MUST_EXIST);
 } else if ($g) {
-    $moduleinstance = $DB->get_record('gcanvas', ['id' => $n], '*', MUST_EXIST);
-    $course = $DB->get_record('course', ['id' => $moduleinstance->course], '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('gcanvas', $moduleinstance->id, $course->id, false, MUST_EXIST);
+    $canvas = $DB->get_record('gcanvas', ['id' => $n], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $canvas->course], '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('gcanvas', $canvas->id, $course->id, false, MUST_EXIST);
 } else {
     print_error(get_string('missingidandcmid', mod_gcanvas));
 }
@@ -51,11 +51,11 @@ require_login($course, true, $cm);
 $modulecontext = context_module::instance($cm->id);
 
 $event = \mod_gcanvas\event\course_module_viewed::create([
-    'objectid' => $moduleinstance->id,
+    'objectid' => $canvas->id,
     'context' => $modulecontext,
 ]);
 $event->add_record_snapshot('course', $course);
-$event->add_record_snapshot('gcanvas', $moduleinstance);
+$event->add_record_snapshot('gcanvas', $canvas);
 $event->trigger();
 
 //$PAGE->requires->css('/mod/gcanvas/styles.css');
@@ -65,40 +65,68 @@ $PAGE->set_url('/mod/gcanvas/view.php', [
     'action' => $action,
     'g' => $g,
 ]);
-$PAGE->set_title(format_string($moduleinstance->name));
+$PAGE->set_title(format_string($canvas->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
 /** @var mod_gcanvas_renderer $renderer * */
 $renderer = $PAGE->get_renderer('mod_gcanvas');
-$renderer->add_javascript_helper($moduleinstance);
-
-// Handle file uploads directly.
-if (($data = data_submitted()) && confirm_sesskey()) {
-
-    $filearea = $data->filearea;
-    \mod_gcanvas\helper::upload_file($data->filearea , $data->$filearea);
-
-    // Prevent resubmission.
-    redirect($PAGE->url);
-}
 
 switch ($action) {
 
     case 'intro':
         has_capability('mod/gcanvas:teacher', $PAGE->context);
 
+        $form = new \mod_gcanvas\form\intro($PAGE->url);
+        $form->set_data((object)[
+            'helptext' => [
+                'text' => $canvas->helptext,
+                'format' => FORMAT_HTML,
+            ],
+        ]);
+
+        if ($form->is_cancelled()) {
+            redirect(new moodle_url($PAGE->url, ['id' => $id, 'action' => '']));
+        }
+
+        if (($data = $form->get_data()) != false) {
+
+            $DB->update_record('gcanvas', (object)[
+                'id' => $canvas->id,
+                'helptext' => $data->helptext['text'],
+            ]);
+
+            redirect(new moodle_url($PAGE->url, [
+                'id' => $id,
+                'action' => '',
+            ]));
+        }
+
         echo $OUTPUT->header();
+        $form->display();
         echo $OUTPUT->footer();
 
         break;
 
     default:
+
+        $renderer->add_javascript_helper($canvas);
+
+        // Handle file uploads directly.
+        if (($data = data_submitted()) && confirm_sesskey()) {
+
+            $filearea = $data->filearea;
+            \mod_gcanvas\helper::upload_file($data->filearea, $data->$filearea);
+
+            // Prevent resubmission.
+            redirect($PAGE->url);
+        }
+
         echo $OUTPUT->header();
-        echo $renderer->render_canvas();
-        echo $renderer->render_uploader('background', $moduleinstance);
-        echo $renderer->render_uploader('student_image', $moduleinstance);
-        echo $renderer->render_uploader('toolbar_shape', $moduleinstance);
+        echo $renderer->render_canvas($canvas);
+        echo $renderer->render_uploader('background', $canvas);
+        echo $renderer->render_uploader('student_image', $canvas);
+        echo $renderer->render_uploader('toolbar_shape', $canvas);
         echo $OUTPUT->footer();
 }
 

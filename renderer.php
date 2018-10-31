@@ -74,12 +74,14 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
     /**
      * Render the main canvas
      *
+     * @param stdClass $canvas
+     *
      * @return bool|string
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function render_canvas() {
-        return $this->render_from_template('mod_gcanvas/canvas', (new \mod_gcanvas\output\output_canvas())
+    public function render_canvas(\stdClass $canvas) {
+        return $this->render_from_template('mod_gcanvas/canvas', (new \mod_gcanvas\output\output_canvas($canvas))
             ->export_for_template($this));
     }
 

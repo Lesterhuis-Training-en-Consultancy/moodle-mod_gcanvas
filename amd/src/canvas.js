@@ -552,6 +552,14 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 canvas_module.save_canvas_ajax();
             });
 
+            $('#show-help').on('click', function () {
+                $('#dialog-help').show();
+            });
+
+            $('#dialog-help').on('click' , function(){
+                $('#dialog-help').hide();
+            });
+
             $('#history').on('click', '.delete', function (e) {
                 e.preventDefault();
                 canvas_module.delete_attempt($(this));
@@ -587,7 +595,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             });
 
             // Hide pressing on cancel.
-            $('#page').on('click', '.btn-secondary', function (e) {
+            $('.dialog').on('click', '.btn-secondary', function (e) {
                 e.preventDefault();
                 debug.log('Cancel');
                 $('.dialog').hide();

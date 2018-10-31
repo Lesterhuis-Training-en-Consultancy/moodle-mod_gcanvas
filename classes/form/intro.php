@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *
+ * Teacher intro text
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
@@ -23,4 +23,23 @@
  * @copyright 31-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
- 
+namespace mod_gcanvas\form;
+
+defined('MOODLE_INTERNAL') || die;
+require_once($CFG->libdir . '/formslib.php');
+
+class intro extends \moodleform {
+
+    /**
+     * Form definition.
+     *
+     * @throws \coding_exception
+     */
+    protected function definition() {
+        $mform = &$this->_form;
+        $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas'));
+        $mform->setType('helptext', PARAM_RAW);
+
+        $this->add_action_buttons(true, get_string('btn:submit', 'mod_gcanvas'));
+    }
+}

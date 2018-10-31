@@ -113,7 +113,7 @@ div#sketch-tool {
     flex: 100%;
 }
 
-.dialog form {
+.dialog form{
     left: 50%;
     top: 100px;
     position: fixed;
@@ -124,4 +124,18 @@ div#sketch-tool {
     z-index: 9999;
     padding: 20px;
     border: 1px solid #000;
+}
+
+.dialog .help-content{
+    left: 50%;
+    top: 100px;
+    position: fixed;
+    margin-left: -310px;
+    width: 600px;
+    height: 400px;
+    background: #fff;
+    z-index: 9999;
+    padding: 20px;
+    border: 1px solid #000;
+    overflow-y: scroll;
 }

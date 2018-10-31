@@ -42,7 +42,7 @@ class filepicker extends \moodleform {
         $mform = &$this->_form;
         $context = $this->_customdata['context'];
         $mform->addElement('filemanager', $this->_customdata['filearea'],
-            get_string('attachment', 'mod_gcanvas'), null,
+            get_string('form:attachment', 'mod_gcanvas'), null,
             helper::get_file_options($context));
 
         $mform->addElement('hidden', 'filearea', $this->_customdata['filearea']);

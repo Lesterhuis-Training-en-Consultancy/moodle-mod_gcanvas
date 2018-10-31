@@ -34,6 +34,17 @@ use templatable;
 
 class output_canvas implements renderable, templatable {
 
+    protected $canvas;
+
+    /**
+     * output_canvas constructor.
+     *
+     * @param stdClass $canvas
+     */
+    public function __construct(\stdClass $canvas) {
+        $this->canvas = $canvas;
+    }
+
     /**
      * Function to export the renderer data in a format that is suitable for a
      * mustache template. This means:
@@ -59,6 +70,7 @@ class output_canvas implements renderable, templatable {
         $object->linkintro->params(['action' => 'intro']);
         $object->linkintro = $object->linkintro->out(false);
 
+        $object->helptext = $this->canvas->helptext;
         return $object;
     }
 

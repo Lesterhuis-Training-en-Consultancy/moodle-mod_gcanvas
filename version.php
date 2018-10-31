@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_gcanvas';
-$plugin->release = '0.1.0';
-$plugin->version = 2018103101;
+$plugin->release = '1.0.0';
+$plugin->version = 2018103103;
 $plugin->requires = 2018051700;
 $plugin->maturity = MATURITY_ALPHA;

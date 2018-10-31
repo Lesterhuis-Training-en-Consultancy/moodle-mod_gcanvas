@@ -40,7 +40,8 @@ $string['gcanvas:student_image'] = 'Allows student to upload files';
 $string['form:gcanvasname'] = 'Canvas name';
 $string['form:has_horizontal_ruler'] = 'Show horizontal ruler';
 $string['form:has_horizontal_ruler_desc'] = 'Add a horizontal ruler to the canvas, can be moved with your keyboard arrow keys';
-$string['attachment'] = 'Attachment';
+$string['form:attachment'] = 'Attachment';
+$string['form:helptext'] = 'Help text';
 
 // Buttons.
 $string['btn:save'] = 'Save canvas';
@@ -60,7 +61,9 @@ $string['btn:download'] = 'Download your sketch';
 $string['btn:save_file'] = 'Upload';
 $string['btn:background'] = 'Background';
 $string['btn:toolbar_images'] = 'Toolbar images';
-$string['btn:intro'] = 'Intro text';
+$string['btn:help'] = 'Help';
+$string['btn:intro'] = 'Edit help text';
+$string['btn:submit'] = 'Submit';
 
 // Javascript.
 $string['javascript:confirm_title'] = 'Confirm deletion sketch';
