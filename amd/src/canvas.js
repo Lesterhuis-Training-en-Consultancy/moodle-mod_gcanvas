@@ -30,7 +30,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
     /**
      * Possible options
-     * @type {{id: number, debugjs: boolean, has_horizontal_ruler: boolean}}
+     * @type {{id: number, debugjs: boolean, has_horizontal_ruler: boolean, background: string}}
      */
     var opts = {
         id                  : 0,
@@ -269,7 +269,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 try {
                     canvas.discardActiveObject();
                 } catch (e) {
-                    // if nothing is added this gives a error.
+                    // If nothing is added to the canvas this gives a error.
                 }
 
                 var shape = "default_shape_" + elementtype.toLowerCase();
@@ -335,11 +335,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
-         * Delete a attempt
+         * Delete a attempt/sketch
+         *
          * @param {jQuery} $el
          */
         delete_attempt: function ($el) {
-            //TODO we could better use Ajax helper Moodle and external webservice, for now this is okay.
+            //TODO we could better use amd Ajax helper Moodle and external webservice, for now this is okay.
 
             debug.log('Delete', $el);
             notification.confirm(
@@ -392,7 +393,26 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         restore_attempt: function ($el) {
             debug.log('Restore', $el);
+            $.ajax({
+                type    : 'POST',
+                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data    : {
+                    sesskey: M.cfg.sesskey,
+                    action : 'get_attempt',
+                    data   : {
+                        'id'        : opts.id,
+                        'attempt_id': $el.data('id'),
+                    }
+                },
+                dataType: "json",
+                success : function (response) {
+                    debug.log(response);
 
+                    if (response.success) {
+                        canvas.loadFromJSON(response.record.json_data,canvas.renderAll.bind(canvas));
+                    }
+                }
+            });
         },
 
         /**
@@ -489,10 +509,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
-         *
+         * Emoji dialog
          */
         load_emoji_picker: function () {
-            // @TODO add emoji picker.
             var $picker = $('#emoji-picker');
             if ($picker.html() !== '') {
                 debug.log('Toggle emoji');
@@ -520,7 +539,6 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 }
             });
         },
-
 
         /**
          * Load the arrow icon to the canvas.
@@ -614,6 +632,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             this.prevent_moving_out_of_canvas();
 
             this.load_toolbar();
+
             if (opts.has_horizontal_ruler) {
                 this.add_horizontal_ruler();
             }

@@ -159,6 +159,29 @@ class ajax {
     }
 
     /**
+     * Delete a attempt
+     *
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     * @throws \require_login_exception
+     */
+    public function callable_get_attempt() {
+        global $USER, $DB;
+        $this->load_cm_and_course();
+
+        $record = $DB->get_record('gcanvas_attempt', [
+            'user_id' => $USER->id,
+            'id' => $this->data->attempt_id ?? 0,
+        ]);
+
+        return [
+            'success' => true,
+            'record' => $record,
+        ];
+    }
+
+    /**
      * Upload files
      *
      * @throws \coding_exception
@@ -171,20 +194,21 @@ class ajax {
         $cobject = $this->load_cm_and_course();
         $modulecontext = context_module::instance($cobject->cm->id);
 
-        switch($this->data->filearea){
+        switch ($this->data->filearea) {
             case 'background':
             case 'toolbar_shape':
-                require_capability(   'mod/gcanvas:teacher', $modulecontext);
+                require_capability('mod/gcanvas:teacher', $modulecontext);
                 break;
             case 'student_image':
-                require_capability(   'mod/gcanvas:student_image', $modulecontext);
+                require_capability('mod/gcanvas:student_image', $modulecontext);
                 break;
             default:
                 throw new \moodle_exception('Unknown filearea');
         }
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
-        return ['success' => true , 'html' => $renderer->render_uploader($this->data->filearea)];
+
+        return ['success' => true, 'html' => $renderer->render_uploader($this->data->filearea)];
     }
 
     /**

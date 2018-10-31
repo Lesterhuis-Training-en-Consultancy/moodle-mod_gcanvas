@@ -93,6 +93,10 @@ if (($data = data_submitted()) && confirm_sesskey()) {
 switch ($action) {
 
     case 'intro':
+        has_capability('mod/gcanvas:teacher', $PAGE->context);
+
+        echo $OUTPUT->header();
+        echo $OUTPUT->footer();
 
         break;
 
