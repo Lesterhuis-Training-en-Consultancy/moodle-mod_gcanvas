@@ -248,10 +248,26 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         delete_selected_canvas_items: function () {
             try {
                 var activeobjects = canvas.getActiveObjects();
-                canvas.discardActiveObject();
                 if (activeobjects.length) {
-                    canvas.remove.apply(canvas, activeobjects);
+
+                    for (var i in activeobjects) {
+                        if (activeobjects.hasOwnProperty(i)) {
+                            var element = activeobjects[i];
+
+                            if (element.id !== undefined && element.id === 'ruler') {
+                                debug.log('Ruler: Not removable!');
+                                continue;
+                            }
+
+                            canvas.remove(element);
+                        }
+                    }
+
+                    canvas.discardActiveObject().renderAll();
+                }else{
+                    debug.log('Selection empty');
                 }
+
             } catch (e) {
                 debug.error('Nothing selected', e);
             }
@@ -388,7 +404,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
-         * Restore a attempt
+         * Restore a attempt/sketch
+         *
          * @param {jQuery} $el
          */
         restore_attempt: function ($el) {
@@ -409,13 +426,14 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     debug.log(response);
 
                     if (response.success) {
-                        canvas.loadFromJSON(response.record.json_data,canvas.renderAll.bind(canvas));
+                        canvas.loadFromJSON(response.record.json_data, canvas.renderAll.bind(canvas));
                     }
                 }
             });
         },
 
         /**
+         * Show the fileuploader.
          *
          * @param filearea
          */
@@ -423,6 +441,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             $('#canvas-filepicker-form-' + filearea).toggle();
         },
 
+        /**
+         * Set background of the canvas.
+         */
         set_background_image: function () {
 
             if (opts.background !== '') {
@@ -505,6 +526,13 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
             $('#add_toolbar_images').on('click', function () {
                 canvas_module.show_fileuploader('toolbar_shape');
+            });
+
+            // Hide pressing on cancel.
+            $('#page').on('click', '.btn-secondary', function (e) {
+                e.preventDefault();
+                debug.log('Cancel');
+                $('.dialog').hide();
             });
         },
 
@@ -649,10 +677,11 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             var ruler = new fabric.Rect({
                 width : this.canvas_width,
                 height: 2,
+                id    : 'ruler',
                 left  : 0,
                 top   : this.canvas_height / 2,
                 angle : 0,
-                fill  : '#000'
+                fill  : '#8B58A1'
             });
 
             ruler.flipY = false;
@@ -681,9 +710,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                         break;
 
                     default:
-                        return; // exit this handler for other keys
+                        return; // Exit this handler for other keys.
                 }
-                e.preventDefault(); // prevent the default action (scroll / move caret)
+                e.preventDefault(); // Prevent the default action (scroll / move caret).
             });
         },
 
