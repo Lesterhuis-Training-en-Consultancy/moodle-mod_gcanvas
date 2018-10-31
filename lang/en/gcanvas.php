@@ -19,7 +19,7 @@
  *
  * @package     mod_gcanvas
  * @category    string
- * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MoodleFreak.com <luuk@ldesignmedia.nl>
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -33,6 +33,8 @@ $string['teacher_tools'] = 'Teacher tools';
 
 $string['gcanvas:addinstance'] = 'Add new Canvas Game instance';
 $string['gcanvas:view'] = 'View Canvas Game';
+$string['gcanvas:teacher'] = 'Canvas teacher can change the canvas properties';
+$string['gcanvas:student_image'] = 'Allows student to upload files';
 
 // Form.
 $string['form:gcanvasname'] = 'Canvas name';

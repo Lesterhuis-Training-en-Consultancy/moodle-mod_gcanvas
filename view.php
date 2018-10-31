@@ -18,7 +18,7 @@
  * Prints an instance of mod_gcanvas.
  *
  * @package     mod_gcanvas
- * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MoodleFreak.com <luuk@ldesignmedia.nl>
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,6 +32,7 @@ defined('MOODLE_INTERNAL') || die;
 // Course_module ID.
 $id = optional_param('id', 0, PARAM_INT);
 $g = optional_param('g', 0, PARAM_INT);
+$action = optional_param('action', '', PARAM_ALPHA);
 
 if ($id) {
     $cm = get_coursemodule_from_id('gcanvas', $id, 0, false, MUST_EXIST);
@@ -59,17 +60,24 @@ $event->trigger();
 
 //$PAGE->requires->css('/mod/gcanvas/styles.css');
 $PAGE->requires->css('/mod/gcanvas/css/spectrum.css');
-$PAGE->set_url('/mod/gcanvas/view.php', ['id' => $cm->id]);
+$PAGE->set_url('/mod/gcanvas/view.php', [
+    'id' => $cm->id,
+    'action' => $action,
+    'g' => $g,
+]);
 $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-/** @var mod_gcanvas_renderer $renderer **/
+/** @var mod_gcanvas_renderer $renderer * */
 $renderer = $PAGE->get_renderer('mod_gcanvas');
 $renderer->add_javascript_helper($moduleinstance);
 
 // Handle file uploads directly.
-if(($data = data_submitted()) && confirm_sesskey()){
+if (($data = data_submitted()) && confirm_sesskey()) {
+
+    // TODO Protect uploading filearea.
+
     $filearea = $data->filearea;
     file_save_draft_area_files($data->$filearea,
         $modulecontext->id,
@@ -82,14 +90,18 @@ if(($data = data_submitted()) && confirm_sesskey()){
     redirect($PAGE->url);
 }
 
-
 switch ($action) {
+
+    case 'intro':
+
+        break;
+
     default:
         echo $OUTPUT->header();
         echo $renderer->render_canvas();
-        echo $renderer->render_uploader('background' , $moduleinstance);
-        echo $renderer->render_uploader('user_image' , $moduleinstance);
-        echo $renderer->render_uploader('toolbar_shape' , $moduleinstance);
+        echo $renderer->render_uploader('background', $moduleinstance);
+        echo $renderer->render_uploader('student_image', $moduleinstance);
+        echo $renderer->render_uploader('toolbar_shape', $moduleinstance);
         echo $OUTPUT->footer();
 }
 

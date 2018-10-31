@@ -20,7 +20,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @package   moodle-mod_gcanvas
- * @copyright 8-10-2018 MoodleFreak.com
+ * @copyright 8-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
 
@@ -41,7 +41,6 @@ $capabilities = [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
-            'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
         ],
     ],
@@ -49,7 +48,6 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
-            'guest' => CAP_ALLOW,
             'user' => CAP_ALLOW,
         ],
     ],
@@ -58,6 +56,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
 ];

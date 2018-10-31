@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @package local_commander
- * @copyright 2018 MoodleFreak.com
+ * @copyright 2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
 /* eslint no-unused-expressions: "off"  no-console: ["error", { allow: ["warn", "error" , "log"] }] */
@@ -456,7 +456,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             });
 
             $('#add-image i').on('click', function () {
-                canvas_module.load_image_uploader();
+                canvas_module.show_fileuploader('student_image');
             });
 
             $('#save-canvas').on('click', function () {
@@ -521,17 +521,6 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             });
         },
 
-        /**
-         *
-         */
-        load_image_uploader: function () {
-            // @TODO upload own images.
-
-            fabric.Image.fromURL('pix/ladybug.png', function (obj) {
-                obj.set('left', fabric.util.getRandomInt(200, 600)).set('top', -50);
-                canvas.add(obj);
-            });
-        },
 
         /**
          * Load the arrow icon to the canvas.
