@@ -177,6 +177,21 @@ class ajax {
             'image' => $image,
         ];
     }
+    /**
+     * Get toolbar images
+     *
+     * @throws \coding_exception
+     * @throws \moodle_exception
+     */
+    public function callable_get_toolbar_images() {
+        $cobject = $this->load_cm_and_course();
+        $modulecontext = context_module::instance($cobject->cm->id);
+
+        return [
+            'success' => true,
+            'images' => helper::get_images('toolbar_shape', $modulecontext, $cobject->cm->instance , 100),
+        ];
+    }
 
     /**
      * load_cm_and_course

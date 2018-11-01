@@ -336,6 +336,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             debug.log('load_emoji_csv : ', src);
             // Issue when using loadsvgfromurl.
             fabric.Image.fromURL(src.replace('.png', '.svg'), function (object) {
+                // Logic below needed to work with the svg files.
                 object.set({
                     height         : 500,
                     width          : 500,
@@ -343,8 +344,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     top            : 100,
                     angle          : 0,
                     centerTransform: true
-                }).scale(0.4)
-                    .setCoords();
+                }).scale(0.4).setCoords();
                 canvas.add(object);
                 canvas.setActiveObject(object);
             });
@@ -461,7 +461,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          */
         add_user_image: function () {
-            var formdata = {'id'  : opts.id,};
+            var formdata = {'id': opts.id,};
             var inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
 
             $.each(inputs, function (i, input) {
@@ -481,26 +481,76 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     debug.log(response);
 
                     if (response.success) {
-                        fabric.Image.fromURL(response.image, function (object) {
-                            object.set({
-                                left           : 150,
-                                top            : 100,
-                                angle          : 0,
-                                centerTransform: true
-                            }).setCoords();
-
-                            // Prevent to large objects.
-                            var maxwidth = canvas.getWidth() / 3;
-
-                            if(object.width > maxwidth){
-                                object.scaleToWidth(maxwidth);
-                            }
-
-                            canvas.add(object);
-                            canvas.setActiveObject(object);
-                        });
+                        canvas_module.add_image_from_url(response.image);
                     }
                     $('#canvas-filepicker-form-student_image').hide();
+                }
+            });
+        },
+
+        /**
+         *
+         * @param path
+         */
+        add_image_from_url: function (path) {
+
+            //TODO SVG support.
+
+            fabric.Image.fromURL(path, function (object) {
+                object.set({
+                    left           : 150,
+                    top            : 100,
+                    angle          : 0,
+                    centerTransform: true
+                }).setCoords();
+
+                // Prevent to large objects.
+                var maxwidth = canvas.getWidth() / 3;
+
+                if (object.width > maxwidth) {
+                    object.scaleToWidth(maxwidth);
+                }
+
+                canvas.add(object);
+                canvas.setActiveObject(object);
+            });
+        },
+
+        /**
+         *
+         */
+        select_toolbar_image: function () {
+            var dialog = $('#image-picker');
+            if (dialog.is(':visible')) {
+                dialog.hide();
+                return;
+            }
+            dialog.show();
+
+            $.ajax({
+                type    : 'POST',
+                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data    : {
+                    sesskey: M.cfg.sesskey,
+                    action : 'get_toolbar_images',
+                    data   : {
+                        'id': opts.id,
+                    }
+                },
+                dataType: "json",
+                success : function (response) {
+                    debug.log(response);
+
+                    if (response.success) {
+                        var html = '<ul class="list-group">';
+                        $.each(response.images, function (i, src) {
+                            html += '<li class="toolbar-image" rel="' + i + '"><img  alt="" src="' + src + '" ' +
+                                'class="img-thumbnail"></li>';
+                        });
+                        html += '</ul>';
+
+                        dialog.html(html);
+                    }
                 }
             });
         },
@@ -544,8 +594,19 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 canvas_module.load_emoji_picker();
             });
 
+            // Add own image to the canvas.
             $('#add-image i').on('click', function () {
                 canvas_module.show_fileuploader('student_image');
+            });
+
+            // Student selecting a image, added to the toolbar by teachers.
+            $('#select-a-image i').on('click', function () {
+                canvas_module.select_toolbar_image();
+            });
+
+            $('#image-picker ').on('click','img', function () {
+                canvas_module.add_image_from_url($(this).attr('src'));
+                $('#image-picker').hide();
             });
 
             $('#save-canvas').on('click', function () {
@@ -556,7 +617,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 $('#dialog-help').show();
             });
 
-            $('#dialog-help').on('click' , function(){
+            $('#dialog-help').on('click', function () {
                 $('#dialog-help').hide();
             });
 
@@ -799,7 +860,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * @param options
          */
         onchange: function (options) {
-            if(options.target.hasOwnProperty('id') && options.target.id === 'ruler'){
+            if (options.target.hasOwnProperty('id') && options.target.id === 'ruler') {
                 return;
             }
 
