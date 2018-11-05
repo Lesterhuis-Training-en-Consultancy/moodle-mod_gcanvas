@@ -13,9 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+use core_privacy\local\request\contextlist;
+use core_privacy\local\request\transform;
+use core_privacy\local\request\writer;
 
 /**
- *
+ * Privacy provider.
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
@@ -23,4 +26,289 @@
  * @copyright 31-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
- 
+class provider implements \core_privacy\local\metadata\provider, \core_privacy\local\request\plugin\provider {
+
+    /**
+     * Returns meta data about this system.
+     *
+     * @param   \core_privacy\local\metadata\collection $collection The initialised collection to add items to.
+     *
+     * @return  \core_privacy\local\metadata\collection     A listing of user data stored through this system.
+     */
+    public static function get_metadata(\core_privacy\local\metadata\collection $collection) :
+    \core_privacy\local\metadata\collection {
+
+        $collection->add_database_table('gcanvas_attempt', [
+            'userid' => 'privacy:metadata:attempt:userid',
+            'gcanvas' => 'privacy:metadata:attempt:gcanvas',
+            'json_data' => 'privacy:metadata:attempt:json_data',
+            'added_on' => 'privacy:metadata:attempt:added_on',
+        ], 'privacy:metadata:attempt');
+
+        return $collection;
+    }
+
+    /**
+     * Get the list of contexts that contain user information for the specified user.
+     *
+     * @param   int $userid The user to search.
+     *
+     * @return  \core_privacy\local\request\contextlist   $contextlist  The contextlist containing the list of contexts
+     *                                                    used in this plugin.
+     */
+    public static function get_contexts_for_userid(int $userid) : \core_privacy\local\request\contextlist {
+        $contextlist = new contextlist();
+
+        $sql = "SELECT DISTINCT
+                       ctx.id
+                  FROM {context} ctx
+                  JOIN {course_modules} cm ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextmodule
+                  JOIN {modules} m ON cm.module = m.id AND m.name = :modulename
+                  JOIN {gcanvas} gcanvas ON cm.instance = gcanvas.id
+                  JOIN {gcanvas_attempt} attempt ON gcanvas.id = attempt.gcanvas_id
+                 WHERE attempt.user_id = :user_id";
+
+        $params = [
+            'contextmodule' => CONTEXT_MODULE,
+            'modulename' => 'gcanvas',
+            'user_id' => $userid,
+        ];
+
+        $contextlist->add_from_sql($sql, $params);
+
+        return $contextlist;
+    }
+
+    /**
+     * Export all user data for the specified user, in the specified contexts.
+     *
+     * @param   \core_privacy\local\request\approved_contextlist $contextlist The approved contexts to export
+     *                                                                        information for.
+     *
+     * @throws coding_exception
+     * @throws dml_exception
+     */
+    public static function export_user_data(\core_privacy\local\request\approved_contextlist $contextlist) {
+        if (empty($contextlist->count())) {
+            return;
+        }
+
+        $user = $contextlist->get_user();
+
+        foreach ($contextlist->get_contexts() as $context) {
+            if ($context->contextlevel != CONTEXT_MODULE) {
+                continue;
+            }
+
+            $gcanvasdata = self::get_gcanvas_by_context($context);
+
+            // Get gcanvas details object for output.
+            $gcanvas = self::get_gcanvas_output($gcanvasdata);
+            writer::with_context($context)->export_data([], $gcanvas);
+
+            // Get the gcanvas attempts
+            $attemptsdata = self::get_gcanvas_attempts_by_gcanvas($gcanvasdata->id, $user->id);
+
+            foreach ($attemptsdata as $attemptdata) {
+
+                $subcontexts = [
+                    get_string('privacy:attemptpath', 'mod_gcanvasmod_gcanvas'),
+                ];
+
+                // Get gcanvas attempt details object for output.
+                $attempt = self::get_gcanvas_attempt_output($attemptdata);
+                $itemid = $attemptdata->id;
+
+                writer::with_context($context)
+                      ->export_data($subcontexts, $attempt)
+                      ->export_area_files($subcontexts, 'mod_gcanvas', 'student_image', $itemid);
+            }
+        }
+    }
+
+    /**
+     * Helper function to retrieve gcanvas attempts
+     *
+     * @param int $gcanvasid The gcanvas ID to retrieve gcanvas attempts by.
+     * @param int $userid    The user ID to retrieve gcanvas attempts submitted.
+     *
+     * @return array                Array of gcanvas attempt details.
+     * @throws \dml_exception
+     */
+    protected static function get_gcanvas_attempts_by_gcanvas($gcanvasid, $userid) {
+        global $DB;
+
+        $params = [
+            'gcanvas' => $gcanvasid,
+            'user_id' => $userid,
+        ];
+
+        $sql = "SELECT attempt.*
+                  FROM {gcanvas_attempt} attempt
+                 WHERE attempt.gcanvas_id = :gcanvas
+                   AND attempt.user_id = :user_id";
+
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    /**
+     * Helper function to return gcanvas attempts submitted by a user and their contextlist.
+     *
+     * @param \core_privacy\local\request\approved_contextlist $contextlist stdClass with the contexts related to a
+     *                                                                      userid to retrieve gcanvas attempts by.
+     * @param int                                              $userid      The user ID to find gcanvas attempts
+     *                                                                      that were submitted by.
+     *
+     * @return array                Array of gcanvas attempts details.
+     * @throws coding_exception
+     * @throws dml_exception
+     */
+    protected static function get_gcanvas_attempts_by_contextlist(\core_privacy\local\request\approved_contextlist $contextlist, int $userid) {
+        global $DB;
+
+        list($contextsql, $contextparams) = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
+
+        $params = [
+            'contextmodule' => CONTEXT_MODULE,
+            'modulename' => 'gcanvas',
+            'userid' => $userid,
+        ];
+
+        $sql = "SELECT attempt.* 
+                  FROM {context} ctx
+                  JOIN {course_modules} cm ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextmodule
+                  JOIN {modules} m ON cm.module = m.id AND m.name = :modulename
+                  JOIN {gcanvas} gcanvas ON cm.instance = gcanvas.id
+                  JOIN {gcanvas_attempt} attempt ON attempt.gcanvas_id = gcanvas.id
+                 WHERE attempt.user_id = :user_id";
+
+        $sql .= " AND ctx.id {$contextsql}";
+        $params += $contextparams;
+
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    /**
+     * Helper function generate gcanvas output object for exporting.
+     *
+     * @param object $gcanvasdata Object containing gcanvas data.
+     *
+     * @return object                   Formatted gcanvas output object for exporting.
+     */
+    protected static function get_gcanvas_output($gcanvasdata) {
+        $gcanvas = (object)[
+            'name' => $gcanvasdata->name,
+            'intro' => $gcanvasdata->intro,
+            'timemodified' => transform::datetime($gcanvasdata->timemodified),
+        ];
+
+        if ($gcanvasdata->timemodified != 0) {
+            $gcanvas->timemodified = transform::datetime($gcanvasdata->timemodified);
+        }
+
+        return $gcanvas;
+    }
+
+    /**
+     * Helper function generate gcanvas attempt output object for exporting.
+     *
+     * @param stdClass $attemptdata Object containing gcanvas attempt data.
+     *
+     * @return stdClass                   Formatted gcanvas attempt output for exporting.
+     */
+    protected static function get_gcanvas_attempt_output($attemptdata) {
+        $attempt = (object)[
+            'gcanvas' => $attemptdata->gcanvas,
+            'json_data' => $attemptdata->json_data,
+            'added_on' => $attemptdata->added_on,
+        ];
+
+        if ($attemptdata->added_on != 0) {
+            $attempt->added_on = transform::datetime($attemptdata->added_on);
+        }
+
+        return $attempt;
+    }
+
+    /**
+     * Helper function to return gcanvas for a context module.
+     *
+     * @param stdClass $context The context module stdClass to return the gcanvas record by.
+     *
+     * @return mixed            The gcanvas details or null record associated with the context module.
+     * @throws \dml_exception
+     */
+    protected static function get_gcanvas_by_context($context) {
+        global $DB;
+
+        $params = [
+            'modulename' => 'gcanvas',
+            'contextmodule' => CONTEXT_MODULE,
+            'contextid' => $context->id,
+        ];
+
+        $sql = "SELECT gcanvas.*
+                  FROM {gcanvas} gcanvas
+                  JOIN {course_modules} cm ON gcanvas.id = cm.instance
+                  JOIN {modules} m ON m.id = cm.module AND m.name = :modulename
+                  JOIN {context} ctx ON ctx.instanceid = cm.id AND ctx.contextlevel = :contextmodule
+                 WHERE ctx.id = :contextid";
+
+        return $DB->get_record_sql($sql, $params);
+    }
+
+    /**
+     * Delete all data for all users in the specified context.
+     *
+     * @param context $context The specific context to delete data for.
+     *
+     * @throws dml_exception
+     */
+    public static function delete_data_for_all_users_in_context(\context $context) {
+        global $DB;
+
+        if ($context->contextlevel == CONTEXT_MODULE) {
+            // Delete all assignment submissions for the assignment associated with the context module.
+            $assignment = self::get_gcanvas_by_context($context);
+            if ($assignment != null) {
+                $DB->delete_records('gcanvas_attempt', ['gcanvas_id' => $assignment->id]);
+
+                // Delete all file uploads associated with the assignment submission for the specified context.
+                $fs = get_file_storage();
+                $fs->delete_area_files($context->id, 'mod_gcanvas', 'student_image');
+            }
+        }
+    }
+
+    /**
+     * Delete all user data for the specified user, in the specified contexts.
+     *
+     * @param   \core_privacy\local\request\approved_contextlist $contextlist The approved contexts and user
+     *                                                                        information to delete information for.
+     *
+     * @throws coding_exception
+     * @throws dml_exception
+     */
+    public static function delete_data_for_user(\core_privacy\local\request\approved_contextlist $contextlist) {
+        global $DB;
+
+        if (empty($contextlist->count())) {
+            return;
+        }
+
+        $userid = $contextlist->get_user()->id;
+
+        // Only retrieve gcanvas attempts submitted by the user for deletion.
+        $gcanvasattemptids = array_keys(self::get_gcanvas_attempts_by_contextlist($contextlist, $userid));
+        $DB->delete_records_list('gcanvas_attempt', 'id', $gcanvasattemptids);
+
+        // Delete all file uploads associated with the gcanvas attempt for the user's specified list of contexts.
+        $fs = get_file_storage();
+        foreach ($contextlist->get_contextids() as $contextid) {
+            foreach ($gcanvasattemptids as $itemid) {
+                $fs->delete_area_files($contextid, 'mod_gcanvas', 'student_image', $itemid);
+            }
+        }
+    }
+
+}

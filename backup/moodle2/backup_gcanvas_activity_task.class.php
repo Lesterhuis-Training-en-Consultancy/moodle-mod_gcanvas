@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 // https://docs.moodle.org/dev/Backup_2.0_for_developers
 // https://docs.moodle.org/dev/Restore_2.0_for_developers
 
-require_once($CFG->dirroot . '//mod/gcanvas/backup/moodle2/backup_gcanvas_stepslib.php');
+require_once($CFG->dirroot . '/mod/gcanvas/backup/moodle2/backup_gcanvas_stepslib.php');
 
 /**
  * The class provides all the settings and steps to perform one complete backup of mod_gcanvas.
