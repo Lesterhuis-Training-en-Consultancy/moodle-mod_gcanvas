@@ -31,6 +31,7 @@ use file_storage;
 
 defined('MOODLE_INTERNAL') || die;
 
+//TODO convert to external webservices more native Moodle, for now this is less complex.
 class ajax {
     /**
      * @var mixed

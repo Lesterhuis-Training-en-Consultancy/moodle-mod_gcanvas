@@ -39,37 +39,49 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
      *
      * @return backup_nested_element The structure wrapped by the common 'activity' element.
      * @throws base_element_struct_exception
+     * @throws base_step_exception
      */
     protected function define_structure() {
 
-//        $userinfo = $this->get_setting_value('userinfo');
+        $userinfo = $this->get_setting_value('userinfo');
 
         // Define each element separated
         $gcanvas = new backup_nested_element('gcanvas', ['id'], [
             'name',
             'intro',
             'introformat',
-            'content',
-            'contentformat',
             'helptext',
             'has_horizontal_ruler',
             'timemodified',
         ]);
 
-        // Build the tree
-        // (love this)
+        $attempts = new backup_nested_element('attempts');
+        $attempt = new backup_nested_element('gcanvas_attempt', ['id'], [
+            'gcanvas_id',
+            'user_id',
+            'json_data',
+            'status',
+            'added_on',
+        ]);
 
         // Define sources
         $gcanvas->set_source_table('gcanvas', ['id' => backup::VAR_ACTIVITYID]);
 
-        // Define id annotations
-        // (none)
-
         // Define file annotations
         $gcanvas->annotate_files('mod_gcanvas', 'intro', null); // This file areas haven't itemid
         $gcanvas->annotate_files('mod_gcanvas', 'helptext', null); // This file areas haven't itemid
+        $gcanvas->annotate_files('mod_gcanvas', 'toolbar_shape', null); // This file areas haven't itemid
+        $gcanvas->annotate_files('mod_gcanvas', 'background', null); // This file areas haven't itemid
 
-        // Return the root element (page), wrapped into standard activity structure
+        if ($userinfo) {
+            $attempt->set_source_table('gcanvas_attempt', ['gcanvas_id' => backup::VAR_PARENTID]);
+            $attempt->annotate_ids('user', 'user_id');
+            $attempt->annotate_files('mod_gcanvas', 'attempt', 'id');
+
+            $attempts->add_child($attempt);
+        }
+
+        // Return the root element (gcanvas), wrapped into standard activity structure
         return $this->prepare_activity_structure($gcanvas);
     }
 }

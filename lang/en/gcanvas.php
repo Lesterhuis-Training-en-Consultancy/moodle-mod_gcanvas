@@ -71,3 +71,7 @@ $string['javascript:confirm_desc'] = 'Are you sure to delete this sketch?';
 $string['javascript:yes'] = 'Yes';
 $string['javascript:no'] = 'No';
 
+$string['privacy:metadata:attempt'] = 'Information about the user\'s attempts for a given gcanvas activity';
+$string['privacy:metadata:attempt:gcanvas'] = 'The gcanvas module ID';
+$string['privacy:metadata:attempt:json_data'] = 'The attempt data, this is stored in json format';
+$string['privacy:metadata:attempt:added_on'] = 'The timestamp indicating when the attempt is saved';

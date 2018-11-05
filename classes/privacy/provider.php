@@ -13,6 +13,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+namespace mod_gcanvas\privacy;
+defined('MOODLE_INTERNAL') || die;
+
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\transform;
 use core_privacy\local\request\writer;
@@ -39,7 +42,6 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
     \core_privacy\local\metadata\collection {
 
         $collection->add_database_table('gcanvas_attempt', [
-            'userid' => 'privacy:metadata:attempt:userid',
             'gcanvas' => 'privacy:metadata:attempt:gcanvas',
             'json_data' => 'privacy:metadata:attempt:json_data',
             'added_on' => 'privacy:metadata:attempt:added_on',
@@ -85,8 +87,8 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
      * @param   \core_privacy\local\request\approved_contextlist $contextlist The approved contexts to export
      *                                                                        information for.
      *
-     * @throws coding_exception
-     * @throws dml_exception
+     * @throws \coding_exception
+     * @throws \dml_exception
      */
     public static function export_user_data(\core_privacy\local\request\approved_contextlist $contextlist) {
         if (empty($contextlist->count())) {
@@ -121,7 +123,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
 
                 writer::with_context($context)
                       ->export_data($subcontexts, $attempt)
-                      ->export_area_files($subcontexts, 'mod_gcanvas', 'student_image', $itemid);
+                      ->export_area_files($subcontexts, 'mod_gcanvas', 'attempt', $itemid);
             }
         }
     }
@@ -160,8 +162,8 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
      *                                                                      that were submitted by.
      *
      * @return array                Array of gcanvas attempts details.
-     * @throws coding_exception
-     * @throws dml_exception
+     * @throws \coding_exception
+     * @throws \dml_exception
      */
     protected static function get_gcanvas_attempts_by_contextlist(\core_privacy\local\request\approved_contextlist $contextlist, int $userid) {
         global $DB;
@@ -263,6 +265,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
      * @param context $context The specific context to delete data for.
      *
      * @throws dml_exception
+     * @throws \dml_exception
      */
     public static function delete_data_for_all_users_in_context(\context $context) {
         global $DB;
@@ -275,7 +278,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
 
                 // Delete all file uploads associated with the assignment submission for the specified context.
                 $fs = get_file_storage();
-                $fs->delete_area_files($context->id, 'mod_gcanvas', 'student_image');
+                $fs->delete_area_files($context->id, 'mod_gcanvas', 'attempt');
             }
         }
     }
@@ -288,6 +291,8 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
      *
      * @throws coding_exception
      * @throws dml_exception
+     * @throws \dml_exception
+     * @throws \coding_exception
      */
     public static function delete_data_for_user(\core_privacy\local\request\approved_contextlist $contextlist) {
         global $DB;
@@ -306,7 +311,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
         $fs = get_file_storage();
         foreach ($contextlist->get_contextids() as $contextid) {
             foreach ($gcanvasattemptids as $itemid) {
-                $fs->delete_area_files($contextid, 'mod_gcanvas', 'student_image', $itemid);
+                $fs->delete_area_files($contextid, 'mod_gcanvas', 'attempt', $itemid);
             }
         }
     }

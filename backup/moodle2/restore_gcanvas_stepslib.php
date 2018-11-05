@@ -47,7 +47,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         return $this->prepare_activity_structure($paths);
     }
 
-    protected function process_page($data) {
+    protected function process_gcanvas($data) {
         global $DB;
 
         $data = (object)$data;
