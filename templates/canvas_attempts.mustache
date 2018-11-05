@@ -19,27 +19,27 @@
     @copyright 17-10-2018 MoodleFreak.nl
     @author    Luuk Verhoeven
 }}
-<div class="card-deck mt-4">
+<div class="container card-deck mt-4">
     {{#attempts}}
-        <div class="col-md-3 mb-4">
+        <div class="col-3 mb-4">
             <div class="card">
-                <div class="image-holder">
-                    <img class="card-img-top img-fluid" src="{{src}}" alt="">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{added_on}}</h5>
-                    <span data-id="{{id}}" class="delete btn btn-danger pull-right"
-                       title="{{# str}} btn:remove, mod_gcanvas {{/ str}}">
+                <div class="h-100">
+                    <img class="card-img-top img-fluid" src="{{src}}" alt="{{added_on}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{added_on}}</h5>
+                        <span data-id="{{id}}" class="delete btn btn-danger pull-right"
+                              title="{{# str}} btn:remove, mod_gcanvas {{/ str}}">
                         <i class="fa fa-remove" aria-hidden="true"></i>
                     </span>
-                    <a href="{{src}}" class="btn btn-success pull-right"
-                       title="{{# str}} btn:download, mod_gcanvas {{/ str}}">
-                        <i class="fa fa-download" aria-hidden="true"></i>
-                    </a>
-                    <span data-id="{{id}}" class="restore btn btn-default pull-right"
-                       title="{{# str}} btn:restore, mod_gcanvas {{/ str}}">
+                        <a href="{{src}}" class="btn btn-success pull-right"
+                           title="{{# str}} btn:download, mod_gcanvas {{/ str}}">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                        <span data-id="{{id}}" class="restore btn btn-default pull-right"
+                              title="{{# str}} btn:restore, mod_gcanvas {{/ str}}">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                     </span>
+                    </div>
                 </div>
             </div>
         </div>

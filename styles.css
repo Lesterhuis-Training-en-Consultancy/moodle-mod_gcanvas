@@ -53,6 +53,12 @@
     /*border: 1px solid #000;*/
 }
 
+.card-img-top {
+    min-width: 100%;
+    width: auto;
+    height: auto;
+}
+
 #image-picker {
     position: absolute;
     width: 150px;
@@ -141,7 +147,7 @@ div#sketch-tool {
     position: fixed;
     margin-left: -310px;
     width: 600px;
-    height: 400px;
+    min-height: 400px;
     background: #fff;
     z-index: 9999;
     padding: 20px;
