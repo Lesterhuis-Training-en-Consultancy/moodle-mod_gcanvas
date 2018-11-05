@@ -61,8 +61,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      */
     static public function define_decode_contents() {
         $contents = [];
-
-        // Define the contents.
+        $contents[] = new restore_decode_content('gcanvas', ['intro', 'helptext'], 'gcanvas');
 
         return $contents;
     }

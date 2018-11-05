@@ -38,24 +38,38 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
      * Defines the structure of the resulting xml file.
      *
      * @return backup_nested_element The structure wrapped by the common 'activity' element.
-     * @throws base_step_exception
+     * @throws base_element_struct_exception
      */
     protected function define_structure() {
-        $userinfo = $this->get_setting_value('userinfo');
 
-        // Replace with the attributes and final elements that the element will handle.
-        $attributes = null;
-        $final_elements = null;
-        $root = new backup_nested_element('mod_gcanvas', $attributes, $final_elements);
+//        $userinfo = $this->get_setting_value('userinfo');
 
-        // Build the tree with these elements with $root as the root of the backup tree.
+        // Define each element separated
+        $gcanvas = new backup_nested_element('gcanvas', ['id'], [
+            'name',
+            'intro',
+            'introformat',
+            'content',
+            'contentformat',
+            'helptext',
+            'has_horizontal_ruler',
+            'timemodified',
+        ]);
 
-        // Define the source tables for the elements.
+        // Build the tree
+        // (love this)
 
-        // Define id annotations.
+        // Define sources
+        $gcanvas->set_source_table('gcanvas', ['id' => backup::VAR_ACTIVITYID]);
 
-        // Define file annotations.
+        // Define id annotations
+        // (none)
 
-        return $this->prepare_activity_structure($root);
+        // Define file annotations
+        $gcanvas->annotate_files('mod_gcanvas', 'intro', null); // This file areas haven't itemid
+        $gcanvas->annotate_files('mod_gcanvas', 'helptext', null); // This file areas haven't itemid
+
+        // Return the root element (page), wrapped into standard activity structure
+        return $this->prepare_activity_structure($gcanvas);
     }
 }
