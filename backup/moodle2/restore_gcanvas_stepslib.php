@@ -57,7 +57,6 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         // Any changes to the list of dates that needs to be rolled should be same during course restore and course reset.
         // See MDL-9367.
 
-        // insert the page record
         $newitemid = $DB->insert_record('gcanvas', $data);
 
         // immediately after inserting "activity" record, call this
@@ -66,7 +65,10 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
 
     protected function after_execute() {
         // Add page related files, no need to match by itemname (just internally handled context)
-        $this->add_related_files('mod_gcanvas', 'intro', null);
-        $this->add_related_files('mod_gcanvas', 'helptext', null);
+        $this->add_related_files('mod_gcanvas', 'intro' , 'gcanvas');
+        $this->add_related_files('mod_gcanvas', 'helptext' , 'gcanvas');
+        $this->add_related_files('mod_gcanvas', 'background', 'gcanvas');
+        $this->add_related_files('mod_gcanvas', 'toolbar_shape', 'gcanvas');
+        $this->add_related_files('mod_gcanvas', 'attempt', 'gcanvas_attempt');
     }
 }
