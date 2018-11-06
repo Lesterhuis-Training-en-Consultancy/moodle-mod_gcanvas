@@ -44,6 +44,8 @@ class intro extends \moodleform {
             'subdirs' => false,
             'maxfiles' => EDITOR_UNLIMITED_FILES,
             'maxbytes' => $CFG->maxbytes,
+            'component' => 'mod_gcanvas',
+            'filearea' => 'helptext',
             'enable_filemanagement' => true,
         ]);
         $mform->setType('helptext', PARAM_RAW);
