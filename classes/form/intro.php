@@ -36,10 +36,17 @@ class intro extends \moodleform {
      * @throws \coding_exception
      */
     protected function definition() {
+        global $CFG , $PAGE;
         $mform = &$this->_form;
-        $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas'));
+        $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas') , null,  [
+            'context' => $PAGE->context,
+            'trusttext' => true,
+            'subdirs' => false,
+            'maxfiles' => EDITOR_UNLIMITED_FILES,
+            'maxbytes' => $CFG->maxbytes,
+            'enable_filemanagement' => true,
+        ]);
         $mform->setType('helptext', PARAM_RAW);
-
         $this->add_action_buttons(true, get_string('btn:submit', 'mod_gcanvas'));
     }
 }
