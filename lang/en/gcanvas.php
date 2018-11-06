@@ -15,24 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
+ * Plugin EN strings are defined here.
  *
  * @package     mod_gcanvas
- * @category    string
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 // Init.
-$string['pluginname'] = 'Canvas Game';
-$string['modulename'] = 'Canvas Game';
-$string['modulenameplural'] = 'Canvas Game';
-$string['pluginadministration'] = 'Canvas Game administration';
+$string['pluginname'] = 'Canvas game';
+$string['modulename'] = 'Canvas game';
+$string['modulenameplural'] = 'Canvas game';
+$string['pluginadministration'] = 'Canvas game administration';
 $string['teacher_tools'] = 'Teacher tools';
 
-$string['gcanvas:addinstance'] = 'Add new Canvas Game instance';
-$string['gcanvas:view'] = 'View Canvas Game';
+$string['gcanvas:addinstance'] = 'Add a new canvas game instance';
+$string['gcanvas:view'] = 'View canvas game';
 $string['gcanvas:teacher'] = 'Canvas teacher can change the canvas properties';
 $string['gcanvas:student_image'] = 'Allows student to upload files';
 
@@ -66,7 +65,7 @@ $string['btn:intro'] = 'Edit help text';
 $string['btn:submit'] = 'Submit';
 
 // Javascript.
-$string['javascript:confirm_title'] = 'Confirm deletion sketch';
+$string['javascript:confirm_title'] = 'Confirm deletion of your sketch';
 $string['javascript:confirm_desc'] = 'Are you sure to delete this sketch?';
 $string['javascript:yes'] = 'Yes';
 $string['javascript:no'] = 'No';
