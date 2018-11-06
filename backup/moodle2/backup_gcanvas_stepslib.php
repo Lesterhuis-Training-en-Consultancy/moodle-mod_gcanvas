@@ -67,14 +67,14 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
         $attempts->add_child($attempt);
         $gcanvas->add_child($attempts);
 
-        // Define sources
+        // Define sources.
         $gcanvas->set_source_table('gcanvas', ['id' => backup::VAR_ACTIVITYID]);
 
-        // Define file annotations
-        $gcanvas->annotate_files('mod_gcanvas', 'intro', null); // This file areas haven't itemid
-        $gcanvas->annotate_files('mod_gcanvas', 'helptext',  'id'); // This file areas haven't itemid
-        $gcanvas->annotate_files('mod_gcanvas', 'toolbar_shape', 'id'); // This file areas haven't itemid
-        $gcanvas->annotate_files('mod_gcanvas', 'background', 'id'); // This file areas haven't itemid
+        // Define file annotations.
+        $gcanvas->annotate_files('mod_gcanvas', 'intro', null); // This file areas haven't itemid.
+        $gcanvas->annotate_files('mod_gcanvas', 'helptext',  'id'); // This file areas haven't itemid.
+        $gcanvas->annotate_files('mod_gcanvas', 'toolbar_shape', 'id'); // This file areas haven't itemid.
+        $gcanvas->annotate_files('mod_gcanvas', 'background', 'id'); // This file areas haven't itemid.
 
         if ($userinfo) {
             $attempt->set_source_table('gcanvas_attempt', ['gcanvas_id' => backup::VAR_PARENTID]);
@@ -83,7 +83,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
             $attempt->annotate_ids('user', 'user_id');
         }
 
-        // Return the root element (gcanvas), wrapped into standard activity structure
+        // Return the root element (gcanvas), wrapped into standard activity structure.
         return $this->prepare_activity_structure($gcanvas);
     }
 }
