@@ -39,7 +39,7 @@ if ($id) {
     $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
     $canvas = $DB->get_record('gcanvas', ['id' => $cm->instance], '*', MUST_EXIST);
 } else if ($g) {
-    $canvas = $DB->get_record('gcanvas', ['id' => $n], '*', MUST_EXIST);
+    $canvas = $DB->get_record('gcanvas', ['id' => $g], '*', MUST_EXIST);
     $course = $DB->get_record('course', ['id' => $canvas->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('gcanvas', $canvas->id, $course->id, false, MUST_EXIST);
 } else {

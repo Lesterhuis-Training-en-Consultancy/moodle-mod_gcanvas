@@ -103,7 +103,7 @@ function gcanvas_delete_instance($id) {
         return false;
     }
 
-    $DB->delete_records('mod_gcanvas', ['id' => $id]);
+    $DB->delete_records('gcanvas', ['id' => $id]);
 
     return true;
 }

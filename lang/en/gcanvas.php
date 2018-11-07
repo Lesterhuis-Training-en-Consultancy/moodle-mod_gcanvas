@@ -43,6 +43,7 @@ $string['form:attachment'] = 'Attachment';
 $string['form:helptext'] = 'Help text';
 
 // Buttons.
+$string['btn:text'] = 'Press this icon to place a text';
 $string['btn:save'] = 'Save canvas';
 $string['btn:clear'] = 'Clear all';
 $string['btn:samples'] = 'Show intro';

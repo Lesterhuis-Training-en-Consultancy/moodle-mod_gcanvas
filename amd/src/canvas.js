@@ -147,6 +147,15 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         * Default text.
+         */
+        default_shape_textbox: {
+            top   : 50,
+            left  : 200,
+            fill  : '#0081b4'
+        },
+
+        /**
          * Load user there history.
          */
         load_history: function () {
@@ -279,7 +288,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         load_dynamic_toolbar_mapping_shapes: function () {
 
             $('#toolbar .icon[data-element-type]').on('click', function () {
-
+                var el;
                 var elementtype = $(this).data('element-type');
 
                 try {
@@ -294,7 +303,11 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 if (canvas_module.hasOwnProperty(shape)) {
                     debug.log("Shape found");
 
-                    var el = new fabric[elementtype](canvas_module[shape]);
+                    if (elementtype === 'Textbox') {
+                        el = new fabric[elementtype]('DEMO', canvas_module[shape]);
+                    } else {
+                        el = new fabric[elementtype](canvas_module[shape]);
+                    }
 
                     canvas.add(el);
                     canvas.setActiveObject(el);
@@ -604,7 +617,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 canvas_module.select_toolbar_image();
             });
 
-            $('#image-picker ').on('click','img', function () {
+            $('#image-picker ').on('click', 'img', function () {
                 canvas_module.add_image_from_url($(this).attr('src'));
                 $('#image-picker').hide();
             });
@@ -818,7 +831,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 height: 2,
                 id    : 'ruler',
                 left  : 0,
-                top   : 370,
+                top   : 410,
                 angle : 0,
                 fill  : '#8B58A1'
             });
