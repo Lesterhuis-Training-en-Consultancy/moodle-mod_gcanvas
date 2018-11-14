@@ -167,3 +167,19 @@ div#sketch-tool {
     border: 1px solid #000;
     overflow-y: scroll;
 }
+
+.dialog .close {
+    position: absolute;
+    background: red;
+    width: 30px;
+    z-index: 999999999;
+    left: 50%;
+    top: 77px;
+    text-align: center;
+    margin-left: 260px;
+    color: #fff;
+}
+
+#select-a-image ul{
+    list-style: none;
+}
