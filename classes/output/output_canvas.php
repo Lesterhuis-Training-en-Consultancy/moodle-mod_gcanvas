@@ -57,7 +57,7 @@ class output_canvas implements renderable, templatable {
      * @throws \coding_exception
      */
     public function export_for_template(renderer_base $output) {
-        global $PAGE;
+        global $PAGE , $CFG;
         $data = [];
 
         $object = new stdClass();
@@ -70,7 +70,19 @@ class output_canvas implements renderable, templatable {
         $object->linkintro->params(['action' => 'intro']);
         $object->linkintro = $object->linkintro->out(false);
 
-        $object->helptext = $this->canvas->helptext;
+        // Fix links to files.
+        $context = \context_module::instance($PAGE->cm->id);
+        $options = [
+            'noclean' => true,
+            'para' => false,
+            'filter' => false,
+            'context' => $context,
+            'overflowdiv' => true,
+        ];
+        $intro = file_rewrite_pluginfile_urls($this->canvas->helptext, 'pluginfile.php', $context->id, 'mod_gcanvas' ,
+            'helptext', 0);
+
+        $object->helptext = trim(format_text($intro, FORMAT_HTML, $options, null)) ;
         return $object;
     }
 

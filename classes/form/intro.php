@@ -23,6 +23,7 @@
  * @copyright 31-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
+
 namespace mod_gcanvas\form;
 
 defined('MOODLE_INTERNAL') || die;
@@ -36,9 +37,9 @@ class intro extends \moodleform {
      * @throws \coding_exception
      */
     protected function definition() {
-        global $CFG , $PAGE;
+        global $CFG, $PAGE;
         $mform = &$this->_form;
-        $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas') , null,  [
+        $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas'), null, [
             'context' => $PAGE->context,
             'trusttext' => true,
             'subdirs' => false,

@@ -69,6 +69,16 @@ $PAGE->set_title(format_string($canvas->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
+$fileoptions =     [
+    'subdirs' => 1,
+    'maxbytes' => $CFG->maxbytes,
+    'maxfiles' => -1,
+    'changeformat' => 1,
+    'context' => $modulecontext,
+    'noclean' => 1,
+    'trusttext' => 0,
+];
+
 /** @var mod_gcanvas_renderer $renderer * */
 $renderer = $PAGE->get_renderer('mod_gcanvas');
 
@@ -78,10 +88,13 @@ switch ($action) {
         has_capability('mod/gcanvas:teacher', $PAGE->context);
 
         $form = new \mod_gcanvas\form\intro($PAGE->url);
+        $draftitemid = file_get_submitted_draft_itemid('helptext');
         $form->set_data((object)[
             'helptext' => [
-                'text' => $canvas->helptext,
+                'text' => file_prepare_draft_area($draftitemid, $PAGE->context->id, 'mod_gcanvas',
+                    'helptext', 0,$fileoptions, $canvas->helptext),
                 'format' => FORMAT_HTML,
+                'itemid' => $draftitemid
             ],
         ]);
 
@@ -90,6 +103,12 @@ switch ($action) {
         }
 
         if (($data = $form->get_data()) != false) {
+
+            // Convert draft to final.
+            $draftitemid = $data->helptext['itemid'];
+            $data->helptext['text'] = file_save_draft_area_files($draftitemid, $modulecontext->id,
+                'mod_gcanvas', 'helptext', 0,$fileoptions, $data->helptext['text']);
+
 
             $DB->update_record('gcanvas', (object)[
                 'id' => $canvas->id,
