@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 // Init.
 $string['pluginname'] = 'Canvas spel';
 $string['modulename'] = 'Canvas spel';
+$string['modulename_help'] = 'Module help';
+
 $string['modulenameplural'] = 'Canvas spel';
 $string['pluginadministration'] = 'Canvas spel instellingen';
 $string['teacher_tools'] = 'Docent opties';
@@ -43,7 +45,7 @@ $string['form:attachment'] = 'Bijlage';
 $string['form:helptext'] = 'Help tekt';
 
 // Buttons.
-$string['btn:save'] = 'Bevaar canvas';
+$string['btn:save'] = 'Bewaar canvas';
 $string['btn:clear'] = 'Wis alles';
 $string['btn:samples'] = 'Toon voorbeeld';
 $string['btn:text'] = 'Klik hier om tekst te plaatsen.';
@@ -70,6 +72,7 @@ $string['javascript:confirm_title'] = 'Bevestig dat je tekening wil verwijderen.
 $string['javascript:confirm_desc'] = 'Weet je zeker dat je tekening wil verwijderen?';
 $string['javascript:yes'] = 'Ja';
 $string['javascript:no'] = 'Nee';
+$string['javascript:updated'] = 'Updated!';
 
 $string['privacy:metadata:attempt'] = 'Informatie het aantal keren dat een gebruiker het canvas spel gebruikt heeft.';
 $string['privacy:metadata:attempt:gcanvas'] = 'Het canavs spel ID';

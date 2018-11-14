@@ -45,6 +45,7 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
             'javascript:confirm_desc',
             'javascript:yes',
             'javascript:no',
+            'javascript:updated',
         ], 'mod_gcanvas');
 
         $backgrounds = \mod_gcanvas\helper::get_images('background' , $PAGE->context , $PAGE->cm->instance , 1);

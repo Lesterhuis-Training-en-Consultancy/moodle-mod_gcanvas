@@ -225,7 +225,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
                         if (response.success) {
                             notification.addNotification({
-                                message: 'Updated!',
+                                message: M.util.get_string('javascript:updated', 'mod_gcanvas'),
                                 type   : "success",
                             });
 

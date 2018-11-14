@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 // Init.
 $string['pluginname'] = 'Canvas game';
 $string['modulename'] = 'Canvas game';
+$string['modulename_help'] = 'Module help';
+
 $string['modulenameplural'] = 'Canvas game';
 $string['pluginadministration'] = 'Canvas game administration';
 $string['teacher_tools'] = 'Teacher tools';
@@ -70,6 +72,7 @@ $string['javascript:confirm_title'] = 'Confirm deletion of your sketch';
 $string['javascript:confirm_desc'] = 'Are you sure to delete this sketch?';
 $string['javascript:yes'] = 'Yes';
 $string['javascript:no'] = 'No';
+$string['javascript:updated'] = 'Updated!';
 
 $string['privacy:metadata:attempt'] = 'Information about the user\'s attempts for a given gcanvas activity';
 $string['privacy:metadata:attempt:gcanvas'] = 'The gcanvas module ID';
