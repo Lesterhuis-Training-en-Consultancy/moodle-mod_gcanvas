@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 // Init.
 $string['pluginname'] = 'Canvas spel';
 $string['modulename'] = 'Canvas spel';
-$string['modulename_help'] = 'Module help';
+$string['modulename_help'] = 'Het doel van het Canvas spel is dat leerlingen op een vrije manier meer inzicht kunnen krijgen in hun eigen situatie. Dit kan met behulp van tekst, afbeeldingen of vormen. Elke canvas kan vervolgens opgeslagen, gedownload of hergebruikt worden. Het canvas spel heeft geen beoordelingsmethode.';
 
 $string['modulenameplural'] = 'Canvas spel';
 $string['pluginadministration'] = 'Canvas spel instellingen';
@@ -72,7 +72,7 @@ $string['javascript:confirm_title'] = 'Bevestig dat je tekening wil verwijderen.
 $string['javascript:confirm_desc'] = 'Weet je zeker dat je tekening wil verwijderen?';
 $string['javascript:yes'] = 'Ja';
 $string['javascript:no'] = 'Nee';
-$string['javascript:updated'] = 'Updated!';
+$string['javascript:updated'] = 'Bewaard!';
 
 $string['privacy:metadata:attempt'] = 'Informatie het aantal keren dat een gebruiker het canvas spel gebruikt heeft.';
 $string['privacy:metadata:attempt:gcanvas'] = 'Het canavs spel ID';

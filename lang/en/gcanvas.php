@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 // Init.
 $string['pluginname'] = 'Canvas game';
 $string['modulename'] = 'Canvas game';
-$string['modulename_help'] = 'Module help';
+$string['modulename_help'] = 'The canvas game is design to give students the possibility to gain more insight in their situation and creating strategies by using the drawing tools of the canvas game. A student can save, download or reuse the canvas as many times as they want. The Canvas game does not support teacher feedback or grading. ';
 
 $string['modulenameplural'] = 'Canvas game';
 $string['pluginadministration'] = 'Canvas game administration';
