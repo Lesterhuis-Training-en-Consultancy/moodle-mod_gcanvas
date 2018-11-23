@@ -150,9 +150,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * Default text.
          */
         default_shape_textbox: {
-            top   : 50,
-            left  : 200,
-            fill  : '#0081b4'
+            top : 50,
+            left: 200,
+            fill: '#0081b4'
         },
 
         /**
@@ -796,6 +796,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
             // Load canvas.
             this.__canvas = canvas = new fabric.Canvas('sketch');
+
+            // Prevent right click.
+            $('body').on('contextmenu', 'canvas , img', function (e) {
+                return false;
+            });
+
             // fabric.Object.prototype.transparentCorners = false;
             // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
