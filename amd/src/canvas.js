@@ -457,7 +457,13 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                     debug.log(response);
 
                     if (response.success) {
+                        buffer_active = false;
+
                         canvas.loadFromJSON(response.record.json_data, canvas.renderAll.bind(canvas));
+
+                        setTimeout(function () {
+                            buffer_active = true;
+                        } , 1000);
                     }
                 }
             });
