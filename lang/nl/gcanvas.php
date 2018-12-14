@@ -66,6 +66,7 @@ $string['btn:toolbar_images'] = 'Werkbalk afbeeldingen';
 $string['btn:help'] = 'Help';
 $string['btn:intro'] = 'Pas help tekst aan';
 $string['btn:submit'] = 'Bewaren';
+$string['btn:undo'] = 'Ongedaan maken';
 
 // Javascript.
 $string['javascript:confirm_title'] = 'Bevestig dat je deze tekening wil verwijderen.';

@@ -69,6 +69,24 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
     var debug = {};
 
     /**
+     * Local history/cache buffer
+     * @type {number}
+     */
+    var buffer_step = 0;
+
+    /**
+     *
+     * @type {number}
+     */
+    var buffer_timer = 0;
+
+    /**
+     * Should we store changes to localstorage
+     * @type {boolean}
+     */
+    var buffer_active = true;
+
+    /**
      * Set debug mode
      * Should only be enabled if site is in debug mode.
      * @param {boolean} isenabled
@@ -569,6 +587,26 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         },
 
         /**
+         * Undo 1 canvas step
+         */
+        undo: function () {
+
+            if (buffer_step === 0) {
+                return;
+            }
+            try {
+                var data = localStorage.getItem('buffer_' + buffer_step);
+                canvas.loadFromJSON(data, canvas.renderAll.bind(canvas));
+
+                localStorage.removeItem('buffer_' + buffer_step);
+
+                buffer_step--;
+            } catch (e) {
+                debug.log(e);
+            }
+        },
+
+        /**
          * Toolbar actions.
          */
         load_toolbar: function () {
@@ -605,6 +643,15 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             // Load emoji picker.
             $('#smiley i').on('click', function () {
                 canvas_module.load_emoji_picker();
+            });
+
+            $('#undo').on('click', function () {
+                buffer_active = false;
+                canvas_module.undo();
+
+                setTimeout(function () {
+                    buffer_active = true;
+                } , 500);
             });
 
             // Add own image to the canvas.
@@ -813,7 +860,15 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             canvas.on({
                 'selection:created': this.onchange,
                 'selection:updated': this.onchange,
+
+                //  'object:moving' : this.add_to_history,
+                'object:added'   : this.add_to_cache,
+                'object:removed' : this.add_to_cache,
+                'object:modified': this.add_to_cache,
             });
+
+            // Make sure we start with a empty storage.
+            localStorage.clear();
 
             this.prevent_moving_out_of_canvas();
 
@@ -826,6 +881,34 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             this.load_history();
 
             this.keyboard_actions();
+        },
+
+        /**
+         * Keep a history/cache buffer.
+         */
+        add_to_cache: function () {
+            debug.log('history');
+            canvas_module.add_canvas_to_cache_buffer();
+        },
+
+        /**
+         * Add canvas to local storage.
+         */
+        add_canvas_to_cache_buffer: function () {
+            // When undo there lot of modified events we doesnt want to trigger if thats the case.
+            if(!buffer_active){
+                return;
+            }
+
+            clearTimeout(buffer_timer);
+            setTimeout(function () {
+                try {
+                    buffer_step++;
+                    localStorage.setItem('buffer_' + buffer_step, JSON.stringify(canvas));
+                } catch (e) {
+                    debug.log(e);
+                }
+            }, 500);
         },
 
         /**
