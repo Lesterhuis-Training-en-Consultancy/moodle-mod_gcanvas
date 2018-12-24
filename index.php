@@ -27,7 +27,7 @@
 require_once("../../config.php");
 defined('MOODLE_INTERNAL') || die;
 
-$id = required_param('id',PARAM_INT);   // course
-$PAGE->set_url('/mod/gcanvas/index.php', array('id'=>$id));
+$id = required_param('id', PARAM_INT);   // course
+$PAGE->set_url('/mod/gcanvas/index.php', ['id' => $id]);
 
 redirect("$CFG->wwwroot/course/view.php?id=$id");
