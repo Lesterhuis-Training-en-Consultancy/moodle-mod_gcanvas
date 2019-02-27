@@ -111,16 +111,18 @@ class ajax {
     /**
      * Load emoji html
      *
-     * @return array
+     * @return arrayd
      * @throws \moodle_exception
      */
     public function callable_emoji() {
-        global $PAGE;
+        global $PAGE , $CFG;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
 
         return [
-            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[]),
+            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[
+                'wwwroot' => $CFG->wwwroot
+            ]),
             'success' => true,
         ];
     }
