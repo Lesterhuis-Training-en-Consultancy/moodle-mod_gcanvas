@@ -24,7 +24,7 @@
  * @copyright 2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
-/* eslint no-unused-expressions: "off", no-console:off */
+/* eslint no-unused-expressions: "off", no-console:off, no-invalid-this:"off",no-script-url:"off" */
 define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabric"], function ($, notification, mod1, fabric) {
     'use strict';
 
@@ -642,7 +642,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             });
 
             // Remove selected items.
-            $('#trash i').on('click', function (e) {
+            $('#trash i').on('click', function () {
                 canvas_module.delete_selected_canvas_items();
             });
 
@@ -851,7 +851,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             this.__canvas = canvas = new fabric.Canvas('sketch');
 
             // Prevent right click.
-            $('body').on('contextmenu', 'canvas , img', function (e) {
+            $('body').on('contextmenu', 'canvas , img', function () {
                 return false;
             });
 

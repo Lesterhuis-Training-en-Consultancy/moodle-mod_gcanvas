@@ -108,7 +108,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
             $gcanvas = self::get_gcanvas_output($gcanvasdata);
             writer::with_context($context)->export_data([], $gcanvas);
 
-            // Get the gcanvas attempts
+            // Get the gcanvas attempts.
             $attemptsdata = self::get_gcanvas_attempts_by_gcanvas($gcanvasdata->id, $user->id);
 
             foreach ($attemptsdata as $attemptdata) {
