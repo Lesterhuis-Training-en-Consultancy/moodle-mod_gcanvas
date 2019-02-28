@@ -30,7 +30,7 @@ require_once(__DIR__ . '/../../config.php');
 defined('MOODLE_INTERNAL') || die;
 
 $action = optional_param('action', '', PARAM_TEXT);
-$data = (object) optional_param('data', [], PARAM_RAW);
+$data = (object)optional_param('data', [], PARAM_RAW);
 
 // Set course and context.
 $cm = get_coursemodule_from_id('gcanvas', $data->id, 0, false,

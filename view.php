@@ -69,7 +69,7 @@ $PAGE->set_title(format_string($canvas->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
-$fileoptions =     [
+$fileoptions = [
     'subdirs' => 1,
     'maxbytes' => $CFG->maxbytes,
     'maxfiles' => -1,
@@ -92,9 +92,9 @@ switch ($action) {
         $form->set_data((object)[
             'helptext' => [
                 'text' => file_prepare_draft_area($draftitemid, $PAGE->context->id, 'mod_gcanvas',
-                    'helptext', 0,$fileoptions, $canvas->helptext),
+                    'helptext', 0, $fileoptions, $canvas->helptext),
                 'format' => FORMAT_HTML,
-                'itemid' => $draftitemid
+                'itemid' => $draftitemid,
             ],
         ]);
 
@@ -107,8 +107,7 @@ switch ($action) {
             // Convert draft to final.
             $draftitemid = $data->helptext['itemid'];
             $data->helptext['text'] = file_save_draft_area_files($draftitemid, $modulecontext->id,
-                'mod_gcanvas', 'helptext', 0,$fileoptions, $data->helptext['text']);
-
+                'mod_gcanvas', 'helptext', 0, $fileoptions, $data->helptext['text']);
 
             $DB->update_record('gcanvas', (object)[
                 'id' => $canvas->id,

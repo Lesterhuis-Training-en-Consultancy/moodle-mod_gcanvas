@@ -108,6 +108,7 @@ class helper {
         // Return file.
         if ($return) {
             $images = self::get_images($filearea, $PAGE->context, $PAGE->cm->instance, 1);
+
             return reset($images);
         }
 

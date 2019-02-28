@@ -115,13 +115,13 @@ class ajax {
      * @throws \moodle_exception
      */
     public function callable_emoji() {
-        global $PAGE , $CFG;
+        global $PAGE, $CFG;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
 
         return [
             'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[
-                'wwwroot' => $CFG->wwwroot
+                'wwwroot' => $CFG->wwwroot,
             ]),
             'success' => true,
         ];
@@ -180,6 +180,7 @@ class ajax {
             'image' => $image,
         ];
     }
+
     /**
      * Get toolbar images
      *
@@ -192,7 +193,7 @@ class ajax {
 
         return [
             'success' => true,
-            'images' => helper::get_images('toolbar_shape', $modulecontext, $cobject->cm->instance , 100),
+            'images' => helper::get_images('toolbar_shape', $modulecontext, $cobject->cm->instance, 100),
         ];
     }
 

@@ -48,9 +48,7 @@
 }
 
 #sketch-tool-bg {
-    /*background: #464646;*/
     padding: 20px 0;
-    /*border: 1px solid #000;*/
 }
 
 .card-img-top {
@@ -77,7 +75,7 @@
     max-height: 90px;
 }
 
-#image-picker li{
+#image-picker li {
     margin-bottom: 5px;
 }
 
@@ -180,6 +178,6 @@ div#sketch-tool {
     color: #fff;
 }
 
-#select-a-image ul{
+#select-a-image ul {
     list-style: none;
 }

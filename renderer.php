@@ -48,13 +48,14 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
             'javascript:updated',
         ], 'mod_gcanvas');
 
-        $backgrounds = \mod_gcanvas\helper::get_images('background' , $PAGE->context , $PAGE->cm->instance , 1);
+        $backgrounds = \mod_gcanvas\helper::get_images('background', $PAGE->context, $PAGE->cm->instance, 1);
         $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
                 'background' => reset($backgrounds),
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
                 'id' => $PAGE->url->get_param('id'),
-                'has_horizontal_ruler' => $canvas->has_horizontal_ruler ? true : false, //TODO get this from module settings.
+                'has_horizontal_ruler' => $canvas->has_horizontal_ruler ? true : false,
+                //TODO get this from module settings.
             ],
         ]);
     }
@@ -113,8 +114,8 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function render_uploader(string $filearea ,\stdClass $moduleinstance) {
-        return $this->render_from_template('mod_gcanvas/canvas_uploader', (new \mod_gcanvas\output\output_uploader($filearea , $moduleinstance))
+    public function render_uploader(string $filearea, \stdClass $moduleinstance) {
+        return $this->render_from_template('mod_gcanvas/canvas_uploader', (new \mod_gcanvas\output\output_uploader($filearea, $moduleinstance))
             ->export_for_template($this));
     }
 
