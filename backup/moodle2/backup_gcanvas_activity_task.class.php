@@ -62,11 +62,11 @@ class backup_gcanvas_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, "/");
 
-        // Link to the list of choices
+        // Link to the list of choices.
         $search = "/(" . $base . "\/mod\/gcanvas\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@GCANVASINDEX*$2@$', $content);
 
-        // Link to choice view by moduleid
+        // Link to choice view by moduleid.
         $search = "/(" . $base . "\/mod\/gcanvas\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@GCANVASVIEWBYID*$2@$', $content);
 

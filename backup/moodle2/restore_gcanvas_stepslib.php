@@ -59,14 +59,14 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
 
         $newitemid = $DB->insert_record('gcanvas', $data);
 
-        // immediately after inserting "activity" record, call this
+        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
     protected function after_execute() {
-        // Add page related files, no need to match by itemname (just internally handled context)
-        $this->add_related_files('mod_gcanvas', 'intro' , 'gcanvas');
-        $this->add_related_files('mod_gcanvas', 'helptext' , 'gcanvas');
+        // Add page related files, no need to match by itemname (just internally handled context).
+        $this->add_related_files('mod_gcanvas', 'intro', 'gcanvas');
+        $this->add_related_files('mod_gcanvas', 'helptext', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'background', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'toolbar_shape', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'attempt', 'gcanvas_attempt');

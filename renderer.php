@@ -55,7 +55,7 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
                 'id' => $PAGE->url->get_param('id'),
                 'has_horizontal_ruler' => $canvas->has_horizontal_ruler ? true : false,
-                //TODO get this from module settings.
+                // TODO get this from module settings.
             ],
         ]);
     }
@@ -83,9 +83,9 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @throws moodle_exception
      */
     public function render_canvas(\stdClass $canvas) {
-        $context = new \mod_gcanvas\output\output_canvas($canvas);
+        $context = (new \mod_gcanvas\output\output_canvas($canvas))->export_for_template($this);
 
-        return $this->render_from_template('mod_gcanvas/canvas', $context)->export_for_template($this);
+        return $this->render_from_template('mod_gcanvas/canvas', $context);
     }
 
     /**
@@ -95,13 +95,12 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      *
      * @return bool|string
      * @throws coding_exception
-     * @throws dml_exception
      * @throws moodle_exception
      */
     public function render_attempts(int $id) {
-        $context = new output_canvas_attempts($id);
+        $context = (new output_canvas_attempts($id))->export_for_template($this);
 
-        return $this->render_from_template('mod_gcanvas/canvas_attempts', $context)->export_for_template($this);
+        return $this->render_from_template('mod_gcanvas/canvas_attempts', $context);
     }
 
     /**
@@ -112,14 +111,12 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @param stdClass $moduleinstance
      *
      * @return bool|string
-     * @throws coding_exception
      * @throws moodle_exception
      */
     public function render_uploader(string $filearea, \stdClass $moduleinstance) {
+        $context = (new \mod_gcanvas\output\output_uploader($filearea, $moduleinstance))->export_for_template($this);
 
-        $context = new \mod_gcanvas\output\output_uploader($filearea, $moduleinstance);
-
-        return $this->render_from_template('mod_gcanvas/canvas_uploader', $context)->export_for_template($this);
+        return $this->render_from_template('mod_gcanvas/canvas_uploader', $context);
     }
 
 }

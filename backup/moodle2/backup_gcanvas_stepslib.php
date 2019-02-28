@@ -72,7 +72,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
 
         // Define file annotations.
         $gcanvas->annotate_files('mod_gcanvas', 'intro', null); // This file areas haven't itemid.
-        $gcanvas->annotate_files('mod_gcanvas', 'helptext',  'id'); // This file areas haven't itemid.
+        $gcanvas->annotate_files('mod_gcanvas', 'helptext', 'id'); // This file areas haven't itemid.
         $gcanvas->annotate_files('mod_gcanvas', 'toolbar_shape', 'id'); // This file areas haven't itemid.
         $gcanvas->annotate_files('mod_gcanvas', 'background', 'id'); // This file areas haven't itemid.
 

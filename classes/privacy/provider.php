@@ -171,7 +171,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
             'user_id' => $userid,
         ];
 
-        $sql = "SELECT attempt.* 
+        $sql = "SELECT attempt.*
                   FROM {context} ctx
                   JOIN {course_modules} cm ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextmodule
                   JOIN {modules} m ON cm.module = m.id AND m.name = :modulename

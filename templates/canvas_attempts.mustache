@@ -19,6 +19,25 @@
     @copyright 17-10-2018 MFreak.nl
     @author    Luuk Verhoeven
 }}
+{{!
+    @template mod_canvas/canvas_attempts
+
+    Overview of user there attempts
+
+    Context variables required for this template:
+    * id - The id of the attempt
+    * src - The path to the image.
+    * added_on - The time the attempt was added.
+
+    Example context (json):
+    {
+        "attempts" : [
+            "id" : 1,
+            "src" : "https://domain.com/attempt.jpg",
+            "added_on" : "01-11-2018 12:08",
+        ]
+    }
+}}
 <div class="container card-deck mt-4">
     {{#attempts}}
         <div class="col-3 mb-4">
