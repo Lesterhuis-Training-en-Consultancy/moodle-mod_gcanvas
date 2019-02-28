@@ -101,12 +101,12 @@
     border: 1px solid #343434;
 }
 
-#page-mod-gcanvas-view #page-mod-gcanvas-view #toolbar i {
+#page-mod-gcanvas-view #toolbar i {
     color: #fff;
     font-size: 2em;
 }
 
-#page-mod-gcanvas-view #page-mod-gcanvas-view #toolbar {
+#page-mod-gcanvas-view #toolbar {
     background: #343434;
     min-height: 500px;
     width: 70px;
