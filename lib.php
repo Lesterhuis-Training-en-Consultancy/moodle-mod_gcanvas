@@ -189,8 +189,8 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
         return false;
     }
 
-    // finally send the file
-    // for folder module, we force download file all the time
+    // Finally send the file.
+    // For folder module, we force download file all the time.
     send_stored_file($file, 0, 0, true, $options);
 }
 

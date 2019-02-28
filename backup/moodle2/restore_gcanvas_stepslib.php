@@ -43,7 +43,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         $paths = [];
         $paths[] = new restore_path_element('gcanvas', '/activity/gcanvas');
 
-        // Return the paths wrapped into standard activity structure
+        // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
     }
 

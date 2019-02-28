@@ -17,6 +17,10 @@
 /**
  * Backup steps for mod_gcanvas are defined here.
  *
+ * For more information about the backup and restore process, please visit:
+ * https://docs.moodle.org/dev/Backup_2.0_for_developers
+ * https://docs.moodle.org/dev/Restore_2.0_for_developers
+ *
  * @package     mod_gcanvas
  * @category    backup
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
@@ -24,10 +28,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
-// For more information about the backup and restore process, please visit:
-// https://docs.moodle.org/dev/Backup_2.0_for_developers
-// https://docs.moodle.org/dev/Restore_2.0_for_developers
 
 /**
  * Define the complete structure for backup, with file and id annotations.
@@ -45,7 +45,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
 
         $userinfo = $this->get_setting_value('userinfo');
 
-        // Define each element separated
+        // Define each element separated.
         $gcanvas = new backup_nested_element('gcanvas', ['id'], [
             'name',
             'intro',

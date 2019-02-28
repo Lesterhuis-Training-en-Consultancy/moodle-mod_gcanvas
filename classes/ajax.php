@@ -45,7 +45,6 @@ class ajax {
      * @param mixed $data
      */
     public function __construct($data) {
-        // default stuff.
         $this->data = (object)$data;
     }
 
