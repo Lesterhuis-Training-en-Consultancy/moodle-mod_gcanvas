@@ -24,7 +24,7 @@
  * @copyright 2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
-/* eslint no-unused-expressions: "off"  no-console: ["error", { allow: ["warn", "error" , "log"] }] */
+/* eslint no-unused-expressions: "off", no-console:off */
 define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabric"], function ($, notification, mod1, fabric) {
     'use strict';
 

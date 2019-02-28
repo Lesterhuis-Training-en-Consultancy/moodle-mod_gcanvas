@@ -83,8 +83,9 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @throws moodle_exception
      */
     public function render_canvas(\stdClass $canvas) {
-        return $this->render_from_template('mod_gcanvas/canvas', (new \mod_gcanvas\output\output_canvas($canvas))
-            ->export_for_template($this));
+        $context = new \mod_gcanvas\output\output_canvas($canvas);
+
+        return $this->render_from_template('mod_gcanvas/canvas', $context)->export_for_template($this);
     }
 
     /**
@@ -98,9 +99,9 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @throws moodle_exception
      */
     public function render_attempts(int $id) {
-        return $this->render_from_template('mod_gcanvas/canvas_attempts',
-            (new output_canvas_attempts($id))
-                ->export_for_template($this));
+        $context = new output_canvas_attempts($id);
+
+        return $this->render_from_template('mod_gcanvas/canvas_attempts', $context)->export_for_template($this);
     }
 
     /**
@@ -115,8 +116,10 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @throws moodle_exception
      */
     public function render_uploader(string $filearea, \stdClass $moduleinstance) {
-        return $this->render_from_template('mod_gcanvas/canvas_uploader', (new \mod_gcanvas\output\output_uploader($filearea, $moduleinstance))
-            ->export_for_template($this));
+
+        $context = new \mod_gcanvas\output\output_uploader($filearea, $moduleinstance);
+
+        return $this->render_from_template('mod_gcanvas/canvas_uploader', $context)->export_for_template($this);
     }
 
 }

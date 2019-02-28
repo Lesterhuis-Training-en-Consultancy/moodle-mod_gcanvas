@@ -29,7 +29,8 @@
     width: 866px;
 }
 
-#page-mod-gcanvas-view #bottom-toolbar span, #page-mod-gcanvas-view #teacher-toolbar span,
+#page-mod-gcanvas-view #bottom-toolbar span,
+#page-mod-gcanvas-view #teacher-toolbar span,
 #page-mod-gcanvas-view #teacher-toolbar a {
     cursor: pointer;
     margin: 5px;

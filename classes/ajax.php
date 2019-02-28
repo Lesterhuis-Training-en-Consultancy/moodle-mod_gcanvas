@@ -17,6 +17,8 @@
 /**
  * Ajax calls.
  *
+ * TODO convert to external webservices more native Moodle, for now this is less complex.
+ *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @package   moodle-mod_gcanvas
@@ -31,7 +33,6 @@ use file_storage;
 
 defined('MOODLE_INTERNAL') || die;
 
-//TODO convert to external webservices more native Moodle, for now this is less complex.
 class ajax {
     /**
      * @var mixed

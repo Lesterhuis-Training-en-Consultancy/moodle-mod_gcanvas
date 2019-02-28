@@ -117,9 +117,8 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
                 $attempt = self::get_gcanvas_attempt_output($attemptdata);
                 $itemid = $attemptdata->id;
 
-                writer::with_context($context)
-                      ->export_data(['attempts'], $attempt)
-                      ->export_area_files(['attempts'], 'mod_gcanvas', 'attempt', $itemid);
+                writer::with_context($context)->export_data(['attempts'], $attempt)->export_area_files(['attempts'],
+                    'mod_gcanvas', 'attempt', $itemid);
             }
         }
     }

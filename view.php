@@ -58,7 +58,6 @@ $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('gcanvas', $canvas);
 $event->trigger();
 
-//$PAGE->requires->css('/mod/gcanvas/styles.css');
 $PAGE->requires->css('/mod/gcanvas/css/spectrum.css');
 $PAGE->set_url('/mod/gcanvas/view.php', [
     'id' => $cm->id,
@@ -79,7 +78,6 @@ $fileoptions = [
     'trusttext' => 0,
 ];
 
-/** @var mod_gcanvas_renderer $renderer * */
 $renderer = $PAGE->get_renderer('mod_gcanvas');
 
 switch ($action) {
