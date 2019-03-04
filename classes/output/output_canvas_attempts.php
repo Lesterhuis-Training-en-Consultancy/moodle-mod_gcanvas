@@ -66,6 +66,8 @@ class output_canvas_attempts implements renderable, templatable {
     }
 
     /**
+     * Get attempt items
+     *
      * @return array
      * @throws \dml_exception
      * @throws \coding_exception
@@ -78,7 +80,7 @@ class output_canvas_attempts implements renderable, templatable {
             'user_id' => $USER->id,
             'status' => 'final',
             'gcanvas_id' => $this->cm->instance,
-        ] , 'added_on DESC');
+        ], 'added_on DESC');
 
         foreach ($rs as $row) {
             $src = $this->get_image($row);
@@ -100,6 +102,8 @@ class output_canvas_attempts implements renderable, templatable {
     }
 
     /**
+     * Get image
+     *
      * @param stdClass $row
      *
      * @return string
@@ -120,7 +124,6 @@ class output_canvas_attempts implements renderable, templatable {
         foreach ($files as $file) {
             $isimage = $file->is_valid_image();
             if ($isimage) {
-                // file_rewrite_pluginfile_urls($post->message, 'pluginfile.php', $modcontext->id, 'mod_forum', 'post', $post->id);
                 return file_encode_url("$CFG->wwwroot/pluginfile.php",
                     '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
                     $file->get_filearea() . $file->get_filepath() . $file->get_itemid() . '/' . $file->get_filename());

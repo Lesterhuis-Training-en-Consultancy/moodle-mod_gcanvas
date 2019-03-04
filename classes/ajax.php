@@ -17,6 +17,8 @@
 /**
  * Ajax calls.
  *
+ * TODO convert to external webservices more native Moodle, for now this is less complex.
+ *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * @package   moodle-mod_gcanvas
@@ -31,7 +33,6 @@ use file_storage;
 
 defined('MOODLE_INTERNAL') || die;
 
-//TODO convert to external webservices more native Moodle, for now this is less complex.
 class ajax {
     /**
      * @var mixed
@@ -44,7 +45,6 @@ class ajax {
      * @param mixed $data
      */
     public function __construct($data) {
-        // default stuff.
         $this->data = (object)$data;
     }
 
@@ -111,16 +111,18 @@ class ajax {
     /**
      * Load emoji html
      *
-     * @return array
+     * @return arrayd
      * @throws \moodle_exception
      */
     public function callable_emoji() {
-        global $PAGE;
+        global $PAGE, $CFG;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
 
         return [
-            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[]),
+            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[
+                'wwwroot' => $CFG->wwwroot,
+            ]),
             'success' => true,
         ];
     }
@@ -178,6 +180,7 @@ class ajax {
             'image' => $image,
         ];
     }
+
     /**
      * Get toolbar images
      *
@@ -190,7 +193,7 @@ class ajax {
 
         return [
             'success' => true,
-            'images' => helper::get_images('toolbar_shape', $modulecontext, $cobject->cm->instance , 100),
+            'images' => helper::get_images('toolbar_shape', $modulecontext, $cobject->cm->instance, 100),
         ];
     }
 

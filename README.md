@@ -10,7 +10,7 @@ In brief, the MFreak mod `gcanvas` gives the user the ability to make a sketch i
 
 ![Moodle35](https://img.shields.io/badge/moodle-3.5-brightgreen.svg)
 ![PHP7.0](https://img.shields.io/badge/PHP-7.0-brightgreen.svg)
-
+[![Build Status](https://travis-ci.org/MFreakNL/moodle-mod_gcanvas.svg?branch=master)](https://travis-ci.org/MFreakNL/moodle-mod_gcanvas)
 ## Screens
 
 <img src="https://content.screencast.com/users/LuukVerhoeven/folders/Snagit/media/3ec4223b-20ba-4757-a6ff-407ee2d6078f/11.07.2018-14.47.png" width="600"  border="0" />
@@ -44,3 +44,5 @@ The GNU GENERAL PUBLIC LICENSE. Please see [License File](LICENSE) for more info
 ## Changelog
 
 See version control for the complete history. Major changes in this version will be listed below.
+
+- Adding a undo function.

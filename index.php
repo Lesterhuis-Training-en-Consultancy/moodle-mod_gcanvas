@@ -15,17 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin administration pages are defined here.
+ * We don't use the index.
  *
- * @package     mod_gcanvas
- * @category    admin
- * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @package   moodle-mod_gcanvas
+ * @copyright 2018-12-24 MFreak.nl
+ * @author    Luuk Verhoeven
+ **/
 
-defined('MOODLE_INTERNAL') || die();
+require_once("../../config.php");
+defined('MOODLE_INTERNAL') || die;
 
-if ($ADMIN->fulltree) {
-    // TODO: Define the plugin settings page.
-    // https://docs.moodle.org/dev/Admin_settings
-}
+$courseid = required_param('id', PARAM_INT);
+$PAGE->set_url('/mod/gcanvas/index.php', ['id' => $courseid]);
+
+require_login($courseid);
+
+// Not used, redirect back to the course.
+redirect(new moodle_url('/course/view.php' , ['id' => $courseid]));

@@ -29,7 +29,8 @@
     width: 866px;
 }
 
-#page-mod-gcanvas-view #bottom-toolbar span, #page-mod-gcanvas-view #teacher-toolbar span,
+#page-mod-gcanvas-view #bottom-toolbar span,
+#page-mod-gcanvas-view #teacher-toolbar span,
 #page-mod-gcanvas-view #teacher-toolbar a {
     cursor: pointer;
     margin: 5px;
@@ -38,28 +39,26 @@
     color: #fff;
 }
 
-#canvas-wrapper {
+#page-mod-gcanvas-view #canvas-wrapper {
     background: #fff;
 }
 
-#sketch-tool {
+#page-mod-gcanvas-view #sketch-tool {
     margin: 0 auto;
     width: 868px;
 }
 
-#sketch-tool-bg {
-    /*background: #464646;*/
+#page-mod-gcanvas-view #sketch-tool-bg {
     padding: 20px 0;
-    /*border: 1px solid #000;*/
 }
 
-.card-img-top {
+#page-mod-gcanvas-view .card-img-top {
     min-width: 100%;
     width: auto;
     height: auto;
 }
 
-#image-picker {
+#page-mod-gcanvas-view #image-picker {
     position: absolute;
     width: 150px;
     height: 200px;
@@ -72,16 +71,16 @@
     padding: 10px;
 }
 
-#image-picker img {
+#page-mod-gcanvas-view #image-picker img {
     cursor: pointer;
     max-height: 90px;
 }
 
-#image-picker li{
+#page-mod-gcanvas-view #image-picker li {
     margin-bottom: 5px;
 }
 
-#emoji-picker {
+#page-mod-gcanvas-view #emoji-picker {
     position: absolute;
     width: 300px;
     height: 200px;
@@ -94,11 +93,11 @@
     padding: 10px;
 }
 
-#emoji-picker img {
+#page-mod-gcanvas-view #emoji-picker img {
     cursor: pointer;
 }
 
-div#sketch-tool {
+#page-mod-gcanvas-view div#sketch-tool {
     border: 1px solid #343434;
 }
 
@@ -114,13 +113,13 @@ div#sketch-tool {
     border-right: none;
 }
 
-.card-img-top {
+#page-mod-gcanvas-view .card-img-top {
     max-height: 50em;
     border-bottom: 1px solid #dfdfdf;
     padding: 10px;
 }
 
-.dialog {
+#page-mod-gcanvas-view .dialog {
     top: 0;
     left: 0;
     position: fixed;
@@ -131,17 +130,17 @@ div#sketch-tool {
     display: none;
 }
 
-.dialog .col-md-3 {
+#page-mod-gcanvas-view .dialog .col-md-3 {
     display: none;
 }
 
-.dialog .col-md-9 {
+#page-mod-gcanvas-view .dialog .col-md-9 {
     width: 100%;
     max-width: 100%;
     flex: 100%;
 }
 
-.dialog form {
+#page-mod-gcanvas-view .dialog form {
     left: 50%;
     top: 100px;
     position: fixed;
@@ -154,7 +153,7 @@ div#sketch-tool {
     border: 1px solid #000;
 }
 
-.dialog .help-content {
+#page-mod-gcanvas-view .dialog .help-content {
     left: 50%;
     top: 100px;
     position: fixed;
@@ -168,7 +167,7 @@ div#sketch-tool {
     overflow-y: scroll;
 }
 
-.dialog .close {
+#page-mod-gcanvas-view .dialog .close {
     position: absolute;
     background: red;
     width: 30px;
@@ -180,6 +179,6 @@ div#sketch-tool {
     color: #fff;
 }
 
-#select-a-image ul{
+#page-mod-gcanvas-view #select-a-image ul {
     list-style: none;
 }

@@ -64,11 +64,12 @@ $string['btn:save_file'] = 'Uploaden';
 $string['btn:background'] = 'Achtergrond';
 $string['btn:toolbar_images'] = 'Werkbalk afbeeldingen';
 $string['btn:help'] = 'Help';
-$string['btn:intro'] = 'Pas help tekst aant';
+$string['btn:intro'] = 'Pas help tekst aan';
 $string['btn:submit'] = 'Bewaren';
+$string['btn:undo'] = 'Ongedaan maken';
 
 // Javascript.
-$string['javascript:confirm_title'] = 'Bevestig dat je tekening wil verwijderen.';
+$string['javascript:confirm_title'] = 'Bevestig dat je deze tekening wil verwijderen.';
 $string['javascript:confirm_desc'] = 'Weet je zeker dat je tekening wil verwijderen?';
 $string['javascript:yes'] = 'Ja';
 $string['javascript:no'] = 'Nee';

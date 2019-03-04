@@ -66,6 +66,7 @@ $string['btn:toolbar_images'] = 'Toolbar images';
 $string['btn:help'] = 'Help';
 $string['btn:intro'] = 'Edit help text';
 $string['btn:submit'] = 'Submit';
+$string['btn:undo'] = 'Undo';
 
 // Javascript.
 $string['javascript:confirm_title'] = 'Confirm deletion of your sketch';

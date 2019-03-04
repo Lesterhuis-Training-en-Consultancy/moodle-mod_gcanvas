@@ -57,7 +57,7 @@ class filepicker extends \moodleform {
     public function definition_after_data() {
         global $PAGE;
 
-        if(in_array($this->_customdata['filearea'], ['student_image'])){
+        if (in_array($this->_customdata['filearea'], ['student_image'])) {
             // Skip not needed to return in filepicker.
             return;
         }

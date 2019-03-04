@@ -19,6 +19,21 @@
     @copyright 9-10-2018 MFreak.nl
     @author    Luuk Verhoeven
 }}
+{{!
+    @template mod_canvas/canvas
+
+    The main canvas html
+
+    Context variables required for this template:
+    * is_teacher - Check if the user is a teacher
+    * helptext - Help text
+
+    Example context (json):
+    {
+        "is_teacher": false,
+        "helptext": "Some text"
+    }
+}}
 <div style="clear:both"></div>
 <div id="sketch-tool-bg">
     <div id="sketch-tool">
@@ -54,11 +69,14 @@
                     <i class="fa fa-caret-left"></i>
                 </div>
                 <div class="item icon" id="add-image" title="{{# str}} btn:image, mod_gcanvas {{/ str}}">
-                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                    <i class="fa fa-upload" aria-hidden="true"></i>
                 </div>
                 <div class="item icon" id="select-a-image" title="{{# str}} btn:select_a_image, mod_gcanvas {{/ str}}">
                     <i class="fa fa-image" aria-hidden="true"></i>
                     <div id="image-picker"></div>
+                </div>
+                <div class="item icon" id="undo" title="{{# str}} btn:undo, mod_gcanvas {{/ str}}">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
                 <div class="item icon" id="smiley" title="{{# str}} btn:smiley, mod_gcanvas {{/ str}}">
                     <i class="fa fa-smile-o" aria-hidden="true"></i>

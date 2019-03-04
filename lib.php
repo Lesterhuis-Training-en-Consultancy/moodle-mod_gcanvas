@@ -51,7 +51,7 @@ function gcanvas_supports($feature) {
  * in mod_form.php) this function will create a new instance and return the id
  * number of the instance.
  *
- * @param object               $moduleinstance An object from the form.
+ * @param object           $moduleinstance An object from the form.
  * @param gcanvas_mod_form $mform          The form.
  *
  * @return int The id of the newly inserted record.
@@ -73,7 +73,7 @@ function gcanvas_add_instance($moduleinstance, $mform = null) {
  * Given an object containing all the necessary data (defined in mod_form.php),
  * this function will update an existing instance with new data.
  *
- * @param object               $moduleinstance An object from the form in mod_form.php.
+ * @param object           $moduleinstance An object from the form in mod_form.php.
  * @param gcanvas_mod_form $mform          The form.
  *
  * @return bool True if successful, false otherwise.
@@ -87,7 +87,6 @@ function gcanvas_update_instance($moduleinstance, $mform = null) {
 
     return $DB->update_record('gcanvas', $moduleinstance);
 }
-
 
 /**
  * Removes an instance of the mod_gcanvas from the database.
@@ -190,8 +189,8 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
         return false;
     }
 
-    // finally send the file
-    // for folder module, we force download file all the time
+    // Finally send the file.
+    // For folder module, we force download file all the time.
     send_stored_file($file, 0, 0, true, $options);
 }
 

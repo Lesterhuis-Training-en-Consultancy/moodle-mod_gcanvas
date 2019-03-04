@@ -108,7 +108,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
             $gcanvas = self::get_gcanvas_output($gcanvasdata);
             writer::with_context($context)->export_data([], $gcanvas);
 
-            // Get the gcanvas attempts
+            // Get the gcanvas attempts.
             $attemptsdata = self::get_gcanvas_attempts_by_gcanvas($gcanvasdata->id, $user->id);
 
             foreach ($attemptsdata as $attemptdata) {
@@ -117,9 +117,8 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
                 $attempt = self::get_gcanvas_attempt_output($attemptdata);
                 $itemid = $attemptdata->id;
 
-                writer::with_context($context)
-                      ->export_data(['attempts'], $attempt)
-                      ->export_area_files(['attempts'], 'mod_gcanvas', 'attempt', $itemid);
+                writer::with_context($context)->export_data(['attempts'], $attempt)->export_area_files(['attempts'],
+                    'mod_gcanvas', 'attempt', $itemid);
             }
         }
     }
@@ -172,7 +171,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
             'user_id' => $userid,
         ];
 
-        $sql = "SELECT attempt.* 
+        $sql = "SELECT attempt.*
                   FROM {context} ctx
                   JOIN {course_modules} cm ON cm.id = ctx.instanceid AND ctx.contextlevel = :contextmodule
                   JOIN {modules} m ON cm.module = m.id AND m.name = :modulename

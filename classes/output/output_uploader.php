@@ -44,7 +44,7 @@ class output_uploader implements renderable, templatable {
      * @param string   $filearea
      * @param stdClass $canvas
      */
-    public function __construct(string $filearea , \stdClass $canvas) {
+    public function __construct(string $filearea, \stdClass $canvas) {
         $this->filearea = $filearea;
         $this->canvas = $canvas;
     }
@@ -64,6 +64,7 @@ class output_uploader implements renderable, templatable {
         $object = new stdClass();
         $object->form = $this->get_uploader_form();
         $object->filearea = $this->filearea;
+
         return $object;
     }
 
@@ -79,12 +80,6 @@ class output_uploader implements renderable, templatable {
             'filearea' => $this->filearea,
             'canvas' => $this->canvas,
         ]);
-
-//        $data = new stdClass();
-//        file_prepare_standard_filemanager($data, $this->filearea, \mod_gcanvas\helper::get_file_options($PAGE->context),
-//            $PAGE->context, 'mod_gcanvas', $this->filearea);
-//
-//        $form->set_data($data);
 
         return $form->render();
     }

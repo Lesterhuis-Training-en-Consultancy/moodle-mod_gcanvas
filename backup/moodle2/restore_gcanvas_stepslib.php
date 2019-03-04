@@ -25,10 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// For more information about the backup and restore process, please visit:
-// https://docs.moodle.org/dev/Backup_2.0_for_developers
-// https://docs.moodle.org/dev/Restore_2.0_for_developers
-
 /**
  * Defines the structure step to restore one mod_gcanvas activity.
  */
@@ -43,7 +39,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         $paths = [];
         $paths[] = new restore_path_element('gcanvas', '/activity/gcanvas');
 
-        // Return the paths wrapped into standard activity structure
+        // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
     }
 
@@ -59,14 +55,14 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
 
         $newitemid = $DB->insert_record('gcanvas', $data);
 
-        // immediately after inserting "activity" record, call this
+        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
     protected function after_execute() {
-        // Add page related files, no need to match by itemname (just internally handled context)
-        $this->add_related_files('mod_gcanvas', 'intro' , 'gcanvas');
-        $this->add_related_files('mod_gcanvas', 'helptext' , 'gcanvas');
+        // Add page related files, no need to match by itemname (just internally handled context).
+        $this->add_related_files('mod_gcanvas', 'intro', 'gcanvas');
+        $this->add_related_files('mod_gcanvas', 'helptext', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'background', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'toolbar_shape', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'attempt', 'gcanvas_attempt');
