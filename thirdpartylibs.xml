@@ -15,6 +15,13 @@
         <licenseversion></licenseversion>
     </library>
     <library>
+        <location>css/spectrum.css</location>
+        <name>spectrum.css</name>
+        <version>1.8.0</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
         <location>pix/emoji/</location>
         <name>twitter/twemoji</name>
         <version>11.2</version>
