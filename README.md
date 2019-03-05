@@ -2,9 +2,12 @@
 
 In brief, the MFreak mod `gcanvas` gives the user the ability to make a sketch in html5 canvas.
  
-![MFreak.nl](https://MFreak.nl/logo_small.png)
+![MFreak.nl](https://MFreak.nl/logo_small.png) 
+<img src="https://ltnc.nl/wp-content/uploads/2016/10/cropped-beeldmerk.png" alt="LT&C" width="60"/>
+
 
 * Author: Luuk Verhoeven, [MFreak.nl](https://MFreak.nl/)
+* Author: Gemma Lesterhuis, [LT&C](https://ltnc.nl/)
 * Min. required: Moodle 3.5.x
 * Supports PHP: 7.0 | 7.1 | 7.2 
 
