@@ -21,7 +21,7 @@
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * @package   moodle-mod_gcanvas
+ * @package   mod_gcanvas
  * @copyright 9-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
@@ -33,6 +33,11 @@ use file_storage;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Class ajax
+ *
+ * @package mod_gcanvas
+ */
 class ajax {
     /**
      * @var mixed

@@ -19,7 +19,7 @@
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * @package   moodle-mod_gcanvas
+ * @package   mod_gcanvas
  * @copyright 8-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
@@ -28,6 +28,9 @@ use mod_gcanvas\output\output_canvas_attempts;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Class mod_gcanvas_renderer
+ */
 class mod_gcanvas_renderer extends plugin_renderer_base {
 
     /**

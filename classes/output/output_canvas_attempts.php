@@ -19,7 +19,7 @@
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * @package   moodle-mod_gcanvas
+ * @package   mod_gcanvas
  * @copyright 9-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
@@ -33,6 +33,11 @@ use renderer_base;
 use stdClass;
 use templatable;
 
+/**
+ * Class output_canvas_attempts
+ *
+ * @package mod_gcanvas\output
+ */
 class output_canvas_attempts implements renderable, templatable {
 
     /**
