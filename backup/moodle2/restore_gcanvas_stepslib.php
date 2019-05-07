@@ -18,7 +18,6 @@
  * All the steps to restore mod_gcanvas are defined here.
  *
  * @package     mod_gcanvas
- * @category    restore
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -49,7 +48,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
     /**
      * process_gcanvas
      *
-     * @param $data
+     * @param stdClass $data
      *
      * @throws base_step_exception
      * @throws dml_exception

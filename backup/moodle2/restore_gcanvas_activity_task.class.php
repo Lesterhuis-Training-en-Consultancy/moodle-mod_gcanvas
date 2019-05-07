@@ -18,14 +18,13 @@
  * The task that provides a complete restore of mod_gcanvas is defined here.
  *
  * @package     mod_gcanvas
- * @category    restore
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '//mod/gcanvas/backup/moodle2/restore_gcanvas_stepslib.php');
+require_once($CFG->dirroot . '/mod/gcanvas/backup/moodle2/restore_gcanvas_stepslib.php');
 
 /**
  * Restore task for mod_gcanvas.

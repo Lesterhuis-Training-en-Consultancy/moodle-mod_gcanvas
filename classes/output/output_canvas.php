@@ -41,6 +41,11 @@ use templatable;
  */
 class output_canvas implements renderable, templatable {
 
+    /**
+     * Canvas object
+     *
+     * @var stdClass
+     */
     protected $canvas;
 
     /**

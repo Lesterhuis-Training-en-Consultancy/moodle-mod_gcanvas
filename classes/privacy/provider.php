@@ -13,6 +13,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Privacy provider.
+ *
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @package   mod_gcanvas
+ * @copyright 9-10-2018 MFreak.nl
+ * @author    Luuk Verhoeven
+ **/
+
 namespace mod_gcanvas\privacy;
 defined('MOODLE_INTERNAL') || die;
 
