@@ -29,6 +29,9 @@ require_once($CFG->dirroot . '//mod/gcanvas/backup/moodle2/restore_gcanvas_steps
 
 /**
  * Restore task for mod_gcanvas.
+ *
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_gcanvas_activity_task extends restore_activity_task {
 

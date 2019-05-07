@@ -31,6 +31,8 @@ defined('MOODLE_INTERNAL') || die;
  * Class helper
  *
  * @package mod_gcanvas
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
 

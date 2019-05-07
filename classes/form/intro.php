@@ -29,6 +29,13 @@ namespace mod_gcanvas\form;
 defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir . '/formslib.php');
 
+/**
+ * Class intro
+ *
+ * @package mod_gcanvas\form
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class intro extends \moodleform {
 
     /**

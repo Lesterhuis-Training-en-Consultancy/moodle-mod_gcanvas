@@ -29,6 +29,8 @@ defined('MOODLE_INTERNAL') || die();
  * Class course_module_viewed
  *
  * @package mod_gcanvas\event
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_viewed extends \core\event\course_module_viewed {
 

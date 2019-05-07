@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Defines the structure step to restore one mod_gcanvas activity.
+ *
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_gcanvas_activity_structure_step extends restore_activity_structure_step {
 

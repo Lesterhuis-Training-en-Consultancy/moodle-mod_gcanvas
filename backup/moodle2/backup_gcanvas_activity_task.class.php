@@ -29,6 +29,9 @@ require_once($CFG->dirroot . '/mod/gcanvas/backup/moodle2/backup_gcanvas_stepsli
 
 /**
  * The class provides all the settings and steps to perform one complete backup of mod_gcanvas.
+ *
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_gcanvas_activity_task extends backup_activity_task {
 

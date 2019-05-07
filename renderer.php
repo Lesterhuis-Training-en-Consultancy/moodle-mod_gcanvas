@@ -30,6 +30,9 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * Class mod_gcanvas_renderer
+ *
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_gcanvas_renderer extends plugin_renderer_base {
 

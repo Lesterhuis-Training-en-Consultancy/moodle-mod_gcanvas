@@ -31,6 +31,9 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Define the complete structure for backup, with file and id annotations.
+ *
+ * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_gcanvas_activity_structure_step extends backup_activity_structure_step {
 
