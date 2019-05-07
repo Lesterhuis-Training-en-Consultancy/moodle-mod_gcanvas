@@ -32,12 +32,12 @@ define(['jquery', 'core/notification'], function($, notification) {
 
     /**
      * Possible options
-     * @type {{id: number, debugjs: boolean, has_horizontal_ruler: boolean, background: string}}
+     * @type {{id: number, debugjs: boolean, hasHorizontalRuler: boolean, background: string}}
      */
     var opts = {
         id: 0,
         debugjs: false,
-        has_horizontal_ruler: true,
+        hasHorizontalRuler: true,
         background: '',
     };
 
@@ -74,19 +74,19 @@ define(['jquery', 'core/notification'], function($, notification) {
      * Local history/cache buffer
      * @type {number}
      */
-    var buffer_step = 0;
+    var bufferStep = 0;
 
     /**
      *
      * @type {number}
      */
-    var buffer_timer = 0;
+    var bufferTimer = 0;
 
     /**
      * Should we store changes to localstorage
      * @type {boolean}
      */
-    var buffer_active = true;
+    var bufferActive = true;
 
     /**
      * Set debug mode
@@ -126,12 +126,12 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * @type int
          */
-        canvas_width: 800,
+        canvasWidth: 800,
 
         /**
          * @type int
          */
-        canvas_height: 500,
+        canvasHeight: 500,
 
         /**
          * Default rectangle.
@@ -346,7 +346,7 @@ define(['jquery', 'core/notification'], function($, notification) {
             $("#colorpicker").spectrum({
                 showPalette: true,
                 palette: [],
-                showSelectionPalette: true, // true by default
+                showSelectionPalette: true,
                 selectionPalette: ["red", "green", "blue", "orange"],
                 flat: false,
                 change: function(color) {
@@ -459,12 +459,12 @@ define(['jquery', 'core/notification'], function($, notification) {
                     debug.log(response);
 
                     if (response.success) {
-                        buffer_active = false;
+                        bufferActive = false;
 
                         canvas.loadFromJSON(response.record.json_data, canvas.renderAll.bind(canvas));
 
                         setTimeout(function() {
-                            buffer_active = true;
+                            bufferActive = true;
                         }, 1000);
                     }
                 }
@@ -528,13 +528,12 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         *
-         * @param path
+         * addImageFromUrl
+         * @param {string} path
          */
         addImageFromUrl: function(path) {
 
-            //TODO SVG support.
-
+            // TODO SVG support.
             fabric.Image.fromURL(path, function(object) {
                 object.set({
                     left: 150,
@@ -556,7 +555,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         *
+         * selectToolbarImage
          */
         selectToolbarImage: function() {
             var dialog = $('#image-picker');
@@ -599,16 +598,16 @@ define(['jquery', 'core/notification'], function($, notification) {
          */
         undo: function() {
 
-            if (buffer_step === 0) {
+            if (bufferStep === 0) {
                 return;
             }
             try {
-                var data = localStorage.getItem('buffer_' + buffer_step);
+                var data = localStorage.getItem('buffer_' + bufferStep);
                 canvas.loadFromJSON(data, canvas.renderAll.bind(canvas));
 
-                localStorage.removeItem('buffer_' + buffer_step);
+                localStorage.removeItem('buffer_' + bufferStep);
 
-                buffer_step--;
+                bufferStep--;
             } catch (e) {
                 debug.log(e);
             }
@@ -631,7 +630,7 @@ define(['jquery', 'core/notification'], function($, notification) {
             $('#clear').on('click', function() {
                 canvas.clear();
 
-                if (opts.has_horizontal_ruler) {
+                if (opts.hasHorizontalRuler) {
                     canvasModule.addHorizontalRuler();
                 }
 
@@ -654,11 +653,11 @@ define(['jquery', 'core/notification'], function($, notification) {
             });
 
             $('#undo').on('click', function() {
-                buffer_active = false;
+                bufferActive = false;
                 canvasModule.undo();
 
                 setTimeout(function() {
-                    buffer_active = true;
+                    bufferActive = true;
                 }, 500);
             });
 
@@ -777,7 +776,7 @@ define(['jquery', 'core/notification'], function($, notification) {
 
         /**
          * Set active element colors.
-         * @param color
+         * @param {object} color
          */
         setColor: function(color) {
 
@@ -809,7 +808,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         preventMovingOutOfCanvas: function() {
             canvas.on('object:moving', function(e) {
                 var obj = e.target;
-                // if object is too big ignore
+                // If object is too big ignore.
                 if (obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width) {
                     return;
                 }
@@ -861,8 +860,8 @@ define(['jquery', 'core/notification'], function($, notification) {
             // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
             // Dimensions.
-            canvas.setHeight(this.canvas_height);
-            canvas.setWidth(this.canvas_width);
+            canvas.setHeight(this.canvasHeight);
+            canvas.setWidth(this.canvasWidth);
 
             // Catch some actions.
             canvas.on({
@@ -870,9 +869,9 @@ define(['jquery', 'core/notification'], function($, notification) {
                 'selection:updated': this.onchange,
 
                 //  'object:moving' : this.add_to_history,
-                'object:added': this.add_to_cache,
-                'object:removed': this.add_to_cache,
-                'object:modified': this.add_to_cache,
+                'object:added': this.addToCache,
+                'object:removed': this.addToCache,
+                'object:modified': this.addToCache,
             });
 
             // Make sure we start with a empty storage.
@@ -882,7 +881,7 @@ define(['jquery', 'core/notification'], function($, notification) {
 
             this.loadToolbar();
 
-            if (opts.has_horizontal_ruler) {
+            if (opts.hasHorizontalRuler) {
                 this.addHorizontalRuler();
             }
 
@@ -894,7 +893,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Keep a history/cache buffer.
          */
-        add_to_cache: function() {
+        addToCache: function() {
             debug.log('history');
             canvasModule.addCanvasToCacheBuffer();
         },
@@ -904,15 +903,15 @@ define(['jquery', 'core/notification'], function($, notification) {
          */
         addCanvasToCacheBuffer: function() {
             // When undo there lot of modified events we doesnt want to trigger if thats the case.
-            if (!buffer_active) {
+            if (!bufferActive) {
                 return;
             }
 
-            clearTimeout(buffer_timer);
+            clearTimeout(bufferTimer);
             setTimeout(function() {
                 try {
-                    buffer_step++;
-                    localStorage.setItem('buffer_' + buffer_step, JSON.stringify(canvas));
+                    bufferStep++;
+                    localStorage.setItem('buffer_' + bufferStep, JSON.stringify(canvas));
                 } catch (e) {
                     debug.log(e);
                 }
@@ -924,7 +923,7 @@ define(['jquery', 'core/notification'], function($, notification) {
          */
         addHorizontalRuler: function() {
             var ruler = new fabric.Rect({
-                width: this.canvas_width,
+                width: this.canvasWidth,
                 height: 2,
                 id: 'ruler',
                 left: 0,
@@ -981,7 +980,8 @@ define(['jquery', 'core/notification'], function($, notification) {
     return {
 
         /**
-         * Init.
+         * Init
+         * @param args
          */
         initialise: function(args) {
 

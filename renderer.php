@@ -63,7 +63,7 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
                 'background' => reset($backgrounds),
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
                 'id' => $PAGE->url->get_param('id'),
-                'has_horizontal_ruler' => $canvas->has_horizontal_ruler ? true : false,
+                'hasHorizontalRuler' => $canvas->has_horizontal_ruler ? true : false,
                 // TODO get this from module settings.
             ],
         ]);
