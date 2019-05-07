@@ -121,7 +121,7 @@ define(['jquery', 'core/notification'], function($, notification) {
     /**
      * Module canvas wrapper.
      */
-    var canvas_module = {
+    var canvasModule = {
 
         /**
          * @type int
@@ -250,7 +250,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                             });
 
                             // Load attempts.
-                            canvas_module.loadHistory();
+                            canvasModule.loadHistory();
 
                         } else {
                             notification.addNotification({
@@ -320,13 +320,13 @@ define(['jquery', 'core/notification'], function($, notification) {
                 var shape = "default_shape_" + elementtype.toLowerCase();
                 debug.log("Search for shape: " + shape);
 
-                if (canvas_module.hasOwnProperty(shape)) {
+                if (canvasModule.hasOwnProperty(shape)) {
                     debug.log("Shape found");
 
                     if (elementtype === 'Textbox') {
-                        el = new fabric[elementtype]('DEMO', canvas_module[shape]);
+                        el = new fabric[elementtype]('DEMO', canvasModule[shape]);
                     } else {
-                        el = new fabric[elementtype](canvas_module[shape]);
+                        el = new fabric[elementtype](canvasModule[shape]);
                     }
 
                     canvas.add(el);
@@ -351,11 +351,11 @@ define(['jquery', 'core/notification'], function($, notification) {
                 flat: false,
                 change: function(color) {
                     debug.log('change color');
-                    canvas_module.setColor(color);
+                    canvasModule.setColor(color);
                 }
             }).on("dragstart.spectrum , dragstop.spectrum", function(e, color) {
                     debug.log('change color - dragstop - dragstart');
-                    canvas_module.setColor(color);
+                    canvasModule.setColor(color);
                 }
             );
         },
@@ -403,7 +403,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                         url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
                         data: {
                             sesskey: M.cfg.sesskey,
-                            action: 'deleteAttempt',
+                            action: 'delete_attempt',
                             data: {
                                 'id': opts.id,
                                 'attempt_id': $el.data('id'),
@@ -415,7 +415,7 @@ define(['jquery', 'core/notification'], function($, notification) {
 
                             if (response.success) {
                                 // Load attempts.
-                                canvas_module.loadHistory();
+                                canvasModule.loadHistory();
 
                             } else {
                                 notification.addNotification({
@@ -497,7 +497,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         *
+         * addUserImage
          */
         addUserImage: function() {
             var formdata = {'id': opts.id,};
@@ -520,7 +520,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                     debug.log(response);
 
                     if (response.success) {
-                        canvas_module.addImageFromUrl(response.image);
+                        canvasModule.addImageFromUrl(response.image);
                     }
                     $('#canvas-filepicker-form-student_image').hide();
                 }
@@ -632,30 +632,30 @@ define(['jquery', 'core/notification'], function($, notification) {
                 canvas.clear();
 
                 if (opts.has_horizontal_ruler) {
-                    canvas_module.addHorizontalRuler();
+                    canvasModule.addHorizontalRuler();
                 }
 
-                canvas_module.setBackgroundImage();
+                canvasModule.setBackgroundImage();
             });
 
             // Arrow.
             $('#arrow i').on('click', function() {
-                canvas_module.loadArrowToCanvas();
+                canvasModule.loadArrowToCanvas();
             });
 
             // Remove selected items.
             $('#trash i').on('click', function() {
-                canvas_module.deleteSelectedCanvasItems();
+                canvasModule.deleteSelectedCanvasItems();
             });
 
             // Load emoji picker.
             $('#smiley i').on('click', function() {
-                canvas_module.loadEmojiPicker();
+                canvasModule.loadEmojiPicker();
             });
 
             $('#undo').on('click', function() {
                 buffer_active = false;
-                canvas_module.undo();
+                canvasModule.undo();
 
                 setTimeout(function() {
                     buffer_active = true;
@@ -664,21 +664,21 @@ define(['jquery', 'core/notification'], function($, notification) {
 
             // Add own image to the canvas.
             $('#add-image i').on('click', function() {
-                canvas_module.showFileuploader('student_image');
+                canvasModule.showFileuploader('student_image');
             });
 
             // Student selecting a image, added to the toolbar by teachers.
             $('#select-a-image i').on('click', function() {
-                canvas_module.selectToolbarImage();
+                canvasModule.selectToolbarImage();
             });
 
             $('#image-picker ').on('click', 'img', function() {
-                canvas_module.addImageFromUrl($(this).attr('src'));
+                canvasModule.addImageFromUrl($(this).attr('src'));
                 $('#image-picker').hide();
             });
 
             $('#save-canvas').on('click', function() {
-                canvas_module.saveCanvasAjax();
+                canvasModule.saveCanvasAjax();
             });
 
             $('#show-help').on('click', function() {
@@ -691,36 +691,36 @@ define(['jquery', 'core/notification'], function($, notification) {
 
             $('#history').on('click', '.delete', function(e) {
                 e.preventDefault();
-                canvas_module.deleteAttempt($(this));
+                canvasModule.deleteAttempt($(this));
 
             }).on('click', '.restore', function(e) {
 
                 e.preventDefault();
-                canvas_module.restoreAttempt($(this));
+                canvasModule.restoreAttempt($(this));
 
             });
 
             // Dialog to selected a emoji.
             $('#emoji-picker').on('click', 'img', function() {
-                canvas_module.loadEmojiCsv($(this).attr('src'));
+                canvasModule.loadEmojiCsv($(this).attr('src'));
                 $('#emoji-picker').hide();
             });
 
             // Teacher background.
             $('#change_background').on('click', function() {
-                canvas_module.showFileuploader('background');
+                canvasModule.showFileuploader('background');
             });
 
             // Teacher image.
             $('#add_toolbar_images').on('click', function() {
-                canvas_module.showFileuploader('toolbar_shape');
+                canvasModule.showFileuploader('toolbar_shape');
             });
 
             $('#canvas-filepicker-form-student_image').on('click', '#id_submitbutton', function(e) {
                 e.preventDefault();
 
                 // Form should be posted to AJAX call so we can get the image.
-                canvas_module.addUserImage();
+                canvasModule.addUserImage();
             });
 
             // Hide pressing on cancel.
@@ -838,7 +838,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                 debug.log('keypress', e.which);
                 switch (e.which) {
                     case 46:
-                        canvas_module.deleteSelectedCanvasItems();
+                        canvasModule.deleteSelectedCanvasItems();
                         break;
                 }
             });
@@ -896,7 +896,7 @@ define(['jquery', 'core/notification'], function($, notification) {
          */
         add_to_cache: function() {
             debug.log('history');
-            canvas_module.addCanvasToCacheBuffer();
+            canvasModule.addCanvasToCacheBuffer();
         },
 
         /**
@@ -997,7 +997,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                 $.noConflict();
                 $(document).ready(function() {
                     debug.log('Canvas Module v1.1');
-                    canvas_module.init();
+                    canvasModule.init();
                 });
             });
         }
