@@ -46,6 +46,14 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         return $this->prepare_activity_structure($paths);
     }
 
+    /**
+     * process_gcanvas
+     *
+     * @param $data
+     *
+     * @throws base_step_exception
+     * @throws dml_exception
+     */
     protected function process_gcanvas($data) {
         global $DB;
 
@@ -62,6 +70,9 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         $this->apply_activity_instance($newitemid);
     }
 
+    /**
+     * after_execute
+     */
     protected function after_execute() {
         // Add page related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_gcanvas', 'intro', 'gcanvas');

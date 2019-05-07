@@ -36,7 +36,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
     /**
      * Returns meta data about this system.
      *
-     * @param   collection $collection The initialised collection to add items to.
+     * @param collection $collection The initialised collection to add items to.
      *
      * @return  collection     A listing of user data stored through this system.
      */
@@ -54,7 +54,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
     /**
      * Get the list of contexts that contain user information for the specified user.
      *
-     * @param   int $userid The user to search.
+     * @param int $userid The user to search.
      *
      * @return  \core_privacy\local\request\contextlist   $contextlist  The contextlist containing the list of contexts
      *                                                    used in this plugin.
@@ -85,7 +85,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
     /**
      * Export all user data for the specified user, in the specified contexts.
      *
-     * @param   approved_contextlist $contextlist                             The approved contexts to export
+     * @param approved_contextlist $contextlist                               The approved contexts to export
      *                                                                        information for.
      *
      * @throws \dml_exception
@@ -280,7 +280,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
     /**
      * Delete all user data for the specified user, in the specified contexts.
      *
-     * @param   approved_contextlist $contextlist                             The approved contexts and user
+     * @param approved_contextlist $contextlist                               The approved contexts and user
      *                                                                        information to delete information for.
      *
      * @throws \coding_exception

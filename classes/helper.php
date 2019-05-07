@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die;
 /**
  * Class helper
  *
- * @package mod_gcanvas
+ * @package     mod_gcanvas
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -52,9 +52,8 @@ class helper {
      * Get images
      *
      * @param string    $filearea
-     * @param           $context
+     * @param \stdClass $context
      * @param int       $canvasid
-     *
      * @param int       $limit
      *
      * @return array
@@ -125,9 +124,8 @@ class helper {
     /**
      * Get file options
      *
-     * @param     $context
-     *
-     * @param int $max
+     * @param \stdClass $context
+     * @param int       $max
      *
      * @return array
      */
