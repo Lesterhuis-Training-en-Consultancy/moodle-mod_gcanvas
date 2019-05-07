@@ -24,8 +24,10 @@
  * @copyright 2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
+/* global fabric */
 /* eslint no-unused-expressions: "off", no-console:off, no-invalid-this:"off",no-script-url:"off" */
-define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabric"], function ($, notification, mod1, fabric) {
+
+define(['jquery', 'core/notification'], function($, notification) {
     'use strict';
 
     /**
@@ -33,17 +35,17 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
      * @type {{id: number, debugjs: boolean, has_horizontal_ruler: boolean, background: string}}
      */
     var opts = {
-        id                  : 0,
-        debugjs             : false,
+        id: 0,
+        debugjs: false,
         has_horizontal_ruler: true,
-        background          : '',
+        background: '',
     };
 
     /**
      * Set options base on listed options
      * @param {object} options
      */
-    var set_options = function (options) {
+    var setOptions = function(options) {
         "use strict";
         var key, vartype;
         for (key in opts) {
@@ -91,7 +93,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
      * Should only be enabled if site is in debug mode.
      * @param {boolean} isenabled
      */
-    var set_debug = function (isenabled) {
+    var setDebug = function(isenabled) {
 
         if (isenabled) {
             for (var m in console) {
@@ -103,7 +105,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             // Fake wrapper.
             for (var m in console) {
                 if (typeof console[m] == 'function') {
-                    debug[m] = function () {
+                    debug[m] = function() {
                     };
                 }
             }
@@ -135,12 +137,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * Default rectangle.
          */
         default_shape_rect: {
-            width : 70,
+            width: 70,
             height: 70,
-            left  : 200,
-            top   : 50,
-            angle : 0,
-            fill  : '#ffb628'
+            left: 200,
+            top: 50,
+            angle: 0,
+            fill: '#ffb628'
         },
 
         /**
@@ -148,27 +150,27 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          */
         default_shape_circle: {
             radius: 40,
-            left  : 200,
-            top   : 50,
-            fill  : '#b3cc2b'
+            left: 200,
+            top: 50,
+            fill: '#b3cc2b'
         },
 
         /**
          * Default triangle.
          */
         default_shape_triangle: {
-            top   : 50,
-            left  : 200,
-            width : 70,
+            top: 50,
+            left: 200,
+            width: 70,
             height: 70,
-            fill  : '#0081b4'
+            fill: '#0081b4'
         },
 
         /**
          * Default text.
          */
         default_shape_textbox: {
-            top : 50,
+            top: 50,
             left: 200,
             fill: '#0081b4'
         },
@@ -176,30 +178,30 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Load user there history.
          */
-        load_history: function () {
+        loadHistory: function() {
             $.ajax({
-                type    : 'POST',
-                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                data    : {
+                type: 'POST',
+                url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data: {
                     sesskey: M.cfg.sesskey,
-                    action : 'load_history',
-                    data   : {
+                    action: 'load_history',
+                    data: {
                         'id': opts.id,
                     }
                 },
                 dataType: "json",
-                success : function (response) {
+                success: function(response) {
                     debug.log(response);
                     if (response.success) {
                         $('#history').html(response.html);
                     }
                 },
-                error   : function (response) {
+                error: function(response) {
                     debug.error(response.responseText);
                     // Show a error messages.
                     notification.addNotification({
                         message: response.responseText,
-                        type   : "error"
+                        type: "error"
                     });
                 }
             });
@@ -208,61 +210,61 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          *  Save the current canvas.
          */
-        save_canvas_ajax: function () {
+        saveCanvasAjax: function() {
             // Canvas to image.
             // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
             if (!fabric.Canvas.supports('toDataURL')) {
 
                 notification.addNotification({
                     message: 'This browser doesn\'t provide means to serialize canvas to an image',
-                    type   : "error"
+                    type: "error"
                 });
 
             } else {
 
                 // Send data to AJAX.
                 $.ajax({
-                    type    : 'POST',
-                    url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                    data    : {
+                    type: 'POST',
+                    url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                    data: {
                         sesskey: M.cfg.sesskey,
-                        action : 'save_canvas',
-                        data   : {
-                            'id'         : opts.id,
-                            'status'     : 'final',
+                        action: 'save_canvas',
+                        data: {
+                            'id': opts.id,
+                            'status': 'final',
                             'canvas_data': canvas.toDataURL({
                                 multiplier: 1,
-                                format    : 'png'
+                                format: 'png'
                             }),
-                            'json_data'  : JSON.stringify(canvas)
+                            'json_data': JSON.stringify(canvas)
                         }
                     },
                     dataType: "json",
-                    success : function (response) {
+                    success: function(response) {
                         debug.log(response);
 
                         if (response.success) {
                             notification.addNotification({
                                 message: M.util.get_string('javascript:updated', 'mod_gcanvas'),
-                                type   : "success",
+                                type: "success",
                             });
 
                             // Load attempts.
-                            canvas_module.load_history();
+                            canvas_module.loadHistory();
 
                         } else {
                             notification.addNotification({
                                 message: response.error,
-                                type   : "error"
+                                type: "error"
                             });
                         }
                     },
-                    error   : function (response) {
+                    error: function(response) {
                         debug.error(response.responseText);
                         // Show a error messages.
                         notification.addNotification({
                             message: response.responseText,
-                            type   : "error"
+                            type: "error"
                         });
                     }
                 });
@@ -272,7 +274,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Trash selected canvas items.
          */
-        delete_selected_canvas_items: function () {
+        deleteSelectedCanvasItems: function() {
             try {
                 var activeobjects = canvas.getActiveObjects();
                 if (activeobjects.length) {
@@ -303,9 +305,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Dynamic method for selecting a shape.
          */
-        load_dynamic_toolbar_mapping_shapes: function () {
+        loadDynamicToolbarMappingShapes: function() {
 
-            $('#toolbar .icon[data-element-type]').on('click', function () {
+            $('#toolbar .icon[data-element-type]').on('click', function() {
                 var el;
                 var elementtype = $(this).data('element-type');
 
@@ -340,20 +342,20 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Colorpicker used for changing the color of a shape.
          */
-        load_color_picker: function () {
+        loadColorPicker: function() {
             $("#colorpicker").spectrum({
-                showPalette         : true,
-                palette             : [],
+                showPalette: true,
+                palette: [],
                 showSelectionPalette: true, // true by default
-                selectionPalette    : ["red", "green", "blue", "orange"],
-                flat                : false,
-                change              : function (color) {
+                selectionPalette: ["red", "green", "blue", "orange"],
+                flat: false,
+                change: function(color) {
                     debug.log('change color');
-                    canvas_module.set_color(color);
+                    canvas_module.setColor(color);
                 }
-            }).on("dragstart.spectrum , dragstop.spectrum", function (e, color) {
+            }).on("dragstart.spectrum , dragstop.spectrum", function(e, color) {
                     debug.log('change color - dragstop - dragstart');
-                    canvas_module.set_color(color);
+                    canvas_module.setColor(color);
                 }
             );
         },
@@ -363,17 +365,17 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          * @param src
          */
-        load_emoji_csv: function (src) {
-            debug.log('load_emoji_csv : ', src);
+        loadEmojiCsv: function(src) {
+            debug.log('loadEmojiCsv : ', src);
             // Issue when using loadsvgfromurl.
-            fabric.Image.fromURL(src.replace('.png', '.svg'), function (object) {
+            fabric.Image.fromURL(src.replace('.png', '.svg'), function(object) {
                 // Logic below needed to work with the svg files.
                 object.set({
-                    height         : 500,
-                    width          : 500,
-                    left           : 150,
-                    top            : 100,
-                    angle          : 0,
+                    height: 500,
+                    width: 500,
+                    left: 150,
+                    top: 100,
+                    angle: 0,
                     centerTransform: true
                 }).scale(0.4).setCoords();
                 canvas.add(object);
@@ -386,7 +388,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          * @param {jQuery} $el
          */
-        delete_attempt: function ($el) {
+        deleteAttempt: function($el) {
             //TODO we could better use amd Ajax helper Moodle and external webservice, for now this is okay.
 
             debug.log('Delete', $el);
@@ -394,40 +396,40 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 M.util.get_string('javascript:confirm_title', 'mod_gcanvas'),
                 M.util.get_string('javascript:confirm_desc', 'mod_gcanvas'),
                 M.util.get_string('javascript:yes', 'mod_gcanvas'),
-                M.util.get_string('javascript:no', 'mod_gcanvas'), function () {
+                M.util.get_string('javascript:no', 'mod_gcanvas'), function() {
 
                     $.ajax({
-                        type    : 'POST',
-                        url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                        data    : {
+                        type: 'POST',
+                        url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                        data: {
                             sesskey: M.cfg.sesskey,
-                            action : 'delete_attempt',
-                            data   : {
-                                'id'        : opts.id,
+                            action: 'deleteAttempt',
+                            data: {
+                                'id': opts.id,
                                 'attempt_id': $el.data('id'),
                             }
                         },
                         dataType: "json",
-                        success : function (response) {
+                        success: function(response) {
                             debug.log(response);
 
                             if (response.success) {
                                 // Load attempts.
-                                canvas_module.load_history();
+                                canvas_module.loadHistory();
 
                             } else {
                                 notification.addNotification({
                                     message: response.error,
-                                    type   : "error"
+                                    type: "error"
                                 });
                             }
                         },
-                        error   : function (response) {
+                        error: function(response) {
                             debug.error(response.responseText);
                             // Show a error messages.
                             notification.addNotification({
                                 message: response.responseText,
-                                type   : "error"
+                                type: "error"
                             });
                         }
                     });
@@ -439,21 +441,21 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          * @param {jQuery} $el
          */
-        restore_attempt: function ($el) {
+        restoreAttempt: function($el) {
             debug.log('Restore', $el);
             $.ajax({
-                type    : 'POST',
-                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                data    : {
+                type: 'POST',
+                url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data: {
                     sesskey: M.cfg.sesskey,
-                    action : 'get_attempt',
-                    data   : {
-                        'id'        : opts.id,
+                    action: 'get_attempt',
+                    data: {
+                        'id': opts.id,
                         'attempt_id': $el.data('id'),
                     }
                 },
                 dataType: "json",
-                success : function (response) {
+                success: function(response) {
                     debug.log(response);
 
                     if (response.success) {
@@ -461,9 +463,9 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
 
                         canvas.loadFromJSON(response.record.json_data, canvas.renderAll.bind(canvas));
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             buffer_active = true;
-                        } , 1000);
+                        }, 1000);
                     }
                 }
             });
@@ -474,17 +476,17 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          * @param filearea
          */
-        show_fileuploader: function (filearea) {
+        showFileuploader: function(filearea) {
             $('#canvas-filepicker-form-' + filearea).toggle();
         },
 
         /**
          * Set background of the canvas.
          */
-        set_background_image: function () {
+        setBackgroundImage: function() {
 
             if (opts.background !== '') {
-                fabric.Image.fromURL(opts.background, function (img) {
+                fabric.Image.fromURL(opts.background, function(img) {
                     // add background image
                     canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
                         scaleX: canvas.width / img.width,
@@ -497,28 +499,28 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          *
          */
-        add_user_image: function () {
+        addUserImage: function() {
             var formdata = {'id': opts.id,};
             var inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
 
-            $.each(inputs, function (i, input) {
+            $.each(inputs, function(i, input) {
                 formdata[input.name] = input.value;
             });
 
             $.ajax({
-                type    : 'POST',
-                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                data    : {
+                type: 'POST',
+                url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data: {
                     sesskey: M.cfg.sesskey,
-                    action : 'upload_images',
-                    data   : formdata
+                    action: 'upload_images',
+                    data: formdata
                 },
                 dataType: "json",
-                success : function (response) {
+                success: function(response) {
                     debug.log(response);
 
                     if (response.success) {
-                        canvas_module.add_image_from_url(response.image);
+                        canvas_module.addImageFromUrl(response.image);
                     }
                     $('#canvas-filepicker-form-student_image').hide();
                 }
@@ -529,15 +531,15 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          *
          * @param path
          */
-        add_image_from_url: function (path) {
+        addImageFromUrl: function(path) {
 
             //TODO SVG support.
 
-            fabric.Image.fromURL(path, function (object) {
+            fabric.Image.fromURL(path, function(object) {
                 object.set({
-                    left           : 150,
-                    top            : 100,
-                    angle          : 0,
+                    left: 150,
+                    top: 100,
+                    angle: 0,
                     centerTransform: true
                 }).setCoords();
 
@@ -556,7 +558,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          *
          */
-        select_toolbar_image: function () {
+        selectToolbarImage: function() {
             var dialog = $('#image-picker');
             if (dialog.is(':visible')) {
                 dialog.hide();
@@ -565,22 +567,22 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             dialog.show();
 
             $.ajax({
-                type    : 'POST',
-                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                data    : {
+                type: 'POST',
+                url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data: {
                     sesskey: M.cfg.sesskey,
-                    action : 'get_toolbar_images',
-                    data   : {
+                    action: 'get_toolbar_images',
+                    data: {
                         'id': opts.id,
                     }
                 },
                 dataType: "json",
-                success : function (response) {
+                success: function(response) {
                     debug.log(response);
 
                     if (response.success) {
                         var html = '<ul class="list-group">';
-                        $.each(response.images, function (i, src) {
+                        $.each(response.images, function(i, src) {
                             html += '<li class="toolbar-image" rel="' + i + '"><img  alt="" src="' + src + '" ' +
                                 'class="img-thumbnail"></li>';
                         });
@@ -595,7 +597,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Undo 1 canvas step
          */
-        undo: function () {
+        undo: function() {
 
             if (buffer_step === 0) {
                 return;
@@ -615,114 +617,114 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Toolbar actions.
          */
-        load_toolbar: function () {
+        loadToolbar: function() {
 
-            this.set_background_image();
+            this.setBackgroundImage();
 
             // Most shapes will be placed on canvas by this function.
-            this.load_dynamic_toolbar_mapping_shapes();
+            this.loadDynamicToolbarMappingShapes();
 
             // Color picker.
-            this.load_color_picker();
+            this.loadColorPicker();
 
             // Clear canvas items.
-            $('#clear').on('click', function () {
+            $('#clear').on('click', function() {
                 canvas.clear();
 
                 if (opts.has_horizontal_ruler) {
-                    canvas_module.add_horizontal_ruler();
+                    canvas_module.addHorizontalRuler();
                 }
 
-                canvas_module.set_background_image();
+                canvas_module.setBackgroundImage();
             });
 
             // Arrow.
-            $('#arrow i').on('click', function () {
-                canvas_module.load_arrow_to_canvas();
+            $('#arrow i').on('click', function() {
+                canvas_module.loadArrowToCanvas();
             });
 
             // Remove selected items.
-            $('#trash i').on('click', function () {
-                canvas_module.delete_selected_canvas_items();
+            $('#trash i').on('click', function() {
+                canvas_module.deleteSelectedCanvasItems();
             });
 
             // Load emoji picker.
-            $('#smiley i').on('click', function () {
-                canvas_module.load_emoji_picker();
+            $('#smiley i').on('click', function() {
+                canvas_module.loadEmojiPicker();
             });
 
-            $('#undo').on('click', function () {
+            $('#undo').on('click', function() {
                 buffer_active = false;
                 canvas_module.undo();
 
-                setTimeout(function () {
+                setTimeout(function() {
                     buffer_active = true;
-                } , 500);
+                }, 500);
             });
 
             // Add own image to the canvas.
-            $('#add-image i').on('click', function () {
-                canvas_module.show_fileuploader('student_image');
+            $('#add-image i').on('click', function() {
+                canvas_module.showFileuploader('student_image');
             });
 
             // Student selecting a image, added to the toolbar by teachers.
-            $('#select-a-image i').on('click', function () {
-                canvas_module.select_toolbar_image();
+            $('#select-a-image i').on('click', function() {
+                canvas_module.selectToolbarImage();
             });
 
-            $('#image-picker ').on('click', 'img', function () {
-                canvas_module.add_image_from_url($(this).attr('src'));
+            $('#image-picker ').on('click', 'img', function() {
+                canvas_module.addImageFromUrl($(this).attr('src'));
                 $('#image-picker').hide();
             });
 
-            $('#save-canvas').on('click', function () {
-                canvas_module.save_canvas_ajax();
+            $('#save-canvas').on('click', function() {
+                canvas_module.saveCanvasAjax();
             });
 
-            $('#show-help').on('click', function () {
+            $('#show-help').on('click', function() {
                 $('#dialog-help').show();
             });
 
-            $('#dialog-help').on('click', function () {
+            $('#dialog-help').on('click', function() {
                 $('#dialog-help').hide();
             });
 
-            $('#history').on('click', '.delete', function (e) {
+            $('#history').on('click', '.delete', function(e) {
                 e.preventDefault();
-                canvas_module.delete_attempt($(this));
+                canvas_module.deleteAttempt($(this));
 
-            }).on('click', '.restore', function (e) {
+            }).on('click', '.restore', function(e) {
 
                 e.preventDefault();
-                canvas_module.restore_attempt($(this));
+                canvas_module.restoreAttempt($(this));
 
             });
 
             // Dialog to selected a emoji.
-            $('#emoji-picker').on('click', 'img', function () {
-                canvas_module.load_emoji_csv($(this).attr('src'));
+            $('#emoji-picker').on('click', 'img', function() {
+                canvas_module.loadEmojiCsv($(this).attr('src'));
                 $('#emoji-picker').hide();
             });
 
             // Teacher background.
-            $('#change_background').on('click', function () {
-                canvas_module.show_fileuploader('background');
+            $('#change_background').on('click', function() {
+                canvas_module.showFileuploader('background');
             });
 
             // Teacher image.
-            $('#add_toolbar_images').on('click', function () {
-                canvas_module.show_fileuploader('toolbar_shape');
+            $('#add_toolbar_images').on('click', function() {
+                canvas_module.showFileuploader('toolbar_shape');
             });
 
-            $('#canvas-filepicker-form-student_image').on('click', '#id_submitbutton', function (e) {
+            $('#canvas-filepicker-form-student_image').on('click', '#id_submitbutton', function(e) {
                 e.preventDefault();
 
                 // Form should be posted to AJAX call so we can get the image.
-                canvas_module.add_user_image();
+                canvas_module.addUserImage();
             });
 
             // Hide pressing on cancel.
-            $('.dialog').on('click', '.btn-secondary', function (e) {
+            $('.dialog').on('click', '.btn-secondary', function(e) {
                 e.preventDefault();
                 debug.log('Cancel');
                 $('.dialog').hide();
@@ -732,7 +734,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Emoji dialog
          */
-        load_emoji_picker: function () {
+        loadEmojiPicker: function() {
             var $picker = $('#emoji-picker');
             if ($picker.html() !== '') {
                 debug.log('Toggle emoji');
@@ -741,17 +743,17 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             }
 
             $.ajax({
-                type    : 'POST',
-                url     : M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
-                data    : {
+                type: 'POST',
+                url: M.cfg.wwwroot + '/mod/gcanvas/ajax.php',
+                data: {
                     sesskey: M.cfg.sesskey,
-                    action : 'emoji',
-                    data   : {
+                    action: 'emoji',
+                    data: {
                         'id': opts.id,
                     }
                 },
                 dataType: "json",
-                success : function (response) {
+                success: function(response) {
                     debug.log(response);
 
                     if (response.success) {
@@ -764,8 +766,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Load the arrow icon to the canvas.
          */
-        load_arrow_to_canvas: function () {
-            fabric.loadSVGFromURL('pix/arrow.svg', function (objects, options) {
+        loadArrowToCanvas: function() {
+            fabric.loadSVGFromURL('pix/arrow.svg', function(objects, options) {
                 var obj = fabric.util.groupSVGElements(objects, options);
                 canvas.add(obj.scale(0.1)).centerObject(obj).renderAll();
                 obj.setCoords();
@@ -777,7 +779,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * Set active element colors.
          * @param color
          */
-        set_color: function (color) {
+        setColor: function(color) {
 
             var colorhex = color.toHexString(); // #ff0000
             var activeobjects = canvas.getActiveObjects();
@@ -804,8 +806,8 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Don't allow going out of canvas.
          */
-        prevent_moving_out_of_canvas: function () {
-            canvas.on('object:moving', function (e) {
+        preventMovingOutOfCanvas: function() {
+            canvas.on('object:moving', function(e) {
                 var obj = e.target;
                 // if object is too big ignore
                 if (obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width) {
@@ -831,12 +833,12 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Trigger for extra keyboard commands.
          */
-        keyboard_actions: function () {
-            $(document).keydown(function (e) {
+        keyboardActions: function() {
+            $(document).keydown(function(e) {
                 debug.log('keypress', e.which);
                 switch (e.which) {
                     case 46:
-                        canvas_module.delete_selected_canvas_items();
+                        canvas_module.deleteSelectedCanvasItems();
                         break;
                 }
             });
@@ -845,13 +847,13 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Start this module.
          */
-        init: function () {
+        init: function() {
 
             // Load canvas.
             this.__canvas = canvas = new fabric.Canvas('sketch');
 
             // Prevent right click.
-            $('body').on('contextmenu', 'canvas , img', function () {
+            $('body').on('contextmenu', 'canvas , img', function() {
                 return false;
             });
 
@@ -868,46 +870,46 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
                 'selection:updated': this.onchange,
 
                 //  'object:moving' : this.add_to_history,
-                'object:added'   : this.add_to_cache,
-                'object:removed' : this.add_to_cache,
+                'object:added': this.add_to_cache,
+                'object:removed': this.add_to_cache,
                 'object:modified': this.add_to_cache,
             });
 
             // Make sure we start with a empty storage.
             localStorage.clear();
 
-            this.prevent_moving_out_of_canvas();
+            this.preventMovingOutOfCanvas();
 
-            this.load_toolbar();
+            this.loadToolbar();
 
             if (opts.has_horizontal_ruler) {
-                this.add_horizontal_ruler();
+                this.addHorizontalRuler();
             }
 
-            this.load_history();
+            this.loadHistory();
 
-            this.keyboard_actions();
+            this.keyboardActions();
         },
 
         /**
          * Keep a history/cache buffer.
          */
-        add_to_cache: function () {
+        add_to_cache: function() {
             debug.log('history');
-            canvas_module.add_canvas_to_cache_buffer();
+            canvas_module.addCanvasToCacheBuffer();
         },
 
         /**
          * Add canvas to local storage.
          */
-        add_canvas_to_cache_buffer: function () {
+        addCanvasToCacheBuffer: function() {
             // When undo there lot of modified events we doesnt want to trigger if thats the case.
-            if(!buffer_active){
+            if (!buffer_active) {
                 return;
             }
 
             clearTimeout(buffer_timer);
-            setTimeout(function () {
+            setTimeout(function() {
                 try {
                     buffer_step++;
                     localStorage.setItem('buffer_' + buffer_step, JSON.stringify(canvas));
@@ -920,15 +922,15 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Horizontal ruler.
          */
-        add_horizontal_ruler: function () {
+        addHorizontalRuler: function() {
             var ruler = new fabric.Rect({
-                width : this.canvas_width,
+                width: this.canvas_width,
                 height: 2,
-                id    : 'ruler',
-                left  : 0,
-                top   : 410,
-                angle : 0,
-                fill  : '#8B58A1'
+                id: 'ruler',
+                left: 0,
+                top: 410,
+                angle: 0,
+                fill: '#8b58a1'
             });
 
             ruler.flipY = false;
@@ -942,7 +944,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
             canvas.renderAll();
 
             // Keyboard arrows move ruler.
-            $(document).keydown(function (e) {
+            $(document).keydown(function(e) {
                 switch (e.which) {
 
                     case 38: // Up arrow.
@@ -967,7 +969,7 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
          * Trigger on canvas element actions.
          * @param options
          */
-        onchange: function (options) {
+        onchange: function(options) {
             if (options.target.hasOwnProperty('id') && options.target.id === 'ruler') {
                 return;
             }
@@ -981,18 +983,22 @@ define(['jquery', 'core/notification', 'mod_gcanvas/spectrum', "mod_gcanvas/fabr
         /**
          * Init.
          */
-        initialise: function (args) {
+        initialise: function(args) {
 
-            // Load the args passed from PHP.
-            set_options(args);
+            // Load spectrum javascript form here.
+            $.getScript("/mod/gcanvas/javascript/spectrum.js").done(function() {
 
-            // Set internal debug console.
-            set_debug(opts.debugjs);
+                // Load the args passed from PHP.
+                setOptions(args);
 
-            $.noConflict();
-            $(document).ready(function () {
-                debug.log('Canvas Module v1.0');
-                canvas_module.init();
+                // Set internal debug console.
+                setDebug(opts.debugjs);
+
+                $.noConflict();
+                $(document).ready(function() {
+                    debug.log('Canvas Module v1.1');
+                    canvas_module.init();
+                });
             });
         }
     };

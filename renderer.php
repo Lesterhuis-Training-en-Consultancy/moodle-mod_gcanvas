@@ -55,6 +55,9 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
         ], 'mod_gcanvas');
 
         $backgrounds = \mod_gcanvas\helper::get_images('background', $PAGE->context, $PAGE->cm->instance, 1);
+
+        $PAGE->requires->js('/mod/gcanvas/javascript/fabric.js' , true);
+
         $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
                 'background' => reset($backgrounds),
