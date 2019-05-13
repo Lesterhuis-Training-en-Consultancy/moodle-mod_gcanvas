@@ -25,8 +25,7 @@
  * @author    Luuk Verhoeven
  **/
 /* global fabric */
-/* eslint no-unused-expressions: "off", no-console:off, no-invalid-this:"off",no-script-url:"off" */
-
+/* eslint no-unused-expressions: "off", no-console:off, no-invalid-this:"off",no-script-url:"off", block-scoped-var: "off" */
 define(['jquery', 'core/notification'], function($, notification) {
     'use strict';
 
@@ -106,6 +105,7 @@ define(['jquery', 'core/notification'], function($, notification) {
             for (var m in console) {
                 if (typeof console[m] == 'function') {
                     debug[m] = function() {
+                        // Don't do anything.
                     };
                 }
             }
@@ -136,7 +136,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Default rectangle.
          */
-        default_shape_rect: {
+        defaultShaperect: {
             width: 70,
             height: 70,
             left: 200,
@@ -148,7 +148,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Default circle.
          */
-        default_shape_circle: {
+        defaultShapecircle: {
             radius: 40,
             left: 200,
             top: 50,
@@ -158,7 +158,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Default triangle.
          */
-        default_shape_triangle: {
+        defaultShapetriangle: {
             top: 50,
             left: 200,
             width: 70,
@@ -169,7 +169,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Default text.
          */
-        default_shape_textbox: {
+        defaultShapetextbox: {
             top: 50,
             left: 200,
             fill: '#0081b4'
@@ -317,7 +317,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                     // If nothing is added to the canvas this gives a error.
                 }
 
-                var shape = "default_shape_" + elementtype.toLowerCase();
+                var shape = "defaultShape" + elementtype.toLowerCase();
                 debug.log("Search for shape: " + shape);
 
                 if (canvasModule.hasOwnProperty(shape)) {
@@ -363,7 +363,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Using svg making sure it looks nice.
          *
-         * @param src
+         * @param {string} src
          */
         loadEmojiCsv: function(src) {
             debug.log('loadEmojiCsv : ', src);
@@ -385,12 +385,11 @@ define(['jquery', 'core/notification'], function($, notification) {
 
         /**
          * Delete a attempt/sketch
+         * TODO we could better use amd Ajax helper Moodle and external webservice, for now this is okay.
          *
          * @param {jQuery} $el
          */
         deleteAttempt: function($el) {
-            //TODO we could better use amd Ajax helper Moodle and external webservice, for now this is okay.
-
             debug.log('Delete', $el);
             notification.confirm(
                 M.util.get_string('javascript:confirm_title', 'mod_gcanvas'),
@@ -474,7 +473,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         /**
          * Show the fileuploader.
          *
-         * @param filearea
+         * @param {string} filearea
          */
         showFileuploader: function(filearea) {
             $('#canvas-filepicker-form-' + filearea).toggle();
@@ -487,7 +486,7 @@ define(['jquery', 'core/notification'], function($, notification) {
 
             if (opts.background !== '') {
                 fabric.Image.fromURL(opts.background, function(img) {
-                    // add background image
+                    // Add background image.
                     canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
                         scaleX: canvas.width / img.width,
                         scaleY: canvas.height / img.height
@@ -497,11 +496,10 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         * addUserImage
+         * Add user image.
          */
         addUserImage: function() {
-            var formdata = {'id': opts.id,};
-            var inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
+            var formdata = {'id': opts.id}, inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
 
             $.each(inputs, function(i, input) {
                 formdata[input.name] = input.value;
@@ -528,12 +526,12 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         * addImageFromUrl
+         * Add image from url
+         * TODO SVG support.
          * @param {string} path
          */
         addImageFromUrl: function(path) {
 
-            // TODO SVG support.
             fabric.Image.fromURL(path, function(object) {
                 object.set({
                     left: 150,
@@ -555,7 +553,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         * selectToolbarImage
+         * Select toolbar images.
          */
         selectToolbarImage: function() {
             var dialog = $('#image-picker');
@@ -594,7 +592,7 @@ define(['jquery', 'core/notification'], function($, notification) {
         },
 
         /**
-         * Undo 1 canvas step
+         * Undo 1 canvas step.
          */
         undo: function() {
 
@@ -966,7 +964,7 @@ define(['jquery', 'core/notification'], function($, notification) {
 
         /**
          * Trigger on canvas element actions.
-         * @param options
+         * @param {object} options
          */
         onchange: function(options) {
             if (options.target.hasOwnProperty('id') && options.target.id === 'ruler') {
@@ -981,12 +979,12 @@ define(['jquery', 'core/notification'], function($, notification) {
 
         /**
          * Init
-         * @param args
+         * @param {object} args
          */
         initialise: function(args) {
 
             // Load spectrum javascript form here.
-            $.getScript("/mod/gcanvas/javascript/spectrum.js").done(function() {
+            $.getScript(M.cfg.wwwroot + "/mod/gcanvas/javascript/spectrum.js").done(function() {
 
                 // Load the args passed from PHP.
                 setOptions(args);
@@ -996,9 +994,14 @@ define(['jquery', 'core/notification'], function($, notification) {
 
                 $.noConflict();
                 $(document).ready(function() {
-                    debug.log('Canvas Module v1.1');
+                    debug.log('Canvas Module v1.2');
                     canvasModule.init();
                 });
+            }).fail(function(jqxhr, settings, exception) {
+                // Display loading issue in console.
+                debug.log(jqxhr);
+                debug.log(settings);
+                debug.log(exception);
             });
         }
     };
