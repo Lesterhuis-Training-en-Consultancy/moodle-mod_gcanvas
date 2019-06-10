@@ -102,9 +102,9 @@ define(['jquery', 'core/notification'], function($, notification) {
             }
         } else {
             // Fake wrapper.
-            for (var m in console) {
-                if (typeof console[m] == 'function') {
-                    debug[m] = function() {
+            for (var i in console) {
+                if (typeof console[i] == 'function') {
+                    debug[i] = function() {
                         // Don't do anything.
                     };
                 }
@@ -277,25 +277,25 @@ define(['jquery', 'core/notification'], function($, notification) {
         deleteSelectedCanvasItems: function() {
             try {
                 var activeobjects = canvas.getActiveObjects();
-                if (activeobjects.length) {
-
-                    for (var i in activeobjects) {
-                        if (activeobjects.hasOwnProperty(i)) {
-                            var element = activeobjects[i];
-
-                            if (element.id !== undefined && element.id === 'ruler') {
-                                debug.log('Ruler: Not removable!');
-                                continue;
-                            }
-
-                            canvas.remove(element);
-                        }
-                    }
-
-                    canvas.discardActiveObject().renderAll();
-                } else {
+                if (activeobjects.length <= 0) {
                     debug.log('Selection empty');
+                    return;
                 }
+
+                for (var i in activeobjects) {
+                    if (activeobjects.hasOwnProperty(i)) {
+                        var element = activeobjects[i];
+
+                        if (element.id !== undefined && element.id === 'ruler') {
+                            debug.log('Ruler: Not removable!');
+                            continue;
+                        }
+
+                        canvas.remove(element);
+                    }
+                }
+
+                canvas.discardActiveObject().renderAll();
 
             } catch (e) {
                 debug.error('Nothing selected', e);
@@ -499,7 +499,8 @@ define(['jquery', 'core/notification'], function($, notification) {
          * Add user image.
          */
         addUserImage: function() {
-            var formdata = {'id': opts.id}, inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
+            var formdata = {'id': opts.id},
+                inputs = $('#canvas-filepicker-form-student_image form').serializeArray();
 
             $.each(inputs, function(i, input) {
                 formdata[input.name] = input.value;
@@ -853,9 +854,6 @@ define(['jquery', 'core/notification'], function($, notification) {
             $('body').on('contextmenu', 'canvas , img', function() {
                 return false;
             });
-
-            // fabric.Object.prototype.transparentCorners = false;
-            // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
             // Dimensions.
             canvas.setHeight(this.canvasHeight);
