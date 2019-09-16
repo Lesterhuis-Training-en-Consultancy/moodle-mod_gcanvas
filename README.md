@@ -43,9 +43,3 @@ If you discover any security related issues, please email [luuk@MFreak.nl](mailt
 ## License
 
 The GNU GENERAL PUBLIC LICENSE. Please see [License File](LICENSE) for more information.
-
-## Changelog
-
-See version control for the complete history. Major changes in this version will be listed below.
-
-- Adding a undo function.
