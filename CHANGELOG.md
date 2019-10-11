@@ -29,12 +29,14 @@ Types of changes
 * **Security** in case of vulnerabilities.
 
 
+## [3.8.0] - 2019-10-11
+### Added
+- Update version number, no issues founded in Moodle 3.8
+
+
 ## [3.5.7] - 2019-05-20
 ### Added
 - Release of the first official version.
 
 ### Changed
 - Adding undo function.
-
-### Removed
-- X
