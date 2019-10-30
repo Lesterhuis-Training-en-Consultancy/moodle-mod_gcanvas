@@ -30,7 +30,7 @@ Types of changes
 
 
 ## [3.8.0] - 2019-10-11
-### Added
+### Changed
 - Update version number, no issues founded in Moodle 3.8
 
 
