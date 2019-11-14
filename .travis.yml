@@ -4,7 +4,7 @@ dist: trusty
 
 addons:
   hosts:
-    - commander.test
+    - moodle.test
   firefox: "35.0.1"
   postgresql: "9.3"
   apt:
