@@ -115,14 +115,14 @@ function gcanvas_delete_instance($id) {
  * The file area 'intro' for the activity introduction field is added automatically
  * by {@link file_browser::get_file_info_context_module()}.
  *
- * @package     mod_gcanvas
- * @category    files
- *
  * @param stdClass $course  .
  * @param stdClass $cm      .
  * @param stdClass $context .
  *
  * @return string[].
+ * @package     mod_gcanvas
+ * @category    files
+ *
  */
 function gcanvas_get_file_areas($course, $cm, $context) {
     return [];
@@ -130,9 +130,6 @@ function gcanvas_get_file_areas($course, $cm, $context) {
 
 /**
  * File browsing support for mod_gcanvas file areas.
- *
- * @package     mod_gcanvas
- * @category    files
  *
  * @param file_browser $browser  .
  * @param array        $areas    .
@@ -145,6 +142,9 @@ function gcanvas_get_file_areas($course, $cm, $context) {
  * @param string       $filename .
  *
  * @return file_info Instance or null if not found.
+ * @package     mod_gcanvas
+ * @category    files
+ *
  */
 function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
     return null;
@@ -152,9 +152,6 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
 
 /**
  * Serves the files from the mod_gcanvas file areas.
- *
- * @package     mod_gcanvas
- * @category    files
  *
  * @param stdClass $course        The course object.
  * @param stdClass $cm            The course module object.
@@ -168,6 +165,9 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
  * @throws coding_exception
  * @throws moodle_exception
  * @throws require_login_exception
+ * @package     mod_gcanvas
+ * @category    files
+ *
  */
 function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
 

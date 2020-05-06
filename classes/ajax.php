@@ -29,6 +29,7 @@
 namespace mod_gcanvas;
 
 use context_module;
+use dml_exception;
 use file_storage;
 
 defined('MOODLE_INTERNAL') || die;
@@ -60,7 +61,7 @@ class ajax {
      *
      * @return array
      */
-    public function callable_load_history() {
+    public function callable_load_history() : array {
         global $PAGE;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
@@ -75,11 +76,11 @@ class ajax {
      * Save student there canvas to a attempt
      *
      * @return array
-     * @throws \dml_exception
+     * @throws dml_exception
      * @throws \file_exception
      * @throws \stored_file_creation_exception
      */
-    public function callable_save_canvas() {
+    public function callable_save_canvas() : array {
         global $DB, $USER;
         $fileid = 0;
         $cobject = $this->load_cm_and_course();
@@ -118,10 +119,10 @@ class ajax {
     /**
      * Load emoji html
      *
-     * @return arrayd
+     * @return array
      * @throws \moodle_exception
      */
-    public function callable_emoji() {
+    public function callable_emoji() : array {
         global $PAGE, $CFG;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
@@ -138,9 +139,9 @@ class ajax {
      * Delete a attempt
      *
      * @return array
-     * @throws \dml_exception
+     * @throws dml_exception
      */
-    public function callable_delete_attempt() {
+    public function callable_delete_attempt() : array {
         global $USER, $DB;
 
         $DB->delete_records('gcanvas_attempt', [
@@ -155,9 +156,9 @@ class ajax {
      * Delete a attempt
      *
      * @return array
-     * @throws \dml_exception
+     * @throws dml_exception
      */
-    public function callable_get_attempt() {
+    public function callable_get_attempt() : array {
         global $USER, $DB;
 
         $record = $DB->get_record('gcanvas_attempt', [
@@ -178,7 +179,7 @@ class ajax {
      * @throws \moodle_exception
      * @throws \required_capability_exception
      */
-    public function callable_upload_images() {
+    public function callable_upload_images() : array {
         $filearea = $this->data->filearea;
         $image = helper::upload_file($filearea, $this->data->$filearea);
 
@@ -194,7 +195,7 @@ class ajax {
      * @throws \coding_exception
      * @throws \moodle_exception
      */
-    public function callable_get_toolbar_images() {
+    public function callable_get_toolbar_images() : array {
         $cobject = $this->load_cm_and_course();
         $modulecontext = context_module::instance($cobject->cm->id);
 
@@ -209,7 +210,7 @@ class ajax {
      *
      * @return object
      */
-    protected function load_cm_and_course() {
+    protected function load_cm_and_course() : object {
         global $PAGE;
 
         return (object)[

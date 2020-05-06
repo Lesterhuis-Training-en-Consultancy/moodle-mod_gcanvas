@@ -33,4 +33,4 @@ $PAGE->set_url('/mod/gcanvas/index.php', ['id' => $courseid]);
 require_login($courseid);
 
 // Not used, redirect back to the course.
-redirect(new moodle_url('/course/view.php' , ['id' => $courseid]));
+redirect(new moodle_url('/course/view.php', ['id' => $courseid]));

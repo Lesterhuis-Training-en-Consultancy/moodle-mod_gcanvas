@@ -174,7 +174,7 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
     protected static function get_gcanvas_attempts_by_contextlist(approved_contextlist $contextlist, int $userid) {
         global $DB;
 
-        list($contextsql, $contextparams) = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
+        [$contextsql, $contextparams] = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
 
         $params = [
             'contextmodule' => CONTEXT_MODULE,

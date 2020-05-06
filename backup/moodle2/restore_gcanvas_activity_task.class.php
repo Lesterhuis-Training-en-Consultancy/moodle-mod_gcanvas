@@ -46,9 +46,8 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      *
      * @return void .
      * @throws base_task_exception
-     * @throws restore_step_exception
      */
-    protected function define_my_steps() {
+    protected function define_my_steps() : void {
         $this->add_step(new restore_gcanvas_activity_structure_step('gcanvas_structure', 'gcanvas.xml'));
     }
 
@@ -57,7 +56,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      *
      * @return array.
      */
-    static public function define_decode_contents() {
+    public static function define_decode_contents() : array{
         $contents = [];
         $contents[] = new restore_decode_content('gcanvas', ['intro', 'helptext'], 'gcanvas');
 
@@ -69,7 +68,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      *
      * @return array.
      */
-    static public function define_decode_rules() {
+    public static function define_decode_rules() : array {
         $rules = [];
 
         // Define the rules.
@@ -84,7 +83,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      *
      * @return array.
      */
-    static public function define_restore_log_rules() {
+    public static function define_restore_log_rules() : array{
         $rules = [];
 
         // Define the rules.

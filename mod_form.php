@@ -37,8 +37,10 @@ class mod_gcanvas_mod_form extends moodleform_mod {
 
     /**
      * Defines forms elements
+     *
+     * @throws coding_exception
      */
-    public function definition() {
+    public function definition() : void {
         global $CFG;
 
         $mform = $this->_form;
