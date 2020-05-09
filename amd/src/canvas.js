@@ -16,7 +16,7 @@
 /**
  * JS Canvas
  *
- * Tested in Moodle 3.5
+ * Tested in Moodle 3.9
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
