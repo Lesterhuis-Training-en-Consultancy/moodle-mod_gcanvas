@@ -33,6 +33,7 @@ Types of changes
 ### Changed
 - Updated version number, no issues found.
 - Minimum version PHP 7.2
+- Add core_userlist_provider
 
 ## Version (3.8.0) - 2019-10-11
 ### Changed
