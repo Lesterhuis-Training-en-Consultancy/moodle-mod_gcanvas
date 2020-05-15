@@ -29,8 +29,10 @@ defined('MOODLE_INTERNAL') || die;
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_contextlist;
+use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\transform;
+use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 
 /**
@@ -42,7 +44,9 @@ use core_privacy\local\request\writer;
  * @copyright 31-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
-class provider implements \core_privacy\local\metadata\provider, \core_privacy\local\request\plugin\provider {
+class provider implements \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\core_userlist_provider,
+    \core_privacy\local\request\plugin\provider {
 
     /**
      * Returns meta data about this system.
@@ -319,4 +323,79 @@ class provider implements \core_privacy\local\metadata\provider, \core_privacy\l
         }
     }
 
+    /**
+     * Get the list of users who have data within a context.
+     *
+     * @param userlist $userlist The userlist containing the list of users who have data in this context/plugin
+     *                           combination.
+     */
+    public static function get_users_in_context(userlist $userlist) : void {
+        $context = $userlist->get_context();
+
+        if (!is_a($context, \context_module::class)) {
+            return;
+        }
+
+        // Find users with gcanvas_attempt entries.
+        $sql = "
+            SELECT link.user_id
+              FROM {%s} link
+              JOIN {modules} m
+                ON m.name = :modulename
+              JOIN {course_modules} cm
+                ON cm.instance = link.gcanvas_id
+               AND cm.module = m.id
+              JOIN {context} ctx
+                ON ctx.instanceid = cm.id
+               AND ctx.contextlevel = :modlevel
+             WHERE ctx.id = :contextid";
+
+        $params = [
+            'modulename' => 'gcanvas',
+            'modlevel' => CONTEXT_MODULE,
+            'contextid' => $context->id,
+        ];
+
+        $userlist->add_from_sql('user_id', sprintf($sql, 'gcanvas_attempt'), $params);
+    }
+
+    /**
+     * Delete multiple users within a single context.
+     *
+     * @param approved_userlist $userlist The approved context and user information to delete information for.
+     *
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public static function delete_data_for_users(approved_userlist $userlist) : void {
+        global $DB;
+
+        $context = $userlist->get_context();
+        $userids = $userlist->get_userids();
+
+        // Prepare SQL to gather all linked IDs.
+        [$insql, $inparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+        $completedsql = "
+            SELECT link.id
+              FROM {%s} link
+              JOIN {modules} m
+                ON m.name = :modulename
+              JOIN {course_modules} cm
+                ON cm.instance = link.gcanvas_id
+               AND cm.module = m.id
+             WHERE cm.id = :instanceid
+               AND link.user_id $insql";
+
+        $completedparams = array_merge($inparams, [
+            'instanceid' => (int)$context->instanceid,
+            'modulename' => 'gcanvas',
+        ]);
+
+        // Delete all gcanvas_attempt entries.
+        $attempts = $DB->get_fieldset_sql(sprintf($completedsql, 'gcanvas_attempt'), $completedparams);
+        if (!empty($attempts)) {
+            [$insql, $inparams] = $DB->get_in_or_equal($attempts, SQL_PARAMS_NAMED);
+            $DB->delete_records_select('gcanvas_attempt', "id $insql", $inparams);
+        }
+    }
 }
