@@ -82,6 +82,7 @@ function gcanvas_add_instance($moduleinstance, $mform = null) {
 function gcanvas_update_instance($moduleinstance, $mform = null) {
     global $DB;
 
+    $moduleinstance->has_horizontal_ruler = !empty($moduleinstance->has_horizontal_ruler);
     $moduleinstance->timemodified = time();
     $moduleinstance->id = $moduleinstance->instance;
 
