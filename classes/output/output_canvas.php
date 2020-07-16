@@ -27,6 +27,8 @@
 namespace mod_gcanvas\output;
 defined('MOODLE_INTERNAL') || die;
 
+use coding_exception;
+use context_module;
 use renderable;
 use renderer_base;
 use stdClass;
@@ -53,7 +55,7 @@ class output_canvas implements renderable, templatable {
      *
      * @param stdClass $canvas
      */
-    public function __construct(\stdClass $canvas) {
+    public function __construct(stdClass $canvas) {
         $this->canvas = $canvas;
     }
 
@@ -66,9 +68,9 @@ class output_canvas implements renderable, templatable {
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
      *
      * @return stdClass|array
-     * @throws \coding_exception
+     * @throws coding_exception
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(renderer_base $output) : stdClass {
         global $PAGE;
         $data = [];
 
@@ -83,7 +85,7 @@ class output_canvas implements renderable, templatable {
         $object->linkintro = $object->linkintro->out(false);
 
         // Fix links to files.
-        $context = \context_module::instance($PAGE->cm->id);
+        $context = context_module::instance($PAGE->cm->id);
         $options = [
             'noclean' => true,
             'para' => false,

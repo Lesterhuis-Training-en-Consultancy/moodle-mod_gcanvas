@@ -71,9 +71,8 @@ class output_uploader implements renderable, templatable {
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
      *
      * @return stdClass|array
-     * @throws \coding_exception
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(renderer_base $output) : stdClass{
         $object = new stdClass();
         $object->form = $this->get_uploader_form();
         $object->filearea = $this->filearea;
@@ -86,7 +85,7 @@ class output_uploader implements renderable, templatable {
      *
      * @return string
      */
-    protected function get_uploader_form() {
+    protected function get_uploader_form() : string {
         global $PAGE;
         $form = new \mod_gcanvas\form\filepicker($PAGE->url, [
             'context' => $PAGE->context,

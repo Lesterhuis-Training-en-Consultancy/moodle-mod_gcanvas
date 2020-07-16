@@ -16,6 +16,7 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 ![Moodle36](https://img.shields.io/badge/moodle-3.6-brightgreen.svg)
 ![Moodle37](https://img.shields.io/badge/moodle-3.7-brightgreen.svg)
 ![Moodle38](https://img.shields.io/badge/moodle-3.8-brightgreen.svg)
+![Moodle39](https://img.shields.io/badge/moodle-3.9-brightgreen.svg)
 ![PHP7.2](https://img.shields.io/badge/PHP-7.2-brightgreen.svg)
 [![Build Status](https://travis-ci.org/MFreakNL/moodle-mod_gcanvas.svg?branch=master)](https://travis-ci.org/MFreakNL/moodle-mod_gcanvas)
 ## Screens

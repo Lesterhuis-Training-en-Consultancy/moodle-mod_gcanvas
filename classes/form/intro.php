@@ -43,7 +43,7 @@ class intro extends \moodleform {
      *
      * @throws \coding_exception
      */
-    protected function definition() {
+    protected function definition() : void {
         global $CFG, $PAGE;
         $mform = &$this->_form;
         $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas'), null, [

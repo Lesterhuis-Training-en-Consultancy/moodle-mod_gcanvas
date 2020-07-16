@@ -44,8 +44,10 @@ class backup_gcanvas_activity_task extends backup_activity_task {
 
     /**
      * Defines particular steps for the backup process.
+     *
+     * @throws base_task_exception
      */
-    protected function define_my_steps() {
+    protected function define_my_steps() : void {
         $this->add_step(new backup_gcanvas_activity_structure_step('gcanvas_structure', 'gcanvas.xml'));
     }
 
@@ -56,7 +58,7 @@ class backup_gcanvas_activity_task extends backup_activity_task {
      *
      * @return string.
      */
-    static public function encode_content_links($content) {
+    public static function encode_content_links($content): string {
         global $CFG;
 
         $base = preg_quote($CFG->wwwroot, "/");

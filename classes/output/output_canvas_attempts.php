@@ -27,7 +27,9 @@
 namespace mod_gcanvas\output;
 defined('MOODLE_INTERNAL') || die;
 
+use coding_exception;
 use context_module;
+use dml_exception;
 use renderable;
 use renderer_base;
 use stdClass;
@@ -62,7 +64,7 @@ class output_canvas_attempts implements renderable, templatable {
      *
      * @param int $id
      *
-     * @throws \coding_exception
+     * @throws coding_exception
      */
     public function __construct(int $id) {
         $this->id = $id;
@@ -76,8 +78,8 @@ class output_canvas_attempts implements renderable, templatable {
      * Get attempt items
      *
      * @return array
-     * @throws \dml_exception
-     * @throws \coding_exception
+     * @throws dml_exception
+     * @throws coding_exception
      */
     protected function get_items() : array {
         global $DB, $USER;
@@ -114,9 +116,9 @@ class output_canvas_attempts implements renderable, templatable {
      * @param stdClass $row
      *
      * @return string
-     * @throws \coding_exception
+     * @throws coding_exception
      */
-    public function get_image(\stdClass $row) {
+    public function get_image(\stdClass $row) : string {
         global $CFG;
         $fs = get_file_storage();
         $files = $fs->get_area_files(
@@ -149,10 +151,10 @@ class output_canvas_attempts implements renderable, templatable {
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
      *
      * @return stdClass|array
-     * @throws \dml_exception
-     * @throws \coding_exception
+     * @throws dml_exception
+     * @throws coding_exception
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(renderer_base $output) : stdClass{
 
         $data = $this->get_items();
 

@@ -25,6 +25,10 @@
  **/
 
 namespace mod_gcanvas;
+use coding_exception;
+use moodle_exception;
+use required_capability_exception;
+
 defined('MOODLE_INTERNAL') || die;
 
 /**
@@ -41,7 +45,7 @@ class helper {
      *
      * @return bool
      */
-    public static function has_debugging_enabled() {
+    public static function has_debugging_enabled() : bool {
         global $CFG;
 
         // Check if the environment has debugging enabled.
@@ -57,7 +61,7 @@ class helper {
      * @param int       $limit
      *
      * @return array
-     * @throws \coding_exception
+     * @throws coding_exception
      */
     public static function get_images(string $filearea, $context, int $canvasid, int $limit = 1) : array {
         global $CFG;
@@ -84,12 +88,12 @@ class helper {
      * @param string $filearea
      * @param int    $fileareaid
      *
-     * @return mixed|string
-     * @throws \coding_exception
-     * @throws \moodle_exception
-     * @throws \required_capability_exception
+     * @return string
+     * @throws coding_exception
+     * @throws moodle_exception
+     * @throws required_capability_exception
      */
-    public static function upload_file(string $filearea, int $fileareaid) {
+    public static function upload_file(string $filearea, int $fileareaid) : string {
         global $PAGE;
 
         switch ($filearea) {
@@ -101,7 +105,7 @@ class helper {
                 require_capability('mod/gcanvas:student_image', $PAGE->context);
                 break;
             default:
-                throw new \moodle_exception('Unknown filearea');
+                throw new moodle_exception('Unknown filearea');
         }
 
         $return = file_save_draft_area_files($fileareaid,
@@ -129,8 +133,7 @@ class helper {
      *
      * @return array
      */
-    public static function get_file_options($context, int $max = 50) {
-
+    public static function get_file_options($context, int $max = 50) : array {
         global $CFG;
 
         return [
