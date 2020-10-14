@@ -111,6 +111,27 @@
     min-height: 500px;
     width: 70px;
     border-right: none;
+    position: absolute;
+}
+
+.canvas-container{
+    margin-left: 70px;
+}
+
+#page-mod-gcanvas-view *{
+    box-sizing: border-box;
+}
+
+#page-mod-gcanvas-view .p-2 {
+    padding: .5rem !important;
+}
+
+#page-mod-gcanvas-view .justify-content-between {
+    justify-content: space-between !important;
+}
+
+#page-mod-gcanvas-view .d-flex {
+    display: flex !important;
 }
 
 #page-mod-gcanvas-view .card-img-top {

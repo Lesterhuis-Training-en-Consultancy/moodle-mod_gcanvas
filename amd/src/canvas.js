@@ -236,7 +236,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                                 multiplier: 1,
                                 format: 'png'
                             }),
-                            'json_data': JSON.stringify(canvas)
+                        'json_data': JSON.stringify(canvas)
                         }
                     },
                     dataType: "json",
@@ -356,7 +356,7 @@ define(['jquery', 'core/notification'], function($, notification) {
             }).on("dragstart.spectrum , dragstop.spectrum", function(e, color) {
                     debug.log('change color - dragstop - dragstart');
                     canvasModule.setColor(color);
-                }
+            }
             );
         },
 
@@ -857,14 +857,14 @@ define(['jquery', 'core/notification'], function($, notification) {
 
             // Dimensions.
             canvas.setHeight(this.canvasHeight);
-            canvas.setWidth(this.canvasWidth);
+            canvas.setWidth(this.canvasWidth - 70);
 
             // Catch some actions.
             canvas.on({
                 'selection:created': this.onchange,
                 'selection:updated': this.onchange,
 
-                //  'object:moving' : this.add_to_history,
+                // 'object:moving' : this.add_to_history,
                 'object:added': this.addToCache,
                 'object:removed': this.addToCache,
                 'object:modified': this.addToCache,

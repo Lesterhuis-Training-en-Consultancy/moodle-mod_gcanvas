@@ -72,7 +72,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
     /**
      * after_execute
      */
-    protected function after_execute() : void{
+    protected function after_execute() : void {
         // Add page related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_gcanvas', 'intro', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'helptext', 'gcanvas');
