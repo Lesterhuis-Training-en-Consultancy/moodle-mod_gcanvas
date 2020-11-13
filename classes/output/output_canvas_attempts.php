@@ -154,7 +154,7 @@ class output_canvas_attempts implements renderable, templatable {
      * @throws dml_exception
      * @throws coding_exception
      */
-    public function export_for_template(renderer_base $output) : stdClass{
+    public function export_for_template(renderer_base $output) : stdClass {
 
         $data = $this->get_items();
 

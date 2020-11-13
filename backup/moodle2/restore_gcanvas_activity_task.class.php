@@ -38,7 +38,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      * Defines particular settings that this activity can have.
      */
     protected function define_my_settings() {
-        return;
+
     }
 
     /**
@@ -56,7 +56,7 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      *
      * @return array.
      */
-    public static function define_decode_contents() : array{
+    public static function define_decode_contents() : array {
         $contents = [];
         $contents[] = new restore_decode_content('gcanvas', ['intro', 'helptext'], 'gcanvas');
 
@@ -78,12 +78,11 @@ class restore_gcanvas_activity_task extends restore_activity_task {
 
     /**
      * Defines the restore log rules that will be applied by the
-     * {@link restore_logs_processor} when restoring mod_gcanvas logs. It
-     * must return one array of {@link restore_log_rule} objects.
+     * when restoring mod_gcanvas logs. It must return one array of objects.
      *
      * @return array.
      */
-    public static function define_restore_log_rules() : array{
+    public static function define_restore_log_rules() : array {
         $rules = [];
 
         // Define the rules.

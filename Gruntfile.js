@@ -1,16 +1,26 @@
+/* browser: false */
+/* eslint-env node */
 "use strict";
 
 module.exports = function(grunt) {
     // Running local with
     // First time npm install
-    // nvm use 8.9
-    // grunt --moodledir=/Users/mail/OPENSOURCE/moodle-380/
+    // nvm use 14
+    // grunt --moodledir=/Users/mail/OPENSOURCE/moodle-310/
+    // grunt --moodledir=../../..
 
     // We need to include the core Moodle grunt file too, otherwise we can't run tasks like "amd".
-    require("grunt-load-gruntfile")(grunt);
+    try {
+        if(require.resolve("grunt-load-gruntfile")){
+            require("grunt-load-gruntfile")(grunt);
+        }
 
-    var MOODLE_DIR = grunt.option('moodledir') || '../../';
-    grunt.loadGruntfile(MOODLE_DIR + "Gruntfile.js");
+        var MOODLE_DIR = grunt.option('moodledir') || '../../';
+        grunt.loadGruntfile(MOODLE_DIR + "Gruntfile.js");
+
+    }catch(ex){
+        // Only used when running localy for compiling.
+    }
 
     // Load all grunt tasks.
     grunt.loadNpmTasks("grunt-contrib-less");
@@ -24,6 +34,11 @@ module.exports = function(grunt) {
                 files: "amd/src/*.js",
                 tasks: ["amd"]
             }
+        },
+        stylelint: {
+            css: {},
+            scss: {},
+            less: {},
         },
         eslint: {
             amd: {src: "amd/src"}

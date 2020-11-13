@@ -43,10 +43,9 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      *
      * @throws coding_exception
      */
-    public function add_javascript_helper(\stdClass $canvas) : void{
-        global $PAGE;
+    public function add_javascript_helper(\stdClass $canvas) : void {
 
-        $PAGE->requires->strings_for_js([
+        $this->page->requires->strings_for_js([
             'javascript:confirm_title',
             'javascript:confirm_desc',
             'javascript:yes',
@@ -54,15 +53,14 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
             'javascript:updated',
         ], 'mod_gcanvas');
 
-        $backgrounds = \mod_gcanvas\helper::get_images('background', $PAGE->context, $PAGE->cm->instance, 1);
+        $backgrounds = \mod_gcanvas\helper::get_images('background', $this->page->context, $this->page->cm->instance, 1);
 
-        $PAGE->requires->js('/mod/gcanvas/javascript/fabric.js', true);
-
-        $PAGE->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
+        $this->page->requires->js('/mod/gcanvas/javascript/fabric.js', true);
+        $this->page->requires->js_call_amd('mod_gcanvas/canvas', 'initialise', [
             [
                 'background' => reset($backgrounds),
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
-                'id' => $PAGE->url->get_param('id'),
+                'id' => $this->page->url->get_param('id'),
                 'hasHorizontalRuler' => $canvas->has_horizontal_ruler ? true : false,
                 // TODO get this from module settings.
             ],

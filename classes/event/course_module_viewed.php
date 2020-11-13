@@ -39,7 +39,7 @@ class course_module_viewed extends \core\event\course_module_viewed {
      *
      * @return void
      */
-    protected function init() : void{
+    protected function init() : void {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'gcanvas';
@@ -50,7 +50,7 @@ class course_module_viewed extends \core\event\course_module_viewed {
      *
      * @return array|string
      */
-    public static function get_objectid_mapping() : array{
+    public static function get_objectid_mapping() : array {
         return [
             'db' => 'gcanvas',
             'restore' => 'gcanvas',
