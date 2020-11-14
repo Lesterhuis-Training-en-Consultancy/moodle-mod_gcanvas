@@ -123,15 +123,21 @@
 }
 
 #page-mod-gcanvas-view .p-2 {
+    /* stylelint-disable */
     padding: .5rem !important;
+    /* stylelint-enable */
 }
 
 #page-mod-gcanvas-view .justify-content-between {
+    /* stylelint-disable */
     justify-content: space-between !important;
+    /* stylelint-enable */
 }
 
 #page-mod-gcanvas-view .d-flex {
+    /* stylelint-disable */
     display: flex !important;
+    /* stylelint-enable */
 }
 
 #page-mod-gcanvas-view .card-img-top {
