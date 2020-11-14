@@ -39,7 +39,7 @@ class backup_gcanvas_activity_task extends backup_activity_task {
      * Defines particular settings for the plugin.
      */
     protected function define_my_settings() {
-        return;
+
     }
 
     /**
@@ -58,7 +58,7 @@ class backup_gcanvas_activity_task extends backup_activity_task {
      *
      * @return string.
      */
-    public static function encode_content_links($content): string {
+    public static function encode_content_links($content) : string {
         global $CFG;
 
         $base = preg_quote($CFG->wwwroot, "/");

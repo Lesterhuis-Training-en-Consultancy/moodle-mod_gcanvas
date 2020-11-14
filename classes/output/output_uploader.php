@@ -72,7 +72,7 @@ class output_uploader implements renderable, templatable {
      *
      * @return stdClass|array
      */
-    public function export_for_template(renderer_base $output) : stdClass{
+    public function export_for_template(renderer_base $output) : stdClass {
         $object = new stdClass();
         $object->form = $this->get_uploader_form();
         $object->filearea = $this->filearea;

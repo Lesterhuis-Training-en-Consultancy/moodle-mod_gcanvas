@@ -28,21 +28,31 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
-# Version (3.9) - 2020-05-06
+## Version (3.10) - 2020-11-14
 
-### Changed
+##### Changed
+- Updated version number, no issues found.
+- Travis testing 
+- Docblocks
+
+##### Removed
+- Remove `.eslintrc` `Gruntfile.js` and `packages.json` from the project causes Travis issues.
+
+## Version (3.9) - 2020-05-06
+
+##### Changed
 - Updated version number, no issues found.
 - Minimum version PHP 7.2
 - Add core_userlist_provider
 
 ## Version (3.8.0) - 2019-10-11
-### Changed
+##### Changed
 - Update version number, no issues founded in Moodle 3.8
 
 
 ## Version (3.5.7) - 2019-05-20
-### Added
+##### Added
 - Release of the first official version.
 
-### Changed
+##### Changed
 - Adding undo function.

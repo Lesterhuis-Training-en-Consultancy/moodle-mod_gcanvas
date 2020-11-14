@@ -25,6 +25,7 @@
  **/
 
 namespace mod_gcanvas;
+
 use coding_exception;
 use moodle_exception;
 use required_capability_exception;

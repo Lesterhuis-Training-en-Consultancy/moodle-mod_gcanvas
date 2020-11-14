@@ -33,9 +33,5 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_gcanvas_upgrade($oldversion) {
-    global $DB;
-
-    $dbman = $DB->get_manager();
-
     return true;
 }

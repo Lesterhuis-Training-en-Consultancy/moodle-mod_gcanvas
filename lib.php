@@ -34,9 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 function gcanvas_supports($feature) {
     switch ($feature) {
         case FEATURE_MOD_INTRO:
-            return true;
         case FEATURE_SHOW_DESCRIPTION:
-            return true;
         case FEATURE_BACKUP_MOODLE2:
             return true;
         default:
@@ -114,7 +112,6 @@ function gcanvas_delete_instance($id) {
  * Returns the lists of all browsable file areas within the given module context.
  *
  * The file area 'intro' for the activity introduction field is added automatically
- * by {@link file_browser::get_file_info_context_module()}.
  *
  * @param stdClass $course  .
  * @param stdClass $cm      .
@@ -214,8 +211,8 @@ function gcanvas_extend_navigation($gcanvasnode, $course, $module, $cm) {
  * This function is called when the context for the page is a mod_gcanvas module.
  * This is not called by AJAX so it is safe to rely on the $PAGE.
  *
- * @param settings_navigation $settingsnav {@link settings_navigation}
- * @param navigation_node     $gcanvasnode {@link navigation_node}
+ * @param settings_navigation $settingsnav
+ * @param navigation_node     $gcanvasnode
  */
 function gcanvas_extend_settings_navigation($settingsnav, $gcanvasnode = null) {
 }
