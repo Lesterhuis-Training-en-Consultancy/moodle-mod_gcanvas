@@ -35,6 +35,9 @@ Types of changes
 - Travis testing 
 - Docblocks
 
+##### Removed
+- Remove `.eslintrc` `Gruntfile.js` and `packages.json` from the project causes Travis issues.
+
 ## Version (3.9) - 2020-05-06
 
 ##### Changed
