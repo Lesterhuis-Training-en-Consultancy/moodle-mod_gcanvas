@@ -48,4 +48,4 @@ If you discover any security related issues, please email [luuk@MFreak.nl](mailt
 
 ## License
 
-The GNU GENERAL PUBLIC LICENSE. Please see [License File](LICENSE) for more information.
+The GNU GENERAL PUBLIC LICENSE. Please see [License File](LICENSE.md) for more information.
