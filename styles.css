@@ -114,11 +114,11 @@
     position: absolute;
 }
 
-.canvas-container{
+.canvas-container {
     margin-left: 70px;
 }
 
-#page-mod-gcanvas-view *{
+#page-mod-gcanvas-view * {
     box-sizing: border-box;
 }
 
