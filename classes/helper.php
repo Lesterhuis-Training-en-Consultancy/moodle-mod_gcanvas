@@ -41,6 +41,9 @@ defined('MOODLE_INTERNAL') || die;
  */
 class helper {
 
+    // Moodle 4.0 earliest version number.
+    const MOODLE_40 = 2022041900;
+
     /**
      * We are in DEBUG mode display more info than general.
      *

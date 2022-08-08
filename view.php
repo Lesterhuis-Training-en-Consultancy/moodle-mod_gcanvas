@@ -22,6 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_gcanvas\helper;
+
 require(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
 require_once(__DIR__ . "/../../repository/lib.php");
@@ -132,7 +134,7 @@ switch ($action) {
         if (($data = data_submitted()) && confirm_sesskey()) {
 
             $filearea = $data->filearea;
-            \mod_gcanvas\helper::upload_file($data->filearea, $data->$filearea);
+            helper::upload_file($data->filearea, $data->$filearea);
 
             // Prevent resubmission.
             redirect($PAGE->url);
@@ -140,11 +142,13 @@ switch ($action) {
 
         echo $OUTPUT->header();
 
-        // Info box.
-        $content = format_module_intro('gcanvas', $canvas, $cm->id);
-        if (!empty($content)) {
-            echo $OUTPUT->box($content, 'generalbox', 'intro');
-        }
+        if (get_config('moodle', 'version') < helper::MOODLE_40) {
+            // Info box, only needs to show before Moodle 4.0.
+            $content = format_module_intro('gcanvas', $canvas, $cm->id);
+            if (!empty($content)) {
+                echo $OUTPUT->box($content, 'generalbox', 'intro');
+            }
+        };
 
         echo $renderer->render_canvas($canvas);
         echo $renderer->render_uploader('background', $canvas);
