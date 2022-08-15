@@ -29,6 +29,10 @@ Types of changes
 * **Security** in case of vulnerabilities.
 
 
+## Version (4.0.1) - 2022-08-08
+##### Changed
+- No double activity description 
+
 ## Version (3.10.1) - 2020-12-08
 
 ##### Added
