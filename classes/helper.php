@@ -27,10 +27,10 @@
 namespace mod_gcanvas;
 
 use coding_exception;
+use context;
 use moodle_exception;
+use moodle_url;
 use required_capability_exception;
-
-defined('MOODLE_INTERNAL') || die;
 
 /**
  * Class helper
@@ -41,15 +41,17 @@ defined('MOODLE_INTERNAL') || die;
  */
 class helper {
 
-    // Moodle 4.0 earliest version number.
-    const MOODLE_40 = 2022041900;
+    /**
+     * Moodle 4.0 earliest version number.
+     */
+    public const MOODLE_40 = 2022041900;
 
     /**
      * We are in DEBUG mode display more info than general.
      *
      * @return bool
      */
-    public static function has_debugging_enabled() : bool {
+    public static function has_debugging_enabled(): bool {
         global $CFG;
 
         // Check if the environment has debugging enabled.
@@ -59,16 +61,15 @@ class helper {
     /**
      * Get images
      *
-     * @param string    $filearea
+     * @param string $filearea
      * @param \stdClass $context
-     * @param int       $canvasid
-     * @param int       $limit
+     * @param int $canvasid
+     * @param int $limit
      *
      * @return array
      * @throws coding_exception
      */
-    public static function get_images(string $filearea, $context, int $canvasid, int $limit = 1) : array {
-        global $CFG;
+    public static function get_images(string $filearea, $context, int $canvasid, int $limit = 1): array {
         $list = [];
 
         $fs = get_file_storage();
@@ -77,9 +78,15 @@ class helper {
 
         foreach ($files as $file) {
             if ($file->is_valid_image()) {
-                $list[] = file_encode_url("$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_itemid() . '/' . $file->get_filename());
+
+                $list[] = moodle_url::make_pluginfile_url(
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    $file->get_itemid(),
+                    $file->get_filepath(),
+                    $file->get_filename()
+                )->out();
             }
         }
 
@@ -90,14 +97,14 @@ class helper {
      * Upload file
      *
      * @param string $filearea
-     * @param int    $fileareaid
+     * @param int $fileareaid
      *
      * @return string
      * @throws coding_exception
      * @throws moodle_exception
      * @throws required_capability_exception
      */
-    public static function upload_file(string $filearea, int $fileareaid) : string {
+    public static function upload_file(string $filearea, int $fileareaid): string {
         global $PAGE;
 
         switch ($filearea) {
@@ -132,12 +139,12 @@ class helper {
     /**
      * Get file options
      *
-     * @param \stdClass $context
-     * @param int       $max
+     * @param context $context
+     * @param int $max
      *
      * @return array
      */
-    public static function get_file_options($context, int $max = 50) : array {
+    public static function get_file_options(context $context, int $max = 50): array {
         global $CFG;
 
         return [

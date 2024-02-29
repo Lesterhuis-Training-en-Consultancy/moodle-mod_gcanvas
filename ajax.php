@@ -23,11 +23,19 @@
  * @copyright 9-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
-define('AJAX_SCRIPT', true);
-define('NO_DEBUG_DISPLAY', true);
 
-require_once(__DIR__ . '/../../config.php');
 defined('MOODLE_INTERNAL') || die;
+require_once(__DIR__ . '/../../config.php');
+
+/**
+ * @var bool AJAX_SCRIPT
+ */
+const AJAX_SCRIPT = true;
+
+/**
+ * @var bool NO_DEBUG_DISPLAY
+ */
+const NO_DEBUG_DISPLAY = true;
 
 $action = optional_param('action', '', PARAM_TEXT);
 $data = (object)optional_param('data', [], PARAM_RAW);

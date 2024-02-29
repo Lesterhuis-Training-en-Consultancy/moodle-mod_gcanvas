@@ -38,8 +38,8 @@ class backup_gcanvas_activity_task extends backup_activity_task {
     /**
      * Defines particular settings for the plugin.
      */
-    protected function define_my_settings() {
-
+    protected function define_my_settings(): void {
+        // No defined settings.
     }
 
     /**
@@ -47,18 +47,18 @@ class backup_gcanvas_activity_task extends backup_activity_task {
      *
      * @throws base_task_exception
      */
-    protected function define_my_steps() : void {
+    protected function define_my_steps(): void {
         $this->add_step(new backup_gcanvas_activity_structure_step('gcanvas_structure', 'gcanvas.xml'));
     }
 
     /**
      * Codes the transformations to perform in the activity in order to get transportable (encoded) links.
      *
-     * @param string $content .
+     * @param string $content
      *
-     * @return string.
+     * @return string
      */
-    public static function encode_content_links($content) : string {
+    public static function encode_content_links($content): string {
         global $CFG;
 
         $base = preg_quote($CFG->wwwroot, "/");
@@ -73,4 +73,5 @@ class backup_gcanvas_activity_task extends backup_activity_task {
 
         return $content;
     }
+
 }

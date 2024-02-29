@@ -45,7 +45,7 @@ if ($id) {
     $course = $DB->get_record('course', ['id' => $canvas->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('gcanvas', $canvas->id, $course->id, false, MUST_EXIST);
 } else {
-    print_error(get_string('missingidandcmid', mod_gcanvas));
+    throw new moodle_exception('missingidandcmid', mod_gcanvas);
 }
 
 require_login($course, true, $cm);
@@ -89,7 +89,7 @@ switch ($action) {
 
         $form = new \mod_gcanvas\form\intro($PAGE->url);
         $draftitemid = file_get_submitted_draft_itemid('helptext');
-        $form->set_data((object)[
+        $form->set_data((object) [
             'helptext' => [
                 'text' => file_prepare_draft_area($draftitemid, $PAGE->context->id, 'mod_gcanvas',
                     'helptext', 0, $fileoptions, $canvas->helptext),
@@ -102,14 +102,14 @@ switch ($action) {
             redirect(new moodle_url($PAGE->url, ['id' => $id, 'action' => '']));
         }
 
-        if (($data = $form->get_data()) != false) {
+        if (($data = $form->get_data())) {
 
             // Convert draft to final.
             $draftitemid = $data->helptext['itemid'];
             $data->helptext['text'] = file_save_draft_area_files($draftitemid, $modulecontext->id,
                 'mod_gcanvas', 'helptext', 0, $fileoptions, $data->helptext['text']);
 
-            $DB->update_record('gcanvas', (object)[
+            $DB->update_record('gcanvas', (object) [
                 'id' => $canvas->id,
                 'helptext' => $data->helptext['text'],
             ]);
@@ -148,7 +148,7 @@ switch ($action) {
             if (!empty($content)) {
                 echo $OUTPUT->box($content, 'generalbox', 'intro');
             }
-        };
+        }
 
         echo $renderer->render_canvas($canvas);
         echo $renderer->render_uploader('background', $canvas);
@@ -156,4 +156,3 @@ switch ($action) {
         echo $renderer->render_uploader('toolbar_shape', $canvas);
         echo $OUTPUT->footer();
 }
-

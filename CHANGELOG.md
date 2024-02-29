@@ -29,6 +29,10 @@ Types of changes
 * **Security** in case of vulnerabilities.
 
 
+## Version (4.2.0) - 2024-02-29
+- Upgraded and refactored for Moodle 4.2
+- Deprecated support for versions before Moodle 3.9 and PHP 7.4
+
 ## Version (4.0.1) - 2022-08-08
 ##### Changed
 - No double activity description 

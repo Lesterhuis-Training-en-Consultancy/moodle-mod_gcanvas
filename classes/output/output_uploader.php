@@ -25,7 +25,6 @@
  **/
 
 namespace mod_gcanvas\output;
-defined('MOODLE_INTERNAL') || die;
 
 use renderable;
 use renderer_base;
@@ -54,7 +53,7 @@ class output_uploader implements renderable, templatable {
     /**
      * output_uploader constructor.
      *
-     * @param string   $filearea
+     * @param string $filearea
      * @param stdClass $canvas
      */
     public function __construct(string $filearea, \stdClass $canvas) {
@@ -63,8 +62,8 @@ class output_uploader implements renderable, templatable {
     }
 
     /**
-     * Function to export the renderer data in a format that is suitable for a
-     * mustache template. This means:
+     * Function to export the renderer data in a format that is suitable for a mustache template. This means:
+     *
      * 1. No complex types - only stdClass, array, int, string, float, bool
      * 2. Any additional info that is required for the template is pre-calculated (e.g. capability checks).
      *
@@ -72,7 +71,7 @@ class output_uploader implements renderable, templatable {
      *
      * @return stdClass|array
      */
-    public function export_for_template(renderer_base $output) : stdClass {
+    public function export_for_template(renderer_base $output): stdClass {
         $object = new stdClass();
         $object->form = $this->get_uploader_form();
         $object->filearea = $this->filearea;
@@ -85,7 +84,7 @@ class output_uploader implements renderable, templatable {
      *
      * @return string
      */
-    protected function get_uploader_form() : string {
+    protected function get_uploader_form(): string {
         global $PAGE;
         $form = new \mod_gcanvas\form\filepicker($PAGE->url, [
             'context' => $PAGE->context,

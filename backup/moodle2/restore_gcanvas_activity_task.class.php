@@ -38,25 +38,25 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      * Defines particular settings that this activity can have.
      */
     protected function define_my_settings() {
-
+        // No defined settings.
     }
 
     /**
      * Defines particular steps that this activity can have.
      *
-     * @return void .
+     * @return void
      * @throws base_task_exception
      */
-    protected function define_my_steps() : void {
+    protected function define_my_steps(): void {
         $this->add_step(new restore_gcanvas_activity_structure_step('gcanvas_structure', 'gcanvas.xml'));
     }
 
     /**
      * Defines the contents in the activity that must be processed by the link decoder.
      *
-     * @return array.
+     * @return array
      */
-    public static function define_decode_contents() : array {
+    public static function define_decode_contents(): array {
         $contents = [];
         $contents[] = new restore_decode_content('gcanvas', ['intro', 'helptext'], 'gcanvas');
 
@@ -66,9 +66,9 @@ class restore_gcanvas_activity_task extends restore_activity_task {
     /**
      * Defines the decoding rules for links belonging to the activity to be executed by the link decoder.
      *
-     * @return array.
+     * @return array
      */
-    public static function define_decode_rules() : array {
+    public static function define_decode_rules(): array {
         $rules = [];
 
         // Define the rules.
@@ -77,16 +77,17 @@ class restore_gcanvas_activity_task extends restore_activity_task {
     }
 
     /**
-     * Defines the restore log rules that will be applied by the
+     * Defines the restore log rules that will be applied
      * when restoring mod_gcanvas logs. It must return one array of objects.
      *
-     * @return array.
+     * @return array
      */
-    public static function define_restore_log_rules() : array {
+    public static function define_restore_log_rules(): array {
         $rules = [];
 
         // Define the rules.
 
         return $rules;
     }
+
 }

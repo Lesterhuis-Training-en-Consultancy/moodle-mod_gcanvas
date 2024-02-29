@@ -20,7 +20,6 @@
  *
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * @package local_commander
  * @copyright 2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
@@ -484,7 +483,7 @@ define(['jquery', 'core/notification'], function($, notification) {
          */
         setBackgroundImage: function() {
 
-            if (opts.background !== '') {
+            if (opts.background !== '' && opts.background !== 'false') {
                 fabric.Image.fromURL(opts.background, function(img) {
                     // Add background image.
                     canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {

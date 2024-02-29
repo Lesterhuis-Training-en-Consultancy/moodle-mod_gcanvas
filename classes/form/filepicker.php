@@ -29,6 +29,8 @@ namespace mod_gcanvas\form;
 use mod_gcanvas\helper;
 
 defined('MOODLE_INTERNAL') || die;
+
+global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
@@ -45,7 +47,7 @@ class filepicker extends \moodleform {
      *
      * @throws \coding_exception
      */
-    protected function definition() : void {
+    protected function definition(): void {
         $mform = &$this->_form;
         $context = $this->_customdata['context'];
         $mform->addElement('filemanager', $this->_customdata['filearea'],
@@ -61,7 +63,7 @@ class filepicker extends \moodleform {
     /**
      * definition_after_data
      */
-    public function definition_after_data() {
+    public function definition_after_data(): void {
         global $PAGE;
 
         if (in_array($this->_customdata['filearea'], ['student_image'])) {
@@ -84,4 +86,5 @@ class filepicker extends \moodleform {
             $this->_customdata['filearea'] => $draftitemid,
         ]);
     }
+
 }
