@@ -40,7 +40,9 @@ require_once(__DIR__ . '/../../config.php');
 defined('MOODLE_INTERNAL') || die;
 
 $action = optional_param('action', '', PARAM_TEXT);
-$data = (object)optional_param('data', [], PARAM_RAW);
+$data = optional_param('data', '', PARAM_RAW);
+
+$data = (object) json_decode($data, true);
 
 // Set course and context.
 $cm = get_coursemodule_from_id('gcanvas', $data->id, 0, false,

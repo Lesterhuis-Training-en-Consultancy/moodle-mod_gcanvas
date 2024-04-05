@@ -1,6 +1,8 @@
 #page-mod-gcanvas-view #toolbar .item {
     width: 100%;
+    max-width: 100%;
     height: 40px;
+    max-height: 40px;
     line-height: 40px;
     vertical-align: middle;
     margin-bottom: 5px;
