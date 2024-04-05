@@ -179,7 +179,9 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_gcanvas/$filearea/$itemid/$relativepath";
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
+
+    $file = $fs->get_file_by_hash(sha1($fullpath));
+    if (!$file || $file->is_directory()) {
         return false;
     }
 
