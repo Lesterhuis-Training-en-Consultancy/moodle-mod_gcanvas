@@ -23,7 +23,7 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 
 ## Screens
 
-<img src="https://content.screencast.com/users/LuukVerhoeven/folders/Snagit/media/3ec4223b-20ba-4757-a6ff-407ee2d6078f/11.07.2018-14.47.png" width="600"  border="0" />
+![11 07 2018-14 47](https://github.com/Lesterhuis-Training-en-Consultancy/moodle-mod_gcanvas/assets/995760/0ead1dcd-b3a6-4e09-b9b4-d766e32c5b41)
 
 ## List of features
 - Fabricjs
