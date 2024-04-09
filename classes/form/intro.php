@@ -27,6 +27,8 @@
 namespace mod_gcanvas\form;
 
 defined('MOODLE_INTERNAL') || die;
+
+global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
 /**
@@ -43,7 +45,7 @@ class intro extends \moodleform {
      *
      * @throws \coding_exception
      */
-    protected function definition() : void {
+    protected function definition(): void {
         global $CFG, $PAGE;
         $mform = &$this->_form;
         $mform->addElement('editor', 'helptext', get_string('form:helptext', 'mod_gcanvas'), null, [
@@ -59,4 +61,5 @@ class intro extends \moodleform {
         $mform->setType('helptext', PARAM_RAW);
         $this->add_action_buttons(true, get_string('btn:submit', 'mod_gcanvas'));
     }
+
 }

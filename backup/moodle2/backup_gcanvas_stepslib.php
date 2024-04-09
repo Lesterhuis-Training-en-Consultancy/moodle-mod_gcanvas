@@ -27,8 +27,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Define the complete structure for backup, with file and id annotations.
  *
@@ -44,7 +42,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
      * @throws base_element_struct_exception
      * @throws base_step_exception
      */
-    protected function define_structure() : backup_nested_element {
+    protected function define_structure(): backup_nested_element {
 
         $userinfo = $this->get_setting_value('userinfo');
 
@@ -89,4 +87,5 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
         // Return the root element (gcanvas), wrapped into standard activity structure.
         return $this->prepare_activity_structure($gcanvas);
     }
+
 }

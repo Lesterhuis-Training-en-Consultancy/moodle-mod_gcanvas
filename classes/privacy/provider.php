@@ -25,7 +25,6 @@
  **/
 
 namespace mod_gcanvas\privacy;
-defined('MOODLE_INTERNAL') || die;
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_contextlist;
@@ -49,13 +48,13 @@ class provider implements \core_privacy\local\metadata\provider,
     \core_privacy\local\request\plugin\provider {
 
     /**
-     * Returns meta data about this system.
+     * Returns metadata about this system.
      *
      * @param collection $collection The initialised collection to add items to.
      *
      * @return  collection     A listing of user data stored through this system.
      */
-    public static function get_metadata(collection $collection) : collection {
+    public static function get_metadata(collection $collection): collection {
 
         $collection->add_database_table('gcanvas_attempt', [
             'gcanvas' => 'privacy:metadata:attempt:gcanvas',
@@ -71,10 +70,10 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @param int $userid The user to search.
      *
-     * @return  \core_privacy\local\request\contextlist   $contextlist  The contextlist containing the list of contexts
-     *                                                    used in this plugin.
+     * @return      contextlist   $contextlist  The contextlist containing the list of contexts
+     *                                          used in this plugin.
      */
-    public static function get_contexts_for_userid(int $userid) : contextlist {
+    public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
 
         $sql = "SELECT DISTINCT
@@ -103,9 +102,10 @@ class provider implements \core_privacy\local\metadata\provider,
      * @param approved_contextlist $contextlist                               The approved contexts to export
      *                                                                        information for.
      *
+     * @return void
      * @throws \dml_exception
      */
-    public static function export_user_data(approved_contextlist $contextlist) {
+    public static function export_user_data(approved_contextlist $contextlist): void {
         if (empty($contextlist->count())) {
             return;
         }
@@ -113,7 +113,7 @@ class provider implements \core_privacy\local\metadata\provider,
         $user = $contextlist->get_user();
 
         foreach ($contextlist->get_contexts() as $context) {
-            if ($context->contextlevel != CONTEXT_MODULE) {
+            if ((int) $context->contextlevel !== CONTEXT_MODULE) {
                 continue;
             }
 
@@ -147,7 +147,7 @@ class provider implements \core_privacy\local\metadata\provider,
      * @return array                Array of gcanvas attempt details.
      * @throws \dml_exception
      */
-    protected static function get_gcanvas_attempts_by_gcanvas($gcanvasid, $userid) {
+    protected static function get_gcanvas_attempts_by_gcanvas(int $gcanvasid, int $userid): array {
         global $DB;
 
         $params = [
@@ -168,14 +168,14 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @param approved_contextlist $contextlist                             stdClass with the contexts related to a
      *                                                                      userid to retrieve gcanvas attempts by.
-     * @param int                  $userid                                  The user ID to find gcanvas attempts
+     * @param int $userid                                                   The user ID to find gcanvas attempts
      *                                                                      that were submitted by.
      *
      * @return array                Array of gcanvas attempts details.
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    protected static function get_gcanvas_attempts_by_contextlist(approved_contextlist $contextlist, int $userid) {
+    protected static function get_gcanvas_attempts_by_contextlist(approved_contextlist $contextlist, int $userid): array {
         global $DB;
 
         [$contextsql, $contextparams] = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
@@ -207,8 +207,8 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @return object                   Formatted gcanvas output object for exporting.
      */
-    protected static function get_gcanvas_output($gcanvasdata) {
-        $gcanvas = (object)[
+    protected static function get_gcanvas_output(object $gcanvasdata): object {
+        $gcanvas = (object) [
             'name' => $gcanvasdata->name,
             'intro' => $gcanvasdata->intro,
             'timemodified' => transform::datetime($gcanvasdata->timemodified),
@@ -228,8 +228,8 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @return \stdClass                   Formatted gcanvas attempt output for exporting.
      */
-    protected static function get_gcanvas_attempt_output($attemptdata) {
-        $attempt = (object)[
+    protected static function get_gcanvas_attempt_output($attemptdata): \stdClass {
+        $attempt = (object) [
             'gcanvas' => $attemptdata->gcanvas_id,
             'json_data' => $attemptdata->json_data,
             'added_on' => $attemptdata->added_on,
@@ -274,12 +274,13 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @param \context $context $context The specific context to delete data for.
      *
+     * @return void
      * @throws \dml_exception
      */
-    public static function delete_data_for_all_users_in_context(\context $context) {
+    public static function delete_data_for_all_users_in_context(\context $context): void {
         global $DB;
 
-        if ($context->contextlevel == CONTEXT_MODULE) {
+        if ((int) $context->contextlevel === CONTEXT_MODULE) {
             // Delete all assignment submissions for the assignment associated with the context module.
             $gcanvas = self::get_gcanvas_by_context($context);
             if ($gcanvas != null) {
@@ -298,10 +299,11 @@ class provider implements \core_privacy\local\metadata\provider,
      * @param approved_contextlist $contextlist                               The approved contexts and user
      *                                                                        information to delete information for.
      *
+     * @return void
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public static function delete_data_for_user(approved_contextlist $contextlist) {
+    public static function delete_data_for_user(approved_contextlist $contextlist): void {
         global $DB;
 
         if (empty($contextlist->count())) {
@@ -328,8 +330,10 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @param userlist $userlist The userlist containing the list of users who have data in this context/plugin
      *                           combination.
+     *
+     * @return void
      */
-    public static function get_users_in_context(userlist $userlist) : void {
+    public static function get_users_in_context(userlist $userlist): void {
         $context = $userlist->get_context();
 
         if (!is_a($context, \context_module::class)) {
@@ -364,10 +368,11 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @param approved_userlist $userlist The approved context and user information to delete information for.
      *
+     * @return void
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    public static function delete_data_for_users(approved_userlist $userlist) : void {
+    public static function delete_data_for_users(approved_userlist $userlist): void {
         global $DB;
 
         $context = $userlist->get_context();
@@ -387,7 +392,7 @@ class provider implements \core_privacy\local\metadata\provider,
                AND link.user_id $insql";
 
         $completedparams = array_merge($inparams, [
-            'instanceid' => (int)$context->instanceid,
+            'instanceid' => (int) $context->instanceid,
             'modulename' => 'gcanvas',
         ]);
 
@@ -398,4 +403,5 @@ class provider implements \core_privacy\local\metadata\provider,
             $DB->delete_records_select('gcanvas_attempt', "id $insql", $inparams);
         }
     }
+
 }

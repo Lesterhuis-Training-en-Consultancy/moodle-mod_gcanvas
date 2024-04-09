@@ -22,8 +22,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Defines the structure step to restore one mod_gcanvas activity.
  *
@@ -35,9 +33,9 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
     /**
      * Defines the structure to be restored.
      *
-     * @return restore_path_element[].
+     * @return restore_path_element[]
      */
-    protected function define_structure() : array {
+    protected function define_structure(): array {
         $paths = [];
         $paths[] = new restore_path_element('gcanvas', '/activity/gcanvas');
 
@@ -46,17 +44,17 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
     }
 
     /**
-     * process_gcanvas
+     * Process gcanvas
      *
      * @param stdClass $data
      *
      * @throws base_step_exception
      * @throws dml_exception
      */
-    protected function process_gcanvas($data) : void {
+    protected function process_gcanvas($data): void {
         global $DB;
 
-        $data = (object)$data;
+        $data = (object) $data;
         $oldid = $data->id;
         $data->course = $this->get_courseid();
 
@@ -72,7 +70,7 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
     /**
      * after_execute
      */
-    protected function after_execute() : void {
+    protected function after_execute(): void {
         // Add page related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_gcanvas', 'intro', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'helptext', 'gcanvas');
@@ -80,4 +78,5 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
         $this->add_related_files('mod_gcanvas', 'toolbar_shape', 'gcanvas');
         $this->add_related_files('mod_gcanvas', 'attempt', 'gcanvas_attempt');
     }
+
 }

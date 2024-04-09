@@ -25,7 +25,6 @@
  **/
 
 namespace mod_gcanvas\output;
-defined('MOODLE_INTERNAL') || die;
 
 use coding_exception;
 use context_module;
@@ -81,7 +80,7 @@ class output_canvas_attempts implements renderable, templatable {
      * @throws dml_exception
      * @throws coding_exception
      */
-    protected function get_items() : array {
+    protected function get_items(): array {
         global $DB, $USER;
 
         $list = [];
@@ -118,7 +117,7 @@ class output_canvas_attempts implements renderable, templatable {
      * @return string
      * @throws coding_exception
      */
-    public function get_image(\stdClass $row) : string {
+    public function get_image(\stdClass $row): string {
         global $CFG;
         $fs = get_file_storage();
         $files = $fs->get_area_files(
@@ -143,8 +142,7 @@ class output_canvas_attempts implements renderable, templatable {
     }
 
     /**
-     * Function to export the renderer data in a format that is suitable for a
-     * mustache template. This means:
+     * Function to export the renderer data in a format that is suitable for a mustache template. This means:
      * 1. No complex types - only stdClass, array, int, string, float, bool
      * 2. Any additional info that is required for the template is pre-calculated (e.g. capability checks).
      *
@@ -154,7 +152,7 @@ class output_canvas_attempts implements renderable, templatable {
      * @throws dml_exception
      * @throws coding_exception
      */
-    public function export_for_template(renderer_base $output) : stdClass {
+    public function export_for_template(renderer_base $output): stdClass {
 
         $data = $this->get_items();
 

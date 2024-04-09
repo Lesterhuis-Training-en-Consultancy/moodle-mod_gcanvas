@@ -9,18 +9,18 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 
 * Author: Luuk Verhoeven, [MFreak.nl](https://MFreak.nl/)
 * Author: Gemma Lesterhuis, [Lesterhuis Training & Consultancy](https://ltnc.nl/)
-* Min. required: Moodle 3.5.x
+* Min. required: Moodle 3.9.x
 * Max. Required: Moodle 4.1.x
-* Supports PHP: 7.2 - 8.0
+* Supports PHP: 7.4 - 8.1
 
-![Moodle35](https://img.shields.io/badge/moodle-3.5-brightgreen.svg)
-![Moodle36](https://img.shields.io/badge/moodle-3.6-brightgreen.svg)
-![Moodle37](https://img.shields.io/badge/moodle-3.7-brightgreen.svg)
-![Moodle38](https://img.shields.io/badge/moodle-3.8-brightgreen.svg)
 ![Moodle39](https://img.shields.io/badge/moodle-3.9-brightgreen.svg)
 ![Moodle310](https://img.shields.io/badge/moodle-3.10-brightgreen.svg)
-![PHP7.2](https://img.shields.io/badge/PHP-7.2-brightgreen.svg)
-[![Build Status](https://travis-ci.org/MFreakNL/moodle-mod_gcanvas.svg?branch=master)](https://travis-ci.org/MFreakNL/moodle-mod_gcanvas)
+![Moodle402](https://img.shields.io/badge/moodle-4.2-brightgreen.svg)
+
+![PHP7.4](https://img.shields.io/badge/PHP-7.2-blue.svg)
+![PHP8.0](https://img.shields.io/badge/PHP-8.0-blue.svg)
+![PHP8.1](https://img.shields.io/badge/PHP-8.1-blue.svg)
+
 ## Screens
 
 <img src="https://content.screencast.com/users/LuukVerhoeven/folders/Snagit/media/3ec4223b-20ba-4757-a6ff-407ee2d6078f/11.07.2018-14.47.png" width="600"  border="0" />

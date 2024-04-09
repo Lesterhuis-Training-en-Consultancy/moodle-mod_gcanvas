@@ -23,8 +23,18 @@
  * @copyright 9-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
-define('AJAX_SCRIPT', true);
-define('NO_DEBUG_DISPLAY', true);
+
+// Const definitions AJAX_SCRIPT and NO_DUBUG_DISPLAY can't be placed after MOODLE_INTERNAL check. This will result in errors.
+
+/**
+ * @var bool AJAX_SCRIPT
+ */
+const AJAX_SCRIPT = true;
+
+/**
+ * @var bool NO_DEBUG_DISPLAY
+ */
+const NO_DEBUG_DISPLAY = true;
 
 require_once(__DIR__ . '/../../config.php');
 defined('MOODLE_INTERNAL') || die;

@@ -26,8 +26,6 @@
 
 use mod_gcanvas\output\output_canvas_attempts;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class mod_gcanvas_renderer
  *
@@ -61,7 +59,7 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
                 'background' => reset($backgrounds),
                 'debugjs' => \mod_gcanvas\helper::has_debugging_enabled(),
                 'id' => $this->page->url->get_param('id'),
-                'hasHorizontalRuler' => $canvas->has_horizontal_ruler ? true : false,
+                'hasHorizontalRuler' => (bool) $canvas->has_horizontal_ruler,
                 // TODO get this from module settings.
             ],
         ]);

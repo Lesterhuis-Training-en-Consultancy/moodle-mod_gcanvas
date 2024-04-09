@@ -23,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+
 // Init.
 $string['pluginname'] = 'Canvas game';
 $string['modulename'] = 'Canvas game';

@@ -32,8 +32,6 @@ use context_module;
 use dml_exception;
 use file_storage;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class ajax
  *
@@ -42,6 +40,7 @@ defined('MOODLE_INTERNAL') || die;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class ajax {
+
     /**
      * @var mixed
      */
@@ -53,15 +52,15 @@ class ajax {
      * @param mixed $data
      */
     public function __construct($data) {
-        $this->data = (object)$data;
+        $this->data = (object) $data;
     }
 
     /**
-     * Get user there history attempts.
+     * Get user their history attempts.
      *
      * @return array
      */
-    public function callable_load_history() : array {
+    public function callable_load_history(): array {
         global $PAGE;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
@@ -73,14 +72,14 @@ class ajax {
     }
 
     /**
-     * Save student there canvas to a attempt
+     * Save student their canvas to an attempt
      *
      * @return array
      * @throws dml_exception
      * @throws \file_exception
      * @throws \stored_file_creation_exception
      */
-    public function callable_save_canvas() : array {
+    public function callable_save_canvas(): array {
         global $DB, $USER;
         $fileid = 0;
         $cobject = $this->load_cm_and_course();
@@ -88,7 +87,7 @@ class ajax {
             '', $this->data->canvas_data));
 
         if (!empty($imagecontent)) {
-            $attemptid = $DB->insert_record('gcanvas_attempt', (object)[
+            $attemptid = $DB->insert_record('gcanvas_attempt', (object) [
                 'status' => $this->data->status,
                 'user_id' => $USER->id,
                 'gcanvas_id' => $cobject->cm->instance,
@@ -99,7 +98,7 @@ class ajax {
             // Create the image.
             $modulecontext = context_module::instance($cobject->cm->id);
             $fs = new file_storage();
-            $fileid = $fs->create_file_from_string((object)[
+            $fileid = $fs->create_file_from_string((object) [
                 'contextid' => $modulecontext->id,
                 'component' => 'mod_gcanvas',
                 'filearea' => 'attempt',
@@ -122,13 +121,13 @@ class ajax {
      * @return array
      * @throws \moodle_exception
      */
-    public function callable_emoji() : array {
+    public function callable_emoji(): array {
         global $PAGE, $CFG;
 
         $renderer = $PAGE->get_renderer('mod_gcanvas');
 
         return [
-            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object)[
+            'html' => $renderer->render_from_template('mod_gcanvas/canvas_emoji', (object) [
                 'wwwroot' => $CFG->wwwroot,
             ]),
             'success' => true,
@@ -141,7 +140,7 @@ class ajax {
      * @return array
      * @throws dml_exception
      */
-    public function callable_delete_attempt() : array {
+    public function callable_delete_attempt(): array {
         global $USER, $DB;
 
         $DB->delete_records('gcanvas_attempt', [
@@ -158,7 +157,7 @@ class ajax {
      * @return array
      * @throws dml_exception
      */
-    public function callable_get_attempt() : array {
+    public function callable_get_attempt(): array {
         global $USER, $DB;
 
         $record = $DB->get_record('gcanvas_attempt', [
@@ -175,11 +174,12 @@ class ajax {
     /**
      * Upload images
      *
+     * @return array
      * @throws \coding_exception
      * @throws \moodle_exception
      * @throws \required_capability_exception
      */
-    public function callable_upload_images() : array {
+    public function callable_upload_images(): array {
         $filearea = $this->data->filearea;
         $image = helper::upload_file($filearea, $this->data->$filearea);
 
@@ -192,10 +192,11 @@ class ajax {
     /**
      * Get toolbar images
      *
+     * @return array
      * @throws \coding_exception
      * @throws \moodle_exception
      */
-    public function callable_get_toolbar_images() : array {
+    public function callable_get_toolbar_images(): array {
         $cobject = $this->load_cm_and_course();
         $modulecontext = context_module::instance($cobject->cm->id);
 
@@ -210,10 +211,10 @@ class ajax {
      *
      * @return object
      */
-    protected function load_cm_and_course() : object {
+    protected function load_cm_and_course(): object {
         global $PAGE;
 
-        return (object)[
+        return (object) [
             'course' => $PAGE->course,
             'cm' => $PAGE->cm,
         ];
