@@ -15,18 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Plugin upgrade steps are defined here.
  *
  * @package     mod_gcanvas
+ * @category    upgrade
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'mod_gcanvas';
-$plugin->release = '4.4.0';
-$plugin->version = 2024041000;
-$plugin->requires = 2020061500;
-$plugin->supported = [39, 404];
-$plugin->maturity = MATURITY_STABLE;
+/**
+ * Execute mod_gcanvas upgrade from the given old version.
+ *
+ * @param int $oldversion
+ *
+ * @return bool
+ */
+function xmldb_gcanvas_upgrade(int $oldversion): bool {
+    return true;
+}
