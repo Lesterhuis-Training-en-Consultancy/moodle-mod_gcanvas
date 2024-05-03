@@ -4,10 +4,10 @@ In brief, the MFreak mod `gcanvas` gives the user the ability to make a sketch i
  
 Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://ltnc.nl/)) for develop & design, useful input, bug reports and beta testing
 
-![MFreak.nl](https://MFreak.nl/logo_small.png)
-![Lesterhuis Training & Consultancy](https://MFreak.nl/logo_small_ltnc.png)
+![MFreak.nl](https://ldesignmedia.nl/logo_small.png)
+![Lesterhuis Training & Consultancy](https://ldesignmedia.nl/logo_small_ltnc.png)
 
-* Author: Luuk Verhoeven, [MFreak.nl](https://MFreak.nl/)
+* Author: Luuk Verhoeven, [ldesignmedia.nl](https://ldesignmedia.nl/)
 * Author: Gemma Lesterhuis, [Lesterhuis Training & Consultancy](https://ltnc.nl/)
 * Min. required: Moodle 3.9.x
 * Max. Required: Moodle 4.1.x
@@ -25,7 +25,7 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 
 ## Screens
 
-<img src="https://content.screencast.com/users/LuukVerhoeven/folders/Snagit/media/3ec4223b-20ba-4757-a6ff-407ee2d6078f/11.07.2018-14.47.png" width="600"  border="0" />
+![11 07 2018-14 47](https://github.com/Lesterhuis-Training-en-Consultancy/moodle-mod_gcanvas/assets/995760/0ead1dcd-b3a6-4e09-b9b4-d766e32c5b41)
 
 ## List of features
 - Fabricjs
