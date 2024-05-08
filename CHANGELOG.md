@@ -28,6 +28,12 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
+## Version (4.4.0) - 2024-04-05
+- Upgraded and refactored for Moodle 4.4
+
+## Version (4.3.0) - 2024-04-05
+- Upgraded and refactored for Moodle 4.3
+
 ## Version (4.2.1) - 2024-04-05
 - Fixed issue with saving and loading canvas
 

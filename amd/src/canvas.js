@@ -184,9 +184,9 @@ define(['jquery', 'core/notification'], function($, notification) {
                 data: {
                     sesskey: M.cfg.sesskey,
                     action: 'load_history',
-                    data: {
+                    data: JSON.stringify({
                         'id': opts.id,
-                    }
+                    }),
                 },
                 dataType: "json",
                 success: function(response) {
@@ -228,7 +228,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                     data: {
                         sesskey: M.cfg.sesskey,
                         action: 'save_canvas',
-                        data: {
+                        data: JSON.stringify({
                             'id': opts.id,
                             'status': 'final',
                             'canvas_data': canvas.toDataURL({
@@ -236,7 +236,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                                 format: 'png'
                             }),
                         'json_data': JSON.stringify(canvas)
-                        }
+                        })
                     },
                     dataType: "json",
                     success: function(response) {
@@ -402,10 +402,10 @@ define(['jquery', 'core/notification'], function($, notification) {
                         data: {
                             sesskey: M.cfg.sesskey,
                             action: 'delete_attempt',
-                            data: {
+                            data: JSON.stringify({
                                 'id': opts.id,
                                 'attempt_id': $el.data('id'),
-                            }
+                            })
                         },
                         dataType: "json",
                         success: function(response) {
@@ -447,10 +447,10 @@ define(['jquery', 'core/notification'], function($, notification) {
                 data: {
                     sesskey: M.cfg.sesskey,
                     action: 'get_attempt',
-                    data: {
+                    data: JSON.stringify({
                         'id': opts.id,
                         'attempt_id': $el.data('id'),
-                    }
+                    })
                 },
                 dataType: "json",
                 success: function(response) {
@@ -511,7 +511,7 @@ define(['jquery', 'core/notification'], function($, notification) {
                 data: {
                     sesskey: M.cfg.sesskey,
                     action: 'upload_images',
-                    data: formdata
+                    data: JSON.stringify(formdata)
                 },
                 dataType: "json",
                 success: function(response) {
@@ -569,9 +569,9 @@ define(['jquery', 'core/notification'], function($, notification) {
                 data: {
                     sesskey: M.cfg.sesskey,
                     action: 'get_toolbar_images',
-                    data: {
+                    data: JSON.stringify({
                         'id': opts.id,
-                    }
+                    })
                 },
                 dataType: "json",
                 success: function(response) {
@@ -745,9 +745,9 @@ define(['jquery', 'core/notification'], function($, notification) {
                 data: {
                     sesskey: M.cfg.sesskey,
                     action: 'emoji',
-                    data: {
+                    data: JSON.stringify({
                         'id': opts.id,
-                    }
+                    })
                 },
                 dataType: "json",
                 success: function(response) {

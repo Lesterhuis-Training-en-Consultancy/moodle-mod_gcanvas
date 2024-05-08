@@ -16,6 +16,8 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 ![Moodle39](https://img.shields.io/badge/moodle-3.9-brightgreen.svg)
 ![Moodle310](https://img.shields.io/badge/moodle-3.10-brightgreen.svg)
 ![Moodle402](https://img.shields.io/badge/moodle-4.2-brightgreen.svg)
+![Moodle403](https://img.shields.io/badge/moodle-4.3-brightgreen.svg)
+![Moodle404](https://img.shields.io/badge/moodle-4.4-brightgreen.svg)
 
 ![PHP7.4](https://img.shields.io/badge/PHP-7.2-blue.svg)
 ![PHP8.0](https://img.shields.io/badge/PHP-8.0-blue.svg)
