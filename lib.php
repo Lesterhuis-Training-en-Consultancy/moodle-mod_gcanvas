@@ -19,6 +19,7 @@
  *
  * @package     mod_gcanvas
  * @copyright   2018 Luuk Verhoeven - LdesignMedia.nl / MFreak.nl <luuk@ldesignmedia.nl>
+ * @copyright   2024 activity purpose - Gemma Lesterhuis gemma@ltnc.nl
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,6 +36,8 @@ function gcanvas_supports(string $feature): ?bool {
         case FEATURE_SHOW_DESCRIPTION:
         case FEATURE_BACKUP_MOODLE2:
             return true;
+        case FEATURE_MOD_PURPOSE:
+            return MOD_PURPOSE_CONTENT;
         default:
             return null;
     }
@@ -213,4 +216,36 @@ function gcanvas_extend_navigation($gcanvasnode, $course, $module, $cm) {
  * @param navigation_node $gcanvasnode
  */
 function gcanvas_extend_settings_navigation($settingsnav, $gcanvasnode = null) {
+}
+/**
+ * 09-05-2024 GL - copied from Questionnair- Add a get_coursemodule_info function in case any canvas type wants to add 'extra' information
+ * for the course (see resource).
+ *
+ * Given a course_module object, this function returns any "extra" information that may be needed
+ * when printing this activity in a course listing.  See get_array_of_activities() in course/lib.php.
+ *
+ * @param stdClass $coursemodule The coursemodule object (record).
+ * @return cached_cm_info An object on information that the courses
+ *                        will know about (most noticeably, an icon).
+ */
+function gcanvas_get_coursemodule_info($coursemodule) {
+    global $DB;
+
+    $gcanvas = $DB->get_record('gcanvas',
+        array('id' => $coursemodule->instance), 'id, name, intro, introformat');
+    if (!$gcanvas) {
+        return null;
+    }
+
+    $info = new cached_cm_info();
+    $info->customdata = (object)[];
+
+    if ($coursemodule->showdescription) {
+        // Convert intro to html. Do not filter cached version, filters run at display time.
+        // Based on the function quiz_get_coursemodule_info() in the quiz module.
+        $info->content = format_module_intro('gcanvas', $gcanvas, $coursemodule->id, false);
+    }
+
+    
+    return $info;
 }
