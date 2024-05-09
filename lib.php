@@ -50,8 +50,8 @@ function gcanvas_supports(string $feature): ?bool {
  * in mod_form.php) this function will create a new instance and return the id
  * number of the instance.
  *
- * @param object $moduleinstance An object from the form.
- * @param moodleform|null $mform The form.
+ * @param object          $moduleinstance An object from the form.
+ * @param moodleform|null $mform          The form.
  *
  * @return int The id of the newly inserted record.
  */
@@ -71,8 +71,8 @@ function gcanvas_add_instance(object $moduleinstance, moodleform $mform = null):
  * Given an object containing all the necessary data (defined in mod_form.php),
  * this function will update an existing instance with new data.
  *
- * @param object $moduleinstance An object from the form in mod_form.php.
- * @param moodleform|null $mform The form.
+ * @param object          $moduleinstance An object from the form in mod_form.php.
+ * @param moodleform|null $mform          The form.
  *
  * @return bool True if successful, false otherwise.
  * @throws dml_exception
@@ -128,15 +128,15 @@ function gcanvas_get_file_areas($course, $cm, $context): array {
 /**
  * File browsing support for mod_gcanvas file areas.
  *
- * @param file_browser $browser .
- * @param array $areas          .
- * @param stdClass $course      .
- * @param stdClass $cm          .
- * @param stdClass $context     .
- * @param string $filearea      .
- * @param int $itemid           .
- * @param string $filepath      .
- * @param string $filename      .
+ * @param file_browser $browser  .
+ * @param array        $areas    .
+ * @param stdClass     $course   .
+ * @param stdClass     $cm       .
+ * @param stdClass     $context  .
+ * @param string       $filearea .
+ * @param int          $itemid   .
+ * @param string       $filepath .
+ * @param string       $filename .
  *
  * @return file_info Instance or null if not found.
  * @package     mod_gcanvas
@@ -150,13 +150,13 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
 /**
  * Serves the files from the mod_gcanvas file areas.
  *
- * @param stdClass $course    The course object.
- * @param stdClass $cm        The course module object.
- * @param stdClass $context   The mod_gcanvas's context.
- * @param string $filearea    The name of the file area.
- * @param array $args         Extra arguments (itemid, path).
- * @param bool $forcedownload Whether or not force download.
- * @param array $options      Additional options affecting the file serving.
+ * @param stdClass $course        The course object.
+ * @param stdClass $cm            The course module object.
+ * @param stdClass $context       The mod_gcanvas's context.
+ * @param string   $filearea      The name of the file area.
+ * @param array    $args          Extra arguments (itemid, path).
+ * @param bool     $forcedownload Whether or not force download.
+ * @param array    $options       Additional options affecting the file serving.
  *
  * @return bool
  * @throws coding_exception
@@ -168,7 +168,7 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
  */
 function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []): bool {
 
-    if ((int) $context->contextlevel !== CONTEXT_MODULE) {
+    if ((int)$context->contextlevel !== CONTEXT_MODULE) {
         return false;
     }
 
@@ -177,7 +177,7 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
         return false;
     }
 
-    $itemid = (int) array_shift($args);
+    $itemid = (int)array_shift($args);
 
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
@@ -194,37 +194,14 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
 }
 
 /**
- * Extends the global navigation tree by adding mod_gcanvas nodes if there is a relevant content.
- *
- * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
- *
- * @param navigation_node $gcanvasnode An object representing the navigation tree node.
- * @param stdClass $course             .
- * @param stdClass $module             .
- * @param cm_info $cm                  .
- */
-function gcanvas_extend_navigation($gcanvasnode, $course, $module, $cm) {
-}
-
-/**
- * Extends the settings navigation with the mod_gcanvas settings.
- *
- * This function is called when the context for the page is a mod_gcanvas module.
- * This is not called by AJAX so it is safe to rely on the $PAGE.
- *
- * @param settings_navigation $settingsnav
- * @param navigation_node $gcanvasnode
- */
-function gcanvas_extend_settings_navigation($settingsnav, $gcanvasnode = null) {
-}
-/**
- * 09-05-2024 GL - copied from Questionnair- Add a get_coursemodule_info function in case any canvas type wants to add 'extra' information
- * for the course (see resource).
+ * 09-05-2024 GL - copied from Questionnair- Add a get_coursemodule_info function in case any canvas type wants to add 'extra'
+ * information for the course (see resource).
  *
  * Given a course_module object, this function returns any "extra" information that may be needed
  * when printing this activity in a course listing.  See get_array_of_activities() in course/lib.php.
  *
  * @param stdClass $coursemodule The coursemodule object (record).
+ *
  * @return cached_cm_info An object on information that the courses
  *                        will know about (most noticeably, an icon).
  */
@@ -232,7 +209,7 @@ function gcanvas_get_coursemodule_info($coursemodule) {
     global $DB;
 
     $gcanvas = $DB->get_record('gcanvas',
-        array('id' => $coursemodule->instance), 'id, name, intro, introformat');
+        ['id' => $coursemodule->instance], 'id, name, intro, introformat');
     if (!$gcanvas) {
         return null;
     }
@@ -246,6 +223,5 @@ function gcanvas_get_coursemodule_info($coursemodule) {
         $info->content = format_module_intro('gcanvas', $gcanvas, $coursemodule->id, false);
     }
 
-    
     return $info;
 }
