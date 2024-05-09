@@ -205,11 +205,16 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
  * @return cached_cm_info An object on information that the courses
  *                        will know about (most noticeably, an icon).
  */
-function gcanvas_get_coursemodule_info($coursemodule) {
+function gcanvas_get_coursemodule_info($coursemodule): ?cached_cm_info {
     global $DB;
 
     $gcanvas = $DB->get_record('gcanvas',
-        ['id' => $coursemodule->instance], 'id, name, intro, introformat');
+        [
+            'id' => $coursemodule->instance,
+        ],
+        'id, name, intro, introformat'
+    );
+
     if (!$gcanvas) {
         return null;
     }
