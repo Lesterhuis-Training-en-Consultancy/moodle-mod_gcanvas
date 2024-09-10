@@ -28,6 +28,9 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
+## Version (4.5.0) - 2024-09-10
+- Upgraded and refactored for Moodle 4.5
+
 ## Version (4.4.0) - 2024-04-05
 - Upgraded and refactored for Moodle 4.4
 

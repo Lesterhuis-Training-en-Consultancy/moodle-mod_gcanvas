@@ -10,7 +10,7 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 * Author: Luuk Verhoeven, [ldesignmedia.nl](https://ldesignmedia.nl/)
 * Author: Gemma Lesterhuis, [Lesterhuis Training & Consultancy](https://ltnc.nl/)
 * Min. required: Moodle 3.9.x
-* Max. Required: Moodle 4.1.x
+* Max. Required: Moodle 4.5.x
 * Supports PHP: 7.4 - 8.1
 
 ![Moodle39](https://img.shields.io/badge/moodle-3.9-brightgreen.svg)
@@ -18,6 +18,7 @@ Special thanks to Gemma Lesterhuis ([Lesterhuis Training & Consultancy](https://
 ![Moodle402](https://img.shields.io/badge/moodle-4.2-brightgreen.svg)
 ![Moodle403](https://img.shields.io/badge/moodle-4.3-brightgreen.svg)
 ![Moodle404](https://img.shields.io/badge/moodle-4.4-brightgreen.svg)
+![Moodle405](https://img.shields.io/badge/moodle-4.5-brightgreen.svg)
 
 ![PHP7.4](https://img.shields.io/badge/PHP-7.2-blue.svg)
 ![PHP8.0](https://img.shields.io/badge/PHP-8.0-blue.svg)
