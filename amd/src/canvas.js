@@ -25,7 +25,7 @@
  **/
 /* global fabric */
 /* eslint no-unused-expressions: "off", no-console:off, no-invalid-this:"off",no-script-url:"off", block-scoped-var: "off" */
-define(['jquery', 'core/notification'], function($, notification) {
+define(['jquery', 'core/notification', 'mod_gcanvas/spectrum'], function ($, notification) {
     'use strict';
 
     /**
@@ -978,27 +978,18 @@ define(['jquery', 'core/notification'], function($, notification) {
          * Init
          * @param {object} args
          */
-        initialise: function(args) {
+        initialise: function (args) {
 
-            // Load spectrum javascript form here.
-            $.getScript(M.cfg.wwwroot + "/mod/gcanvas/javascript/spectrum.js").done(function() {
+            // Load the args passed from PHP.
+            setOptions(args);
 
-                // Load the args passed from PHP.
-                setOptions(args);
+            // Set internal debug console.
+            setDebug(opts.debugjs);
 
-                // Set internal debug console.
-                setDebug(opts.debugjs);
-
-                $.noConflict();
-                $(document).ready(function() {
-                    debug.log('Canvas Module v1.2');
-                    canvasModule.init();
-                });
-            }).fail(function(jqxhr, settings, exception) {
-                // Display loading issue in console.
-                debug.log(jqxhr);
-                debug.log(settings);
-                debug.log(exception);
+            $.noConflict();
+            $(document).ready(function () {
+                debug.log('Canvas Module v1.2');
+                canvasModule.init();
             });
         }
     };

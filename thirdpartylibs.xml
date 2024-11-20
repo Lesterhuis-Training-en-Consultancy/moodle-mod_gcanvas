@@ -8,13 +8,6 @@
         <licenseversion></licenseversion>
     </library>
     <library>
-        <location>javascript/spectrum.js</location>
-        <name>spectrum.js</name>
-        <version>1.8.0</version>
-        <license>MIT</license>
-        <licenseversion></licenseversion>
-    </library>
-    <library>
         <location>css/spectrum.css</location>
         <name>spectrum.css</name>
         <version>1.8.0</version>
