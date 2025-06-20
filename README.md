@@ -2,7 +2,7 @@
 
 In brief, mod `gcanvas` gives the user the ability to make a sketch in html5 canvas.
 This module is
-* Financed and Developed for ([Kind en Zorg]([https://ltnc.nl/](https://kindenzorg.nl/))).
+* Financed and Developed for ([Kind en Zorg]([https://ltnc.nl/](https://kindenzorg.nl/)).
 * Designed, Tested, Supported and Financed Maintained by ([Lesterhuis Training & Consultancy](https://ltnc.nl/))
 * Developed by [ldesignmedia.nl](https://ldesignmedia.nl/)
 
