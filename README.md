@@ -65,4 +65,4 @@ Customers with an active LTNC Moodle Addon Maintenance Program subscription may 
 
 ## License
 
-Local Oauthdirectsso code is provided freely as open source software, under version 3 of the GNU General Public License.
+Gcanvas code is provided freely as open source software, under version 3 of the GNU General Public License.
