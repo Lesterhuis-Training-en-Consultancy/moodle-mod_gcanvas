@@ -28,6 +28,9 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
+## Version (4.5.0) - 2025-08-13
+- Updating version.php after confirmation from community works on Moodle 5.0 
+
 ## Version (4.5.0) - 2024-09-10
 - Upgraded and refactored for Moodle 4.5
 
