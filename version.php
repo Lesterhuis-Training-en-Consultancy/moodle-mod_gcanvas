@@ -28,5 +28,5 @@ $plugin->component = 'mod_gcanvas';
 $plugin->release = '4.5.0';
 $plugin->version = 2024091000;
 $plugin->requires = 2020061500;
-$plugin->supported = [39, 405];
+$plugin->supported = [39, 500];
 $plugin->maturity = MATURITY_STABLE;
