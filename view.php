@@ -45,7 +45,7 @@ if ($id) {
     $course = $DB->get_record('course', ['id' => $canvas->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('gcanvas', $canvas->id, $course->id, false, MUST_EXIST);
 } else {
-    throw new moodle_exception('missingidandcmid', mod_gcanvas);
+    throw new moodle_exception('missingidandcmid', 'mod_gcanvas');
 }
 
 require_login($course, true, $cm);
@@ -85,7 +85,7 @@ $renderer = $PAGE->get_renderer('mod_gcanvas');
 switch ($action) {
 
     case 'intro':
-        has_capability('mod/gcanvas:teacher', $PAGE->context);
+        require_capability('mod/gcanvas:teacher', $PAGE->context);
 
         $form = new \mod_gcanvas\form\intro($PAGE->url);
         $draftitemid = file_get_submitted_draft_itemid('helptext');

@@ -86,7 +86,9 @@ class output_canvas implements renderable, templatable {
         // Fix links to files.
         $context = context_module::instance($PAGE->cm->id);
         $options = [
-            'noclean' => true,
+            // Defense in depth: do NOT disable cleaning, so the HTML purifier strips any
+            // injected scripts even for legitimately privileged authors (see LS-4198).
+            'noclean' => false,
             'para' => false,
             'filter' => false,
             'context' => $context,

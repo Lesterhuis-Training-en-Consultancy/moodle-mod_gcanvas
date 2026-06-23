@@ -28,6 +28,19 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
+## Version (4.5.1) - 2026-06-23
+Security release naar aanleiding van een MDL Shield security code review (LS-4198).
+
+##### Security
+- Fixed stored XSS in the activity help text. The `intro` action now enforces the `mod/gcanvas:teacher` capability with `require_capability()` instead of a discarded `has_capability()` check, so students can no longer overwrite the help text. Help text is no longer rendered with `noclean`, so the HTML purifier strips any injected scripts (defense in depth).
+
+##### Fixed
+- Fixed a fatal error on the no-id code path in `view.php` (a bareword was passed to `moodle_exception` instead of the `'mod_gcanvas'` string).
+
+<!-- Fase 2 (overige low findings uit LS-4198) wordt onder deze versie aangevuld:
+     attempt-file IDOR, gedeeld itemid student_image, wees-data bij delete,
+     ontbrekende restore decode-regels, en thirdpartylibs.xml. -->
+
 ## Version (4.5.0) - 2025-08-13
 - Updating version.php after confirmation from community works on Moodle 5.0 
 
