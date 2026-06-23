@@ -33,7 +33,6 @@ use mod_gcanvas\output\output_canvas_attempts;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_gcanvas_renderer extends plugin_renderer_base {
-
     /**
      * Javascript helper
      *
@@ -41,7 +40,7 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      *
      * @throws coding_exception
      */
-    public function add_javascript_helper(\stdClass $canvas) : void {
+    public function add_javascript_helper(\stdClass $canvas): void {
 
         $this->page->requires->strings_for_js([
             'javascript:confirm_title',
@@ -102,7 +101,7 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function render_attempts(int $id) : string {
+    public function render_attempts(int $id): string {
         $context = (new output_canvas_attempts($id))->export_for_template($this);
 
         return $this->render_from_template('mod_gcanvas/canvas_attempts', $context);
@@ -118,10 +117,9 @@ class mod_gcanvas_renderer extends plugin_renderer_base {
      * @return string
      * @throws moodle_exception
      */
-    public function render_uploader(string $filearea, \stdClass $moduleinstance) : string {
+    public function render_uploader(string $filearea, \stdClass $moduleinstance): string {
         $context = (new \mod_gcanvas\output\output_uploader($filearea, $moduleinstance))->export_for_template($this);
 
         return $this->render_from_template('mod_gcanvas/canvas_uploader', $context);
     }
-
 }

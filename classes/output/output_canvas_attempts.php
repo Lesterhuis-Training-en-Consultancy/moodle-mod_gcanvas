@@ -42,7 +42,6 @@ use templatable;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class output_canvas_attempts implements renderable, templatable {
-
     /**
      * @var int
      */
@@ -67,10 +66,8 @@ class output_canvas_attempts implements renderable, templatable {
      */
     public function __construct(int $id) {
         $this->id = $id;
-        $this->cm = get_coursemodule_from_id('gcanvas', $this->id, 0, false,
-            MUST_EXIST);
+        $this->cm = get_coursemodule_from_id('gcanvas', $this->id, 0, false, MUST_EXIST);
         $this->context = context_module::instance($this->cm->id);
-
     }
 
     /**
@@ -132,9 +129,9 @@ class output_canvas_attempts implements renderable, templatable {
         foreach ($files as $file) {
             $isimage = $file->is_valid_image();
             if ($isimage) {
-                return file_encode_url("$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_itemid() . '/' . $file->get_filename());
+                $path = '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                    $file->get_filearea() . $file->get_filepath() . $file->get_itemid() . '/' . $file->get_filename();
+                return file_encode_url("$CFG->wwwroot/pluginfile.php", $path);
             }
         }
 
@@ -161,5 +158,4 @@ class output_canvas_attempts implements renderable, templatable {
 
         return $object;
     }
-
 }

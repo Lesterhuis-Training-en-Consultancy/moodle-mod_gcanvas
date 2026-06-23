@@ -40,7 +40,6 @@ use required_capability_exception;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
-
     /**
      * Moodle 4.0 earliest version number.
      */
@@ -73,12 +72,10 @@ class helper {
         $list = [];
 
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id DESC', false, 0,
-            0, $limit);
+        $files = $fs->get_area_files($context->id, 'mod_gcanvas', $filearea, $canvasid, 'id DESC', false, 0, 0, $limit);
 
         foreach ($files as $file) {
             if ($file->is_valid_image()) {
-
                 $list[] = moodle_url::make_pluginfile_url(
                     $file->get_contextid(),
                     $file->get_component(),
@@ -123,12 +120,15 @@ class helper {
         // collisions. Teacher-managed areas stay keyed by the module instance (LS-4198).
         $itemid = ($filearea === 'student_image') ? $USER->id : $PAGE->cm->instance;
 
-        $return = file_save_draft_area_files($fileareaid,
+        $return = file_save_draft_area_files(
+            $fileareaid,
             $PAGE->context->id,
             'mod_gcanvas',
             $filearea,
             $itemid,
-            self::get_file_options($PAGE->context), 'FILE');
+            self::get_file_options($PAGE->context),
+            'FILE'
+        );
 
         // Return file.
         if ($return) {
@@ -159,5 +159,4 @@ class helper {
             'context' => $context,
         ];
     }
-
 }

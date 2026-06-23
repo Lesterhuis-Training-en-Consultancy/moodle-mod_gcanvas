@@ -41,7 +41,6 @@ use templatable;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class output_canvas implements renderable, templatable {
-
     /**
      * Canvas object
      *
@@ -94,12 +93,10 @@ class output_canvas implements renderable, templatable {
             'context' => $context,
             'overflowdiv' => true,
         ];
-        $intro = file_rewrite_pluginfile_urls($this->canvas->helptext, 'pluginfile.php', $context->id, 'mod_gcanvas',
-            'helptext', 0);
+        $intro = file_rewrite_pluginfile_urls($this->canvas->helptext, 'pluginfile.php', $context->id, 'mod_gcanvas', 'helptext', 0);
 
         $object->helptext = trim(format_text($intro, FORMAT_HTML, $options, null));
 
         return $object;
     }
-
 }

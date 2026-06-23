@@ -34,7 +34,6 @@ require_once($CFG->dirroot . '/mod/gcanvas/backup/moodle2/backup_gcanvas_stepsli
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_gcanvas_activity_task extends backup_activity_task {
-
     /**
      * Defines particular settings for the plugin.
      */
@@ -73,5 +72,4 @@ class backup_gcanvas_activity_task extends backup_activity_task {
 
         return $content;
     }
-
 }

@@ -40,7 +40,6 @@ use file_storage;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class ajax {
-
     /**
      * @var mixed
      */
@@ -83,8 +82,7 @@ class ajax {
         global $DB, $USER;
         $fileid = 0;
         $cobject = $this->load_cm_and_course();
-        $imagecontent = base64_decode(preg_replace('#^data:image/\w+;base64,#i',
-            '', $this->data->canvas_data));
+        $imagecontent = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->data->canvas_data));
 
         if (!empty($imagecontent)) {
             $attemptid = $DB->insert_record('gcanvas_attempt', (object) [
@@ -219,5 +217,4 @@ class ajax {
             'cm' => $PAGE->cm,
         ];
     }
-
 }

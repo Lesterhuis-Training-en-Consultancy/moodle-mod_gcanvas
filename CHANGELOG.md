@@ -44,6 +44,7 @@ Security release naar aanleiding van een MDL Shield security code review (LS-419
 
 ##### Changed
 - `thirdpartylibs.xml`: declared the bundled Spectrum JavaScript library and corrected the Fabric.js version to 2.4.2 (was 2.4.1).
+- Code style: resolved Moodle CodeSniffer (PSR-12) violations across the plugin — whitespace/formatting only, no behaviour change.
 
 ## Version (4.5.0) - 2025-08-13
 - Updating version.php after confirmation from community works on Moodle 5.0 

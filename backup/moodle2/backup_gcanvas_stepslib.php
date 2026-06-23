@@ -34,7 +34,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_gcanvas_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Defines the structure of the resulting xml file.
      *
@@ -87,5 +86,4 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
         // Return the root element (gcanvas), wrapped into standard activity structure.
         return $this->prepare_activity_structure($gcanvas);
     }
-
 }
