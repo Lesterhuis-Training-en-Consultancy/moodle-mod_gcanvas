@@ -28,6 +28,24 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
+## Version (4.5.1) - 2026-06-23
+Security release naar aanleiding van een MDL Shield security code review (LS-4198).
+
+##### Security
+- Fixed stored XSS in the activity help text. The `intro` action now enforces the `mod/gcanvas:teacher` capability with `require_capability()` instead of a discarded `has_capability()` check, so students can no longer overwrite the help text. Help text is no longer rendered with `noclean`, so the HTML purifier strips any injected scripts (defense in depth).
+
+- Attempt images are now served only to their owner (or a teacher). `gcanvas_pluginfile()` previously gated the `attempt` file area on `mod/gcanvas:view` only, allowing a co-enrolled user to fetch another user's drawing (IDOR).
+
+##### Fixed
+- Fixed a fatal error on the no-id code path in `view.php` (a bareword was passed to `moodle_exception` instead of the `'mod_gcanvas'` string) and added the matching `missingidandcmid` language string (en/nl).
+- Student image uploads are now scoped per user (`itemid = userid`) instead of sharing a single module-instance area, preventing cross-user file collisions/overwrites. Teacher-managed areas (`background`, `toolbar_shape`) remain keyed by the module instance.
+- `gcanvas_delete_instance()` now also deletes dependent `gcanvas_attempt` rows, so they are no longer orphaned when an activity is deleted.
+- Implemented the missing restore decode rules (`GCANVASINDEX`, `GCANVASVIEWBYID`) to mirror the backup encode step, so cross-activity links are restored correctly instead of leaving literal placeholder tokens.
+
+##### Changed
+- `thirdpartylibs.xml`: declared the bundled Spectrum JavaScript library and corrected the Fabric.js version to 2.4.2 (was 2.4.1).
+- Code style: resolved Moodle CodeSniffer (PSR-12) violations across the plugin — whitespace/formatting only, no behaviour change.
+
 ## Version (4.5.0) - 2025-08-13
 - Updating version.php after confirmation from community works on Moodle 5.0 
 

@@ -34,7 +34,6 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_gcanvas_mod_form extends moodleform_mod {
-
     /**
      * Defines forms elements
      *
@@ -67,8 +66,12 @@ class mod_gcanvas_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        $mform->addElement('checkbox', 'has_horizontal_ruler', get_string('form:has_horizontal_ruler',
-            'mod_gcanvas'), get_string('form:has_horizontal_ruler_desc', 'mod_gcanvas'));
+        $mform->addElement(
+            'checkbox',
+            'has_horizontal_ruler',
+            get_string('form:has_horizontal_ruler', 'mod_gcanvas'),
+            get_string('form:has_horizontal_ruler_desc', 'mod_gcanvas')
+        );
 
         // Add standard elements.
         $this->standard_coursemodule_elements();
@@ -76,5 +79,4 @@ class mod_gcanvas_mod_form extends moodleform_mod {
         // Add standard buttons.
         $this->add_action_buttons();
     }
-
 }

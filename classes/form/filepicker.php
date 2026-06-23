@@ -41,7 +41,6 @@ require_once($CFG->libdir . '/formslib.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class filepicker extends \moodleform {
-
     /**
      * Form definition.
      *
@@ -50,9 +49,13 @@ class filepicker extends \moodleform {
     protected function definition(): void {
         $mform = &$this->_form;
         $context = $this->_customdata['context'];
-        $mform->addElement('filemanager', $this->_customdata['filearea'],
-            get_string('form:attachment', 'mod_gcanvas'), null,
-            helper::get_file_options($context));
+        $mform->addElement(
+            'filemanager',
+            $this->_customdata['filearea'],
+            get_string('form:attachment', 'mod_gcanvas'),
+            null,
+            helper::get_file_options($context)
+        );
 
         $mform->addElement('hidden', 'filearea', $this->_customdata['filearea']);
         $mform->setType('filearea', PARAM_TEXT);
@@ -86,5 +89,4 @@ class filepicker extends \moodleform {
             $this->_customdata['filearea'] => $draftitemid,
         ]);
     }
-
 }

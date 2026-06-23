@@ -24,17 +24,9 @@
  * @author    Luuk Verhoeven
  **/
 
-// Const definitions AJAX_SCRIPT and NO_DUBUG_DISPLAY can't be placed after MOODLE_INTERNAL check. This will result in errors.
-
-/**
- * @var bool AJAX_SCRIPT
- */
-const AJAX_SCRIPT = true;
-
-/**
- * @var bool NO_DEBUG_DISPLAY
- */
-const NO_DEBUG_DISPLAY = true;
+// AJAX_SCRIPT and NO_DEBUG_DISPLAY must be defined before config.php is included.
+define('AJAX_SCRIPT', true);
+define('NO_DEBUG_DISPLAY', true);
 
 require_once(__DIR__ . '/../../config.php');
 defined('MOODLE_INTERNAL') || die;
@@ -45,10 +37,8 @@ $data = optional_param('data', '', PARAM_RAW);
 $data = (object) json_decode($data, true);
 
 // Set course and context.
-$cm = get_coursemodule_from_id('gcanvas', $data->id, 0, false,
-    MUST_EXIST);
-$course = $DB->get_record('course', ['id' => $cm->course], '*',
-    MUST_EXIST);
+$cm = get_coursemodule_from_id('gcanvas', $data->id, 0, false, MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 
 $PAGE->set_context(context_module::instance($cm->id));
 $PAGE->set_cm($cm);

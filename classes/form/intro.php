@@ -39,7 +39,6 @@ require_once($CFG->libdir . '/formslib.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class intro extends \moodleform {
-
     /**
      * Form definition.
      *
@@ -61,5 +60,4 @@ class intro extends \moodleform {
         $mform->setType('helptext', PARAM_RAW);
         $this->add_action_buttons(true, get_string('btn:submit', 'mod_gcanvas'));
     }
-
 }

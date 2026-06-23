@@ -39,7 +39,6 @@ use templatable;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class output_uploader implements renderable, templatable {
-
     /**
      * @var string
      */
@@ -94,5 +93,4 @@ class output_uploader implements renderable, templatable {
 
         return $form->render();
     }
-
 }

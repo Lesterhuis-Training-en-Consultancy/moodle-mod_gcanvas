@@ -38,6 +38,9 @@ $string['gcanvas:view'] = 'Bekijk canvas spel';
 $string['gcanvas:teacher'] = 'De canvas docent kan de canvas instellingen wijzigen.';
 $string['gcanvas:student_image'] = 'Sta leerlingen toe om bestanden te uploaden.';
 
+// Errors.
+$string['missingidandcmid'] = 'Je moet een cursusmodule-ID of een instantie-ID opgeven.';
+
 // Form.
 $string['form:gcanvasname'] = 'Canvas naam';
 $string['form:has_horizontal_ruler'] = 'Toon horizontale balk.';

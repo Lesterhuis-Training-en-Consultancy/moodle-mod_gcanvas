@@ -41,7 +41,6 @@ use templatable;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class output_canvas implements renderable, templatable {
-
     /**
      * Canvas object
      *
@@ -86,18 +85,18 @@ class output_canvas implements renderable, templatable {
         // Fix links to files.
         $context = context_module::instance($PAGE->cm->id);
         $options = [
-            'noclean' => true,
+            // Defense in depth: do NOT disable cleaning, so the HTML purifier strips any
+            // injected scripts even for legitimately privileged authors (see LS-4198).
+            'noclean' => false,
             'para' => false,
             'filter' => false,
             'context' => $context,
             'overflowdiv' => true,
         ];
-        $intro = file_rewrite_pluginfile_urls($this->canvas->helptext, 'pluginfile.php', $context->id, 'mod_gcanvas',
-            'helptext', 0);
+        $intro = file_rewrite_pluginfile_urls($this->canvas->helptext, 'pluginfile.php', $context->id, 'mod_gcanvas', 'helptext', 0);
 
         $object->helptext = trim(format_text($intro, FORMAT_HTML, $options, null));
 
         return $object;
     }
-
 }

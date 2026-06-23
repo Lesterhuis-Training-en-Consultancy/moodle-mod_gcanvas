@@ -100,6 +100,8 @@ function gcanvas_delete_instance(int $id): bool {
         return false;
     }
 
+    // Remove dependent attempt rows so they don't get orphaned (LS-4198).
+    $DB->delete_records('gcanvas_attempt', ['gcanvas_id' => $id]);
     $DB->delete_records('gcanvas', ['id' => $id]);
 
     return true;
@@ -164,6 +166,7 @@ function gcanvas_get_file_info($browser, $areas, $course, $cm, $context, $filear
  *
  */
 function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []): bool {
+    global $DB, $USER;
 
     if ((int) $context->contextlevel !== CONTEXT_MODULE) {
         return false;
@@ -175,6 +178,17 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
     }
 
     $itemid = (int) array_shift($args);
+
+    // Attempts are personal: only the owner (or a teacher) may retrieve them (LS-4198).
+    if ($filearea === 'attempt') {
+        $attempt = $DB->get_record('gcanvas_attempt', ['id' => $itemid], 'id, user_id, gcanvas_id', IGNORE_MISSING);
+        if (!$attempt) {
+            return false;
+        }
+        if ($attempt->user_id != $USER->id && !has_capability('mod/gcanvas:teacher', $context)) {
+            return false;
+        }
+    }
 
     $fs = get_file_storage();
     $relativepath = implode('/', $args);

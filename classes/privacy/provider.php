@@ -43,10 +43,10 @@ use core_privacy\local\request\writer;
  * @copyright 31-10-2018 MFreak.nl
  * @author    Luuk Verhoeven
  **/
-class provider implements \core_privacy\local\metadata\provider,
+class provider implements
+    \core_privacy\local\metadata\provider,
     \core_privacy\local\request\core_userlist_provider,
     \core_privacy\local\request\plugin\provider {
-
     /**
      * Returns metadata about this system.
      *
@@ -127,13 +127,13 @@ class provider implements \core_privacy\local\metadata\provider,
             $attemptsdata = self::get_gcanvas_attempts_by_gcanvas($gcanvasdata->id, $user->id);
 
             foreach ($attemptsdata as $attemptdata) {
-
                 // Get gcanvas attempt details object for output.
                 $attempt = self::get_gcanvas_attempt_output($attemptdata);
                 $itemid = $attemptdata->id;
 
-                writer::with_context($context)->export_data(['attempts'], $attempt)->export_area_files(['attempts'],
-                    'mod_gcanvas', 'attempt', $itemid);
+                writer::with_context($context)
+                    ->export_data(['attempts'], $attempt)
+                    ->export_area_files(['attempts'], 'mod_gcanvas', 'attempt', $itemid);
             }
         }
     }
@@ -403,5 +403,4 @@ class provider implements \core_privacy\local\metadata\provider,
             $DB->delete_records_select('gcanvas_attempt', "id $insql", $inparams);
         }
     }
-
 }

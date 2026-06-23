@@ -45,7 +45,7 @@ if ($id) {
     $course = $DB->get_record('course', ['id' => $canvas->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('gcanvas', $canvas->id, $course->id, false, MUST_EXIST);
 } else {
-    throw new moodle_exception('missingidandcmid', mod_gcanvas);
+    throw new moodle_exception('missingidandcmid', 'mod_gcanvas');
 }
 
 require_login($course, true, $cm);
@@ -83,16 +83,22 @@ $fileoptions = [
 $renderer = $PAGE->get_renderer('mod_gcanvas');
 
 switch ($action) {
-
     case 'intro':
-        has_capability('mod/gcanvas:teacher', $PAGE->context);
+        require_capability('mod/gcanvas:teacher', $PAGE->context);
 
         $form = new \mod_gcanvas\form\intro($PAGE->url);
         $draftitemid = file_get_submitted_draft_itemid('helptext');
         $form->set_data((object) [
             'helptext' => [
-                'text' => file_prepare_draft_area($draftitemid, $PAGE->context->id, 'mod_gcanvas',
-                    'helptext', 0, $fileoptions, $canvas->helptext),
+                'text' => file_prepare_draft_area(
+                    $draftitemid,
+                    $PAGE->context->id,
+                    'mod_gcanvas',
+                    'helptext',
+                    0,
+                    $fileoptions,
+                    $canvas->helptext
+                ),
                 'format' => FORMAT_HTML,
                 'itemid' => $draftitemid,
             ],
@@ -103,11 +109,17 @@ switch ($action) {
         }
 
         if (($data = $form->get_data())) {
-
             // Convert draft to final.
             $draftitemid = $data->helptext['itemid'];
-            $data->helptext['text'] = file_save_draft_area_files($draftitemid, $modulecontext->id,
-                'mod_gcanvas', 'helptext', 0, $fileoptions, $data->helptext['text']);
+            $data->helptext['text'] = file_save_draft_area_files(
+                $draftitemid,
+                $modulecontext->id,
+                'mod_gcanvas',
+                'helptext',
+                0,
+                $fileoptions,
+                $data->helptext['text']
+            );
 
             $DB->update_record('gcanvas', (object) [
                 'id' => $canvas->id,
@@ -127,12 +139,10 @@ switch ($action) {
         break;
 
     default:
-
         $renderer->add_javascript_helper($canvas);
 
         // Handle file uploads directly.
         if (($data = data_submitted()) && confirm_sesskey()) {
-
             $filearea = $data->filearea;
             helper::upload_file($data->filearea, $data->$filearea);
 
