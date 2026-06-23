@@ -105,7 +105,7 @@ class helper {
      * @throws required_capability_exception
      */
     public static function upload_file(string $filearea, int $fileareaid): string {
-        global $PAGE;
+        global $PAGE, $USER;
 
         switch ($filearea) {
             case 'background':
@@ -119,16 +119,20 @@ class helper {
                 throw new moodle_exception('Unknown filearea');
         }
 
+        // Student images are per-user, so scope them by user id to avoid cross-user
+        // collisions. Teacher-managed areas stay keyed by the module instance (LS-4198).
+        $itemid = ($filearea === 'student_image') ? $USER->id : $PAGE->cm->instance;
+
         $return = file_save_draft_area_files($fileareaid,
             $PAGE->context->id,
             'mod_gcanvas',
             $filearea,
-            $PAGE->cm->instance,
+            $itemid,
             self::get_file_options($PAGE->context), 'FILE');
 
         // Return file.
         if ($return) {
-            $images = self::get_images($filearea, $PAGE->context, $PAGE->cm->instance, 1);
+            $images = self::get_images($filearea, $PAGE->context, $itemid, 1);
 
             return reset($images);
         }

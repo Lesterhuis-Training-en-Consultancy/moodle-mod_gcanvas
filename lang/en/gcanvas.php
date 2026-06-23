@@ -38,6 +38,9 @@ $string['gcanvas:view'] = 'View canvas game';
 $string['gcanvas:teacher'] = 'Canvas teacher can change the canvas properties';
 $string['gcanvas:student_image'] = 'Allows student to upload files';
 
+// Errors.
+$string['missingidandcmid'] = 'You must specify a course module ID or an instance ID';
+
 // Form.
 $string['form:gcanvasname'] = 'Canvas name';
 $string['form:has_horizontal_ruler'] = 'Show horizontal ruler';

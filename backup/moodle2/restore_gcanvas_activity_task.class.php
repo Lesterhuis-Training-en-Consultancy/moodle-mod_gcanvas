@@ -69,11 +69,12 @@ class restore_gcanvas_activity_task extends restore_activity_task {
      * @return array
      */
     public static function define_decode_rules(): array {
-        $rules = [];
-
-        // Define the rules.
-
-        return $rules;
+        // Mirror backup_gcanvas_activity_task::encode_content_links() so placeholders
+        // are converted back into real URLs on restore (LS-4198).
+        return [
+            new restore_decode_rule('GCANVASINDEX', '/mod/gcanvas/index.php?id=$1', 'course'),
+            new restore_decode_rule('GCANVASVIEWBYID', '/mod/gcanvas/view.php?id=$1', 'course_module'),
+        ];
     }
 
     /**
