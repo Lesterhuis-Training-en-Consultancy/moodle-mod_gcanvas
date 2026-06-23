@@ -19,6 +19,7 @@ This module is
 ![Moodle403](https://img.shields.io/badge/moodle-4.3-brightgreen.svg)
 ![Moodle404](https://img.shields.io/badge/moodle-4.4-brightgreen.svg)
 ![Moodle405](https://img.shields.io/badge/moodle-4.5-brightgreen.svg)
+[![MDL Shield](https://img.shields.io/endpoint?url=https%3A%2F%2Fmdlshield.com%2Fapi%2Fbadge%2Fmod_gcanvas)](https://mdlshield.com/plugins/mod_gcanvas)
 
 ![PHP7.4](https://img.shields.io/badge/PHP-7.2-blue.svg)
 ![PHP8.0](https://img.shields.io/badge/PHP-8.0-blue.svg)
