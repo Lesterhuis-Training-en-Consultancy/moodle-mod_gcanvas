@@ -31,5 +31,21 @@
  * @return bool
  */
 function xmldb_gcanvas_upgrade(int $oldversion): bool {
+    global $DB;
+
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2026062303) {
+        // Add the missing timecreated column to the gcanvas table (LS-4206).
+        $table = new xmldb_table('gcanvas');
+        $field = new xmldb_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0',
+            'has_horizontal_ruler');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2026062303, 'gcanvas');
+    }
+
     return true;
 }

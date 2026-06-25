@@ -52,6 +52,7 @@ $capabilities = [
         ],
     ],
     'mod/gcanvas:teacher' => [
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [

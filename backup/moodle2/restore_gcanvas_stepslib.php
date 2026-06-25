@@ -36,7 +36,12 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
      */
     protected function define_structure(): array {
         $paths = [];
+        $userinfo = $this->get_setting_value('userinfo');
+
         $paths[] = new restore_path_element('gcanvas', '/activity/gcanvas');
+        if ($userinfo) {
+            $paths[] = new restore_path_element('gcanvas_attempt', '/activity/gcanvas/attempts/gcanvas_attempt');
+        }
 
         // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
@@ -64,6 +69,28 @@ class restore_gcanvas_activity_structure_step extends restore_activity_structure
 
         // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
+    }
+
+    /**
+     * Process a restored gcanvas_attempt record.
+     *
+     * @param array $data
+     *
+     * @throws dml_exception
+     * @throws \base_step_exception
+     */
+    protected function process_gcanvas_attempt($data): void {
+        global $DB;
+
+        $data = (object) $data;
+        $oldid = $data->id;
+        $data->gcanvas_id = $this->get_new_parentid('gcanvas');
+        $data->user_id = $this->get_mappingid('user', $data->user_id);
+
+        $newitemid = $DB->insert_record('gcanvas_attempt', $data);
+
+        // Remember the mapping so after_execute() can restore the attempt files.
+        $this->set_mapping('gcanvas_attempt', $oldid, $newitemid, true);
     }
 
     /**

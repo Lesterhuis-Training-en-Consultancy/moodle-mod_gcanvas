@@ -190,6 +190,14 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
         }
     }
 
+    // Student images are personal too: they are stored under itemid = owner user id, so the
+    // owner is the itemid. Only the owner (or a teacher) may retrieve them (LS-4206).
+    if ($filearea === 'student_image') {
+        if ((int) $itemid !== (int) $USER->id && !has_capability('mod/gcanvas:teacher', $context)) {
+            return false;
+        }
+    }
+
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_gcanvas/$filearea/$itemid/$relativepath";

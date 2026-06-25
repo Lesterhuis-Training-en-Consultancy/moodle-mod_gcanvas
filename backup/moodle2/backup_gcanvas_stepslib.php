@@ -52,6 +52,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
             'introformat',
             'helptext',
             'has_horizontal_ruler',
+            'timecreated',
             'timemodified',
         ]);
 
@@ -72,7 +73,7 @@ class backup_gcanvas_activity_structure_step extends backup_activity_structure_s
 
         // Define file annotations.
         $gcanvas->annotate_files('mod_gcanvas', 'intro', null); // This file areas haven't itemid.
-        $gcanvas->annotate_files('mod_gcanvas', 'helptext', 'id'); // This file areas haven't itemid.
+        $gcanvas->annotate_files('mod_gcanvas', 'helptext', null); // Stored under a fixed itemid (0).
         $gcanvas->annotate_files('mod_gcanvas', 'toolbar_shape', 'id'); // This file areas haven't itemid.
         $gcanvas->annotate_files('mod_gcanvas', 'background', 'id'); // This file areas haven't itemid.
 
