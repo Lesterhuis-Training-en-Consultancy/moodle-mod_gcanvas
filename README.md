@@ -1,5 +1,7 @@
 ## a Moodle activity for making canvas sketches
 
+[![MDL Shield](https://img.shields.io/endpoint?url=https%3A%2F%2Fmdlshield.com%2Fapi%2Fbadge%2Fmod_gcanvas)](https://mdlshield.com/plugins/mod_gcanvas)
+
 In brief, mod `gcanvas` gives the user the ability to make a sketch in html5 canvas.
 This module is
 * Financed and Developed for ([Kind & Zorg](https://kindenzorg.nl/))   
