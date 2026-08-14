@@ -28,7 +28,7 @@ Types of changes
 * **Fixed** for any bug fixes.
 * **Security** in case of vulnerabilities.
 
-## Version (4.5.2) - 2026-06-25
+## Version (4.5.2) - 2026-08-14
 Vervolg security review (LS-4206), na 4.5.1.
 
 ##### Security
