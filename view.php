@@ -52,6 +52,9 @@ require_login($course, true, $cm);
 
 $modulecontext = context_module::instance($cm->id);
 
+// Enforce the plugin's own view capability, consistent with gcanvas_pluginfile() (LS-4206).
+require_capability('mod/gcanvas:view', $modulecontext);
+
 $event = \mod_gcanvas\event\course_module_viewed::create([
     'objectid' => $canvas->id,
     'context' => $modulecontext,

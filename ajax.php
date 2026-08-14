@@ -50,6 +50,8 @@ $PAGE->set_cm($cm);
 
 // First validation access.
 require_login($course, true, $cm);
+// Enforce the plugin's own view capability, consistent with gcanvas_pluginfile() (LS-4206).
+require_capability('mod/gcanvas:view', context_module::instance($cm->id));
 $PAGE->set_course($course);
 
 // Confirm session.

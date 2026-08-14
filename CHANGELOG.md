@@ -41,6 +41,9 @@ Vervolg security review (LS-4206), na 4.5.1.
 - Restore now processes `gcanvas_attempt` records and their files when user data is included; previously attempts were lost on restore.
 - Added the missing `timecreated` column to the `gcanvas` table (install.xml + upgrade step) so the value set in `gcanvas_add_instance()` is actually stored; resolves the schema/code drift.
 - Hardened the AJAX input handling: the router rejects malformed JSON payloads with a clean `invalidrequest` error, handler methods no longer read undefined properties, `json_data` must be a decodable JSON string within the upload size limit (like `canvas_data`), and the upload `filearea` is validated against an allow-list. The unreachable unknown-filearea guard in `helper::upload_file()` now throws a `coding_exception` instead of an untranslatable `moodle_exception`.
+- `view.php` and `ajax.php` now enforce `mod/gcanvas:view` explicitly, so a role override that prevents the capability is honoured consistently with `gcanvas_pluginfile()`.
+- Privacy metadata now matches the `gcanvas_attempt` schema: field `gcanvas_id` (was misdeclared as `gcanvas`) and the previously missing `user_id` and `status` columns are declared, with en/nl language strings.
+- Cleaned up stale scaffolding metadata in `db/install.xml` (header still said "Folder module").
 
 ##### Changed
 - Added `RISK_XSS` to the `mod/gcanvas:teacher` capability metadata (it gates the rich-text help-text editor).

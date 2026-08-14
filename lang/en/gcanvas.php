@@ -82,5 +82,7 @@ $string['javascript:updated'] = 'Updated!';
 
 $string['privacy:metadata:attempt'] = 'Information about the user\'s attempts for a given gcanvas activity';
 $string['privacy:metadata:attempt:gcanvas'] = 'The gcanvas module ID';
+$string['privacy:metadata:attempt:user_id'] = 'The ID of the user who made the attempt';
+$string['privacy:metadata:attempt:status'] = 'The status of the attempt';
 $string['privacy:metadata:attempt:json_data'] = 'The attempt data, this is stored in json format';
 $string['privacy:metadata:attempt:added_on'] = 'The timestamp indicating when the attempt is saved';

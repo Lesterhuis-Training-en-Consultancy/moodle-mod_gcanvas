@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/gcanvas/db" VERSION="20130407" COMMENT="XMLDB file for Folder module"
+<XMLDB PATH="mod/gcanvas/db" VERSION="20260814" COMMENT="XMLDB file for the mod_gcanvas plugin"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
     <TABLES>
-        <TABLE NAME="gcanvas" COMMENT="">
+        <TABLE NAME="gcanvas" COMMENT="Canvas activity instances">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
                 <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -23,7 +23,7 @@
                 <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
             </INDEXES>
         </TABLE>
-        <TABLE NAME="gcanvas_attempt" COMMENT="gcanvas_attempt table retrofitted from MySQL">
+        <TABLE NAME="gcanvas_attempt" COMMENT="Saved canvas attempts per user">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="9" NOTNULL="true" SEQUENCE="true"/>
                 <FIELD NAME="gcanvas_id" TYPE="int" LENGTH="9" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>

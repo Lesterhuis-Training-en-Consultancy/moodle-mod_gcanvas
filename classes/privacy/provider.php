@@ -57,8 +57,10 @@ class provider implements
     public static function get_metadata(collection $collection): collection {
 
         $collection->add_database_table('gcanvas_attempt', [
-            'gcanvas' => 'privacy:metadata:attempt:gcanvas',
+            'gcanvas_id' => 'privacy:metadata:attempt:gcanvas',
+            'user_id' => 'privacy:metadata:attempt:user_id',
             'json_data' => 'privacy:metadata:attempt:json_data',
+            'status' => 'privacy:metadata:attempt:status',
             'added_on' => 'privacy:metadata:attempt:added_on',
         ], 'privacy:metadata:attempt');
 
