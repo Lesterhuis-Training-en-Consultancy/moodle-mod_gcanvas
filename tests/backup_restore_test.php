@@ -43,7 +43,6 @@ require_once($CFG->dirroot . '/course/lib.php');
  * @covers      \restore_gcanvas_activity_structure_step
  */
 final class backup_restore_test extends \advanced_testcase {
-
     /**
      * Files embedded in the intro and help text must survive duplication (backup + restore).
      */

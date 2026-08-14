@@ -93,9 +93,11 @@ class ajax {
         // Validate the decoded payload: it must be a non-empty, real image within the upload
         // size limit. The file-picker path validates likewise; this AJAX path must match (LS-4206).
         $maxbytes = get_max_upload_file_size($CFG->maxbytes);
-        if (empty($imagecontent)
+        if (
+            empty($imagecontent)
             || ($maxbytes > 0 && strlen($imagecontent) > $maxbytes)
-            || getimagesizefromstring($imagecontent) === false) {
+            || getimagesizefromstring($imagecontent) === false
+        ) {
             return ['success' => false];
         }
 

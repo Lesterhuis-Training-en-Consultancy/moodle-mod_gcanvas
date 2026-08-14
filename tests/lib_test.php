@@ -41,7 +41,6 @@ require_once($CFG->dirroot . '/mod/gcanvas/lib.php');
  * @covers      ::gcanvas_pluginfile
  */
 final class lib_test extends \advanced_testcase {
-
     /**
      * A co-enrolled user must not be able to fetch another user's attempt file.
      */
@@ -85,7 +84,7 @@ final class lib_test extends \advanced_testcase {
         $owner = $this->getDataGenerator()->create_and_enrol($course, 'student');
         $other = $this->getDataGenerator()->create_and_enrol($course, 'student');
 
-        // student_image files are stored under itemid = owner user id; another user must be denied.
+        // The student_image files are stored under itemid = owner user id; another user must be denied.
         $this->setUser($other);
         $result = \gcanvas_pluginfile($course, $cm, $context, 'student_image', [$owner->id, 'x.png'], true, []);
         $this->assertFalse($result);
