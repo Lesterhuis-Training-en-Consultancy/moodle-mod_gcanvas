@@ -93,7 +93,14 @@ class output_canvas implements renderable, templatable {
             'context' => $context,
             'overflowdiv' => true,
         ];
-        $intro = file_rewrite_pluginfile_urls($this->canvas->helptext, 'pluginfile.php', $context->id, 'mod_gcanvas', 'helptext', 0);
+        $intro = file_rewrite_pluginfile_urls(
+            $this->canvas->helptext,
+            'pluginfile.php',
+            $context->id,
+            'mod_gcanvas',
+            'helptext',
+            0
+        );
 
         $object->helptext = trim(format_text($intro, FORMAT_HTML, $options, null));
 

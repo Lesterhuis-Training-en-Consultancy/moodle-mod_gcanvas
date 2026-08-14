@@ -79,33 +79,51 @@ class ajax {
      * @throws \stored_file_creation_exception
      */
     public function callable_save_canvas(): array {
-        global $DB, $USER;
+        global $DB, $USER, $CFG;
         $fileid = 0;
+
+        // Guests must not be able to persist canvas attempts (LS-4206).
+        if (!isloggedin() || isguestuser()) {
+            return ['success' => false];
+        }
+
         $cobject = $this->load_cm_and_course();
         $imagecontent = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->data->canvas_data));
 
-        if (!empty($imagecontent)) {
-            $attemptid = $DB->insert_record('gcanvas_attempt', (object) [
-                'status' => $this->data->status,
-                'user_id' => $USER->id,
-                'gcanvas_id' => $cobject->cm->instance,
-                'json_data' => $this->data->json_data,
-                'added_on' => time(),
-            ]);
-
-            // Create the image.
-            $modulecontext = context_module::instance($cobject->cm->id);
-            $fs = new file_storage();
-            $fileid = $fs->create_file_from_string((object) [
-                'contextid' => $modulecontext->id,
-                'component' => 'mod_gcanvas',
-                'filearea' => 'attempt',
-                'itemid' => $attemptid,
-                'filepath' => '/',
-                'filename' => time() . '.png',
-                'userid' => $USER->id,
-            ], $imagecontent);
+        // Validate the decoded payload: it must be a non-empty, real image within the upload
+        // size limit. The file-picker path validates likewise; this AJAX path must match (LS-4206).
+        $maxbytes = get_max_upload_file_size($CFG->maxbytes);
+        if (
+            empty($imagecontent)
+            || ($maxbytes > 0 && strlen($imagecontent) > $maxbytes)
+            || getimagesizefromstring($imagecontent) === false
+        ) {
+            return ['success' => false];
         }
+
+        // Only known attempt statuses are accepted.
+        $status = in_array($this->data->status, ['final'], true) ? $this->data->status : 'final';
+
+        $attemptid = $DB->insert_record('gcanvas_attempt', (object) [
+            'status' => $status,
+            'user_id' => $USER->id,
+            'gcanvas_id' => $cobject->cm->instance,
+            'json_data' => $this->data->json_data,
+            'added_on' => time(),
+        ]);
+
+        // Create the image.
+        $modulecontext = context_module::instance($cobject->cm->id);
+        $fs = new file_storage();
+        $fileid = $fs->create_file_from_string((object) [
+            'contextid' => $modulecontext->id,
+            'component' => 'mod_gcanvas',
+            'filearea' => 'attempt',
+            'itemid' => $attemptid,
+            'filepath' => '/',
+            'filename' => time() . '.png',
+            'userid' => $USER->id,
+        ], $imagecontent);
 
         return [
             'success' => true,

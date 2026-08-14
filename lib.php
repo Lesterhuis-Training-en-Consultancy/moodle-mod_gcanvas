@@ -52,7 +52,7 @@ function gcanvas_supports(string $feature): ?bool {
  *
  * @return int The id of the newly inserted record.
  */
-function gcanvas_add_instance(object $moduleinstance, moodleform $mform = null): int {
+function gcanvas_add_instance(object $moduleinstance, ?moodleform $mform = null): int {
     global $DB;
 
     $moduleinstance->timecreated = time();
@@ -74,7 +74,7 @@ function gcanvas_add_instance(object $moduleinstance, moodleform $mform = null):
  * @return bool True if successful, false otherwise.
  * @throws dml_exception
  */
-function gcanvas_update_instance(object $moduleinstance, moodleform $mform = null): bool {
+function gcanvas_update_instance(object $moduleinstance, ?moodleform $mform = null): bool {
     global $DB;
 
     $moduleinstance->has_horizontal_ruler = !empty($moduleinstance->has_horizontal_ruler);
@@ -186,6 +186,14 @@ function gcanvas_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
             return false;
         }
         if ($attempt->user_id != $USER->id && !has_capability('mod/gcanvas:teacher', $context)) {
+            return false;
+        }
+    }
+
+    // Student images are personal too: they are stored under itemid = owner user id, so the
+    // owner is the itemid. Only the owner (or a teacher) may retrieve them (LS-4206).
+    if ($filearea === 'student_image') {
+        if ((int) $itemid !== (int) $USER->id && !has_capability('mod/gcanvas:teacher', $context)) {
             return false;
         }
     }
