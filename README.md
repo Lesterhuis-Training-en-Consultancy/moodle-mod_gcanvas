@@ -12,8 +12,8 @@ This module is
 * Author: Luuk Verhoeven, [ldesignmedia.nl](https://ldesignmedia.nl/)
 * Author: Gemma Lesterhuis, [Lesterhuis Training & Consultancy](https://ltnc.nl/)
 * Min. required: Moodle 3.9.x
-* Max. Required: Moodle 4.5.x
-* Supports PHP: 7.4 - 8.1
+* Max. Required: Moodle 5.0.x
+* Supports PHP: 7.4 - 8.4
 
 ![Moodle39](https://img.shields.io/badge/moodle-3.9-brightgreen.svg)
 ![Moodle310](https://img.shields.io/badge/moodle-3.10-brightgreen.svg)
@@ -21,10 +21,13 @@ This module is
 ![Moodle403](https://img.shields.io/badge/moodle-4.3-brightgreen.svg)
 ![Moodle404](https://img.shields.io/badge/moodle-4.4-brightgreen.svg)
 ![Moodle405](https://img.shields.io/badge/moodle-4.5-brightgreen.svg)
+![Moodle500](https://img.shields.io/badge/moodle-5.0-brightgreen.svg)
 
-![PHP7.4](https://img.shields.io/badge/PHP-7.2-blue.svg)
+![PHP7.4](https://img.shields.io/badge/PHP-7.4-blue.svg)
 ![PHP8.0](https://img.shields.io/badge/PHP-8.0-blue.svg)
 ![PHP8.1](https://img.shields.io/badge/PHP-8.1-blue.svg)
+![PHP8.3](https://img.shields.io/badge/PHP-8.3-blue.svg)
+![PHP8.4](https://img.shields.io/badge/PHP-8.4-blue.svg)
 
 ## Screens
 
