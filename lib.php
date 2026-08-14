@@ -52,7 +52,7 @@ function gcanvas_supports(string $feature): ?bool {
  *
  * @return int The id of the newly inserted record.
  */
-function gcanvas_add_instance(object $moduleinstance, moodleform $mform = null): int {
+function gcanvas_add_instance(object $moduleinstance, ?moodleform $mform = null): int {
     global $DB;
 
     $moduleinstance->timecreated = time();
@@ -74,7 +74,7 @@ function gcanvas_add_instance(object $moduleinstance, moodleform $mform = null):
  * @return bool True if successful, false otherwise.
  * @throws dml_exception
  */
-function gcanvas_update_instance(object $moduleinstance, moodleform $mform = null): bool {
+function gcanvas_update_instance(object $moduleinstance, ?moodleform $mform = null): bool {
     global $DB;
 
     $moduleinstance->has_horizontal_ruler = !empty($moduleinstance->has_horizontal_ruler);
