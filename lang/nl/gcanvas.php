@@ -82,5 +82,7 @@ $string['javascript:updated'] = 'Bewaard!';
 
 $string['privacy:metadata:attempt'] = 'Informatie het aantal keren dat een gebruiker het canvas spel gebruikt heeft.';
 $string['privacy:metadata:attempt:gcanvas'] = 'Het canavs spel ID';
+$string['privacy:metadata:attempt:user_id'] = 'Het ID van de gebruiker die de poging heeft gedaan.';
+$string['privacy:metadata:attempt:status'] = 'De status van de poging.';
 $string['privacy:metadata:attempt:json_data'] = 'Het aantal pogingen, is bewaard in json format.';
 $string['privacy:metadata:attempt:added_on'] = 'De tijdstempel geeft aan wanneer een poging is bewaard.';
