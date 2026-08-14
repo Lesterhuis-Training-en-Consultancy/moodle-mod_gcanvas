@@ -37,6 +37,7 @@ Vervolg security review (LS-4206), na 4.5.1.
 ##### Fixed
 - `callable_save_canvas()` now rejects guests and validates the decoded payload (must be a real image within the upload size limit) and the attempt status, matching the file-picker validation path.
 - Backup now annotates the `helptext` file area under its fixed itemid (was keyed by record id), so images embedded in the help text are included in backups.
+- Restore now restores `intro` and `helptext` files under their fixed itemid instead of mapping them through the activity id, so images embedded in the intro and help text survive restore/duplication (the `intro` half predates the review).
 - Restore now processes `gcanvas_attempt` records and their files when user data is included; previously attempts were lost on restore.
 - Added the missing `timecreated` column to the `gcanvas` table (install.xml + upgrade step) so the value set in `gcanvas_add_instance()` is actually stored; resolves the schema/code drift.
 
@@ -45,6 +46,7 @@ Vervolg security review (LS-4206), na 4.5.1.
 
 ##### Added
 - PHPUnit access-control test for `gcanvas_pluginfile()` (denies another user's `attempt` and `student_image` files) plus a test data generator; enabled PHPUnit in the CI workflow.
+- PHPUnit backup/restore roundtrip test (`tests/backup_restore_test.php`): duplicating an activity must keep the files in all four teacher file areas (`intro`, `helptext`, `toolbar_shape`, `background`).
 
 ## Version (4.5.1) - 2026-06-23
 Security release naar aanleiding van een MDL Shield security code review (LS-4198).
