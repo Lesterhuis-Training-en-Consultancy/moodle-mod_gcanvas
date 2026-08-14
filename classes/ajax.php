@@ -88,7 +88,7 @@ class ajax {
         }
 
         $cobject = $this->load_cm_and_course();
-        $imagecontent = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->data->canvas_data));
+        $imagecontent = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->data->canvas_data ?? ''));
 
         // Validate the decoded payload: it must be a non-empty, real image within the upload
         // size limit. The file-picker path validates likewise; this AJAX path must match (LS-4206).
@@ -102,13 +102,23 @@ class ajax {
         }
 
         // Only known attempt statuses are accepted.
-        $status = in_array($this->data->status, ['final'], true) ? $this->data->status : 'final';
+        $status = in_array($this->data->status ?? '', ['final'], true) ? $this->data->status : 'final';
+
+        // The canvas JSON state must be a decodable JSON string, bounded like canvas_data (LS-4206).
+        $jsondata = $this->data->json_data ?? '';
+        if (
+            !is_string($jsondata)
+            || ($maxbytes > 0 && strlen($jsondata) > $maxbytes)
+            || json_decode($jsondata) === null
+        ) {
+            return ['success' => false];
+        }
 
         $attemptid = $DB->insert_record('gcanvas_attempt', (object) [
             'status' => $status,
             'user_id' => $USER->id,
             'gcanvas_id' => $cobject->cm->instance,
-            'json_data' => $this->data->json_data,
+            'json_data' => $jsondata,
             'added_on' => time(),
         ]);
 
@@ -161,7 +171,7 @@ class ajax {
 
         $DB->delete_records('gcanvas_attempt', [
             'user_id' => $USER->id,
-            'id' => $this->data->attempt_id,
+            'id' => $this->data->attempt_id ?? 0,
         ]);
 
         return ['success' => true];
@@ -196,8 +206,13 @@ class ajax {
      * @throws \required_capability_exception
      */
     public function callable_upload_images(): array {
-        $filearea = $this->data->filearea;
-        $image = helper::upload_file($filearea, $this->data->$filearea);
+        // The filearea comes from the client: allow only the known upload areas (LS-4206).
+        $filearea = $this->data->filearea ?? '';
+        if (!in_array($filearea, ['background', 'toolbar_shape', 'student_image'], true)) {
+            return ['success' => false];
+        }
+
+        $image = helper::upload_file($filearea, (int) ($this->data->$filearea ?? 0));
 
         return [
             'success' => true,

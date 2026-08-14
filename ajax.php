@@ -34,10 +34,15 @@ defined('MOODLE_INTERNAL') || die;
 $action = optional_param('action', '', PARAM_TEXT);
 $data = optional_param('data', '', PARAM_RAW);
 
-$data = (object) json_decode($data, true);
+// Reject malformed payloads before touching any field on the decoded object (LS-4206).
+$decoded = json_decode($data, true);
+if (!is_array($decoded) || empty($decoded['id'])) {
+    throw new moodle_exception('invalidrequest', 'error');
+}
+$data = (object) $decoded;
 
 // Set course and context.
-$cm = get_coursemodule_from_id('gcanvas', $data->id, 0, false, MUST_EXIST);
+$cm = get_coursemodule_from_id('gcanvas', (int) $data->id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 
 $PAGE->set_context(context_module::instance($cm->id));

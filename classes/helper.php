@@ -113,7 +113,8 @@ class helper {
                 require_capability('mod/gcanvas:student_image', $PAGE->context);
                 break;
             default:
-                throw new moodle_exception('Unknown filearea');
+                // Internal guard: in-tree callers only pass the fileareas above (LS-4206).
+                throw new coding_exception('Unknown filearea: ' . $filearea);
         }
 
         // Student images are per-user, so scope them by user id to avoid cross-user
